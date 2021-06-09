@@ -49,7 +49,7 @@ pic
 
 1. Register up an account (any)
 2. Login
-3. See the message box is vunerable to XSS injection
+3. Cheking the webpage we see the message box is vunerable to XSS injection
 ```js
 </textarea><script>alert(1)</script>
 ```
