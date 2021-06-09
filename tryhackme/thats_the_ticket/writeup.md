@@ -128,7 +128,7 @@ Now we can brute force the login page for the admins password as we have the ema
 
 Using Burp suite's intruder module we can select the password and then feed in a list of passwords on the payload's tab
 
-![](./assets/login.png)
+![](./assets/login1.png)
 
 After a short while we get a hit. 
 
