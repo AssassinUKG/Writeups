@@ -1,4 +1,4 @@
-# Walk through: That's the ticket!
+# Walk through: That's the ticket
 
 ![](./assets/thmpage.png)
 
