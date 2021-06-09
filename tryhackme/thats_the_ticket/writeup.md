@@ -1,5 +1,10 @@
-# WalkThrough: That's the ticket!
+# Walk through: That's the ticket!
+
+![](./assets/thmpage.png)
+
+
 https://tryhackme.com/room/thatstheticket
+
 
 IP: 10.10.28.159
 
@@ -45,7 +50,7 @@ nikto -h 10.10.28.159
 
 ## Webpage
 
-pic
+![](./assets/main.png)
 
 1. Register up an account (any)
 2. Login
