@@ -124,7 +124,20 @@ Press Create ticket and check the results on the service http://10.10.10.100
 
 We see the admin email and ours!
 
-Now we can brute force the login page for the admins password as we have his email now.
+Now we can brute force the login page for the admins password as we have the email now.
+
+Using Burp suite's intruder module we can select the password and then feed in a list of passwords on the payload's tab
+
+![](./assets/login.png)
+
+After a short while we get a hit. 
+
+![](./assets/brutewin.png)
+
+
+
+
+And the final flag! 
 
 ![](./assets/flag1.png)
 
