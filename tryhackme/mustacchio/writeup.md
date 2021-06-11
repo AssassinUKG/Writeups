@@ -47,14 +47,15 @@ http://10.10.68.59/custom/js/
 /mobile.js            (Status: 200) [Size: 1470]
 ```
 
-Here we find a users.bak file. We can download and check the contents.
-Which seem to be a mysql or database command for creating a new user
+Here I found a users.bak file.  
+I downloaded it to check the contents.  
+It looked to be a mysql or database command for creating a new user
 
 ![image](https://user-images.githubusercontent.com/5285547/121745773-be682e00-cafc-11eb-951c-aff68f56f379.png)
 
-So now we have a username: Admin 
+We have a username: Admin 
 
-http:10.10.68.59:8765/
+http://10.10.68.59:8765/
 ```bash
 /home.php             (Status: 302) [Size: 1993] [--> ../index.php]
 /index.php            (Status: 200) [Size: 1363]                   
