@@ -1,4 +1,4 @@
-# Mustacchio
+# Mustacchio walkthrough
 
 ![image](https://user-images.githubusercontent.com/5285547/121743836-e0ac7c80-caf9-11eb-8112-a3e7e5a189bc.png)
 
