@@ -67,16 +67,15 @@ http://10.10.68.59:8765/
 
 ### Port 80
 
-This portal contains a blog for "mustacchio" brand for all mankind!
-
 ![image](https://user-images.githubusercontent.com/5285547/121744541-f9696200-cafa-11eb-9b2f-eeb05996505d.png)
 
-Checking the webpages source code revealed nothing, but i noted a mobile.js script file included. Pressing F12 and using the developer console. I looked at the source code for the mobile.js file. 
+This portal contains a blog for "mustacchio" brand for all mankind!  
+Checking the webpages source code revealed nothing, but i noted a mobile.js script file included.  
+Pressing F12 and using the developer console. I looked at the source code for the mobile.js file. 
 
 ![image](https://user-images.githubusercontent.com/5285547/121744888-7b598b00-cafb-11eb-8b8d-6741f1d9b90b.png)
 
-I see some md5 at the bottom of the source code so try it on https://crackstation.net/ 
-We get a hit
+I see some md5 at the bottom of the source code so try it on https://crackstation.net/  
 
 ![image](https://user-images.githubusercontent.com/5285547/121745099-d55a5080-cafb-11eb-852e-bb56347012c3.png)
 
