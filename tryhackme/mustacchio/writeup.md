@@ -99,8 +99,8 @@ Pressing the submit button causes a pop up box to appear
 
 ![image](https://user-images.githubusercontent.com/5285547/121746351-ad6bec80-cafd-11eb-9b68-e51cd7b0a08b.png)
 
-Like it said to, inject some xml!
-I got a payload from the internet here: https://github.com/payloadbox/xxe-injection-payload-list
+Like it said to, inject some xml!  
+I got a payload from the internet here: https://github.com/payloadbox/xxe-injection-payload-list  
 After injection, some text appereard at the bottom of the page, indicating some structure needed for the xml.
 
 ![image](https://user-images.githubusercontent.com/5285547/121746652-1d7a7280-cafe-11eb-88c7-e39980cafe3f.png)
