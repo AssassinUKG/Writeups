@@ -113,7 +113,7 @@ Checking our payload sent.
 </userInfo>
 ```
 
-Then noting the response we got, which was Comment Preview,Name, Author, Comment. I built a simuilar xml element with a root tag.
+Then noting the response we got, which was "Comment Preview,Name, Author, Comment". I built a simuilar xml element with a root tag.
 
 ```xml
 <!--?xml version="1.0" ?-->
