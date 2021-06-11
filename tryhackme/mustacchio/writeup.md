@@ -89,6 +89,8 @@ This page presents us with what we need for our credentials, a login page.
 
 ![image](https://user-images.githubusercontent.com/5285547/121746171-5d8d2580-cafd-11eb-9c70-328eff1493a4.png)
 
+## XML
+
 After loggin in we get presented with this page
 
 ![image](https://user-images.githubusercontent.com/5285547/121746302-94633b80-cafd-11eb-8967-24ee1bc995f4.png)
@@ -141,8 +143,28 @@ Lets try to get a file next /etc/passwd as the usual test
  <comment>John</comment>
 </root>
 ```
-![image](https://user-images.githubusercontent.com/5285547/121747246-05572300-caff-11eb-8005-17bd6a5b86aa.png)
 ![image](https://user-images.githubusercontent.com/5285547/121747279-13a53f00-caff-11eb-95b2-48b44ee149e2.png)
+
+While I was in the source code I see a comment and some code above to give a few more hints about what to do next. 
+
+![image](https://user-images.githubusercontent.com/5285547/121747510-6e3e9b00-caff-11eb-90a9-27f73d59beeb.png)
+
+We can ssh as Barry but we need his id_rsa key. Using the file inclusion method above, I was able to get his id_rsa.
+But, it was locked with a password..
+
+![image](https://user-images.githubusercontent.com/5285547/121747692-b5c52700-caff-11eb-9a2a-fadcbfe6a5c3.png)
+
+Time to get john out for a cracking good time! 
+
+```bash
+find / -name ssh2john* 2>/dev/null
+python ssh2john id_rsa > hash
+john hash --wordlist=/usr/share/wordlists/rockyou.txt
+```
+
+![image](https://user-images.githubusercontent.com/5285547/121747920-03da2a80-cb00-11eb-9a14-3d7389bcb601.png)
+
+## User
 
 
 
