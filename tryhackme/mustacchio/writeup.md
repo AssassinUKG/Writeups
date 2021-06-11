@@ -91,17 +91,17 @@ This page presents us with what we need for our credentials, a login page.
 
 ## XML
 
-After loggin in we get presented with this page
+After logging in, we get presented with this page
 
 ![image](https://user-images.githubusercontent.com/5285547/121746302-94633b80-cafd-11eb-8967-24ee1bc995f4.png)
 
-Pressing the submit button causes a pop up box to appear
+Pressing the submit button causes a pop-up box to appear
 
 ![image](https://user-images.githubusercontent.com/5285547/121746351-ad6bec80-cafd-11eb-9b68-e51cd7b0a08b.png)
 
-Like it said to, inject some xml!  
+Like it said to, inject some XML!  
 I got a payload from the internet here: https://github.com/payloadbox/xxe-injection-payload-list  
-After injection, some text appereard at the bottom of the page, indicating some structure needed for the xml.
+After injection, some text appeared at the bottom of the page, indicating some structure needed for the XML.
 
 ![image](https://user-images.githubusercontent.com/5285547/121746652-1d7a7280-cafe-11eb-88c7-e39980cafe3f.png)
 
@@ -115,7 +115,7 @@ Checking our payload sent.
 </userInfo>
 ```
 
-Then noting the response we got, which was "Comment Preview,Name, Author, Comment". I built a simuilar xml element with a root tag.
+Then noting the response we got, which was "Comment Preview, Name, Author, Comment". I built a similar XML element with a root tag.
 
 ```xml
 <!--?xml version="1.0" ?-->
@@ -166,7 +166,7 @@ john hash --wordlist=/usr/share/wordlists/rockyou.txt
 
 ## User
 
-Now we can login as Barry with his password and get our first flag!
+Now we can log in as Barry with his password and get our first flag!
 
 ```bash
 ssh barry@10.10.68.59 -i id_rsa
@@ -178,18 +178,18 @@ ssh barry@10.10.68.59 -i id_rsa
 
 ## Root
 
-Looking arond the system I found a strange file in Joe's home file (ELF) called "live_log", 
-I check it with strings to see what it maybe doing.
-We can see the tail binary being called but its path is not absolute! Runnig the file
+Looking around the system I found a strange file in Joe's home file (ELF) called "live_log", 
+I check it with strings to see what it may be doing.
+We can see the tail binary being called but its path is not absolute! Running the file
 
 ![image](https://user-images.githubusercontent.com/5285547/121748473-f1acbc00-cb00-11eb-89a4-f9b57c88396c.png)
 
 ```
 ./live_log
 ```
-I checked the system process's. The file was being ran as root.
+I checked the system processes. The file was being run as root.
 
-Knowing a file can be abused using path manipulation, I set about making a file that would be ran when the "live_log" was run. 
+Knowing a file can be abused using path manipulation, I set about making a file that would be running when the "live_log" was run. 
 
 ```bash
 cd /tmp
@@ -201,7 +201,7 @@ cp /bin/bash /tmp/b
 chmod u+s /tmp/b
 ```
 
-Save the file and then enter the next comamnds so we can run the executable. Then set the path to /tmp first to call our file before the real tail file. 
+Save the file and then enter the next commands so we can run the executable. Then set the path to /tmp first to call our file before the real tail file. 
 ```bash
 chmod +x tail
 export PATH=/tmp:$PATH
