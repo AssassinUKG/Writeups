@@ -163,6 +163,10 @@ sudo -u catchme npm run-script shell
 We see a 'enc.py'
 
 ```bash
+cat enc.py
+```
+
+```bash
 s = "abcdefghijklmnopqrstuvwxyz"
 shift=0
 encrypted="hcjqnnsotrrwnqc"
