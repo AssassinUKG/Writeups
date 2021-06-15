@@ -112,6 +112,8 @@ sudo tcpdump -i eth1
 
 ![image](https://user-images.githubusercontent.com/5285547/121971233-2e321f00-cd70-11eb-983c-5540275aede0.png)
 
+## User
+
 Looks like we can get a reverse connection. 
 
 Payload
@@ -141,15 +143,89 @@ Enumerating the system we quickly see our priv esc route on the machine.
 
 ![image](https://user-images.githubusercontent.com/5285547/121972155-4acf5680-cd72-11eb-86d2-0ce04c48c006.png)
 
-Checking out npm on GTFOBins.com 
 
-![image](https://user-images.githubusercontent.com/5285547/121972264-8a963e00-cd72-11eb-9151-146f35039214.png)
+First i created an index.js file
+cd /tmp
+mkdir shell
+echo 'module.exports = install could be dangerous' > index.js
+cp index.js shell
 
-We see we make an update file and use that to get root. 
+Now we need a package.json file and chmod to make it executable, then we can run the sudo command to user.
+
+```bash
+sudo -u catchme npm run-script shell
+```
+
+![image](https://user-images.githubusercontent.com/5285547/121973542-6c7e0d00-cd75-11eb-9fd0-e5a514ec3277.png)
+
+![image](https://user-images.githubusercontent.com/5285547/121973630-a3ecb980-cd75-11eb-9039-3ad591d17b11.png)
+
+We see a 'enc.py'
+
+```bash
+s = "abcdefghijklmnopqrstuvwxyz"
+shift=0
+encrypted="hcjqnnsotrrwnqc"
+#
+k = input("Input a single word key :")
+if len(k) > 1:
+        print("Something bad happened!")
+        exit(-1)
+
+i = ord(k)
+s = s.replace(k, '')
+s = k + s
+t = input("Enter the string to Encrypt here:")
+li = len(t)
+print("Encrypted message is:", end="")
+while li != 0:
+        for n in t:
+                j = ord(n)
+                if j == ord('a'):
+                        j = i
+                        print(chr(j), end="")
+                        li = li - 1
+
+                elif n > 'a' and n <= k:
+                        j = j - 1
+                        print(chr(j), end="")
+                        li = li - 1
+#----snip
+
+Seeing this was a ceasar cipher i wrote a quick python script to guess the key for me. 
+
+```python3
+import string
+
+alphabet = string.ascii_lowercase  # "abcdefghijklmnopqrstuvwxyz"
+encrypted = "hcjqnnsotrrwnqc"  # message
+enc_len = len(encrypted)  # msg length
+
+for i in range(40):
+    plain_text = ""
+    for c in encrypted:
+        if c.islower():
+            # find the position in 0-25
+            c_unicode = ord(c)
+            c_index = ord(c) - ord("a")
+            # perform the negative shift
+            new_index = (c_index - i) % 26
+            # convert to new character
+            new_unicode = new_index + ord("a")
+            new_character = chr(new_unicode)
+            # append to plain string
+            plain_text = plain_text + new_character
+        else:
+            # since character is not uppercase, leave it as it is
+            plain_text += c
+    print(f"ID:{i} - {plain_text}")
+```
+
+![image](https://user-images.githubusercontent.com/5285547/121975840-7b1af300-cd7a-11eb-8d84-897fb52460cb.png)
+
+The password wasn't 100% and will require some guess work, but that's root and the last flag! 
+
+![image](https://user-images.githubusercontent.com/5285547/121976051-ef559680-cd7a-11eb-9eeb-4a11cbfb7d92.png)
 
 
-
-
-
-
-
+Hope you liked the guide. Happy hacking :)
