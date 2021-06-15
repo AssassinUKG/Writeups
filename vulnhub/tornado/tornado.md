@@ -144,11 +144,11 @@ Enumerating the system we quickly see our priv esc route on the machine.
 ![image](https://user-images.githubusercontent.com/5285547/121972155-4acf5680-cd72-11eb-86d2-0ce04c48c006.png)
 
 
-First i created an index.js file
-cd /tmp
-mkdir shell
-echo 'module.exports = install could be dangerous' > index.js
-cp index.js shell
+First i created an index.js file  
+cd /tmp  
+mkdir shell  
+echo 'module.exports = install could be dangerous' > index.js  
+cp index.js shell  
 
 Now we need a package.json file and chmod to make it executable, then we can run the sudo command to user.
 
