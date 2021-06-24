@@ -9,6 +9,16 @@ IP: 192.168.1.159
 
 Note: Add coffeeaddicts.thm to /etc/hosts 
 
+### Nmap 
+
+```
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+```
+
+### Port 80
+
 ![image](https://user-images.githubusercontent.com/5285547/123182605-b6f33e00-d487-11eb-957f-0f65c0c4ee36.png)
 
 
