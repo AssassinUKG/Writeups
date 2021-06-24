@@ -38,6 +38,26 @@ http://coffeeaddicts.thm/wordpress/
 
 wpscan reveals a username 'gus'
 
+Checking the comments of the second post shows us a hint
+
+![image](https://user-images.githubusercontent.com/5285547/123186245-aa72e380-d48f-11eb-96d3-b84a7860ca67.png)
+
+*Hint: password is in the image above...
+
+Now we can login to the admin panel, checking out the app quickly. I see we can edit the plugin files. 
+
+You can check akismet plugin and edit the php for a reverse shell, either a php rev shell or basic webshell will do. 
+
+![image](https://user-images.githubusercontent.com/5285547/123186390-ed34bb80-d48f-11eb-852f-66d9cc9a71de.png)
+
+Then call the URL for akismet.php file to activate your hack. 
+
+```
+http://coffeeaddicts.thm/wordpress/wp-content/plugins/akismet/akismet.php?c=id
+```
+
+![image](https://user-images.githubusercontent.com/5285547/123186467-1e14f080-d490-11eb-8a74-ee30da83ae0b.png)
+
 
 ## User
 
