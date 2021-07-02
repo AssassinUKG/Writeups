@@ -125,5 +125,16 @@ svc-alfresco:s3rvice
 evil-winrm -i 10.10.10.161 -u svc-alfresco -p 's3rvice'
 ```
 
+![image](https://user-images.githubusercontent.com/5285547/124300141-22a76c00-db56-11eb-8fbc-07b6d3245732.png)
+
+## User
+
+Change direcroty to the dekstop to retrive the user flag
+
+user.txt
+```
+e5e4e47ae{REDACTED}eb013fb0d9ed
+```
+
 
 
