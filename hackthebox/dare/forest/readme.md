@@ -36,7 +36,7 @@ PORT      STATE SERVICE
 
 Add to /etc/hosts file
 
-- Enum4linux 
+## Enum4linux 
 - Users
 ```
 user:[sebastien] rid:[0x479]
@@ -48,7 +48,7 @@ user:[santi] rid:[0x480]
 user:[noodle] rid:[0x1db2]
 ```
 
-- ASREPRoast
+## ASREPRoast
 - Users.txt
 ```
 Administrator
