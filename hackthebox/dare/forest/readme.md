@@ -34,6 +34,8 @@ PORT      STATE SERVICE
 
 ![image](https://user-images.githubusercontent.com/5285547/124294837-0e607080-db50-11eb-90a6-eed955859f71.png)
 
+Add to /etc/hosts file
+
 - Enum4linux 
 - Users
 ```
@@ -45,6 +47,19 @@ user:[mark] rid:[0x47f]
 user:[santi] rid:[0x480]
 user:[noodle] rid:[0x1db2]
 ```
+
+- ASREPRoast
+- Users.txt
+```
+Administrator
+andy
+lucinda
+mark
+santi
+sebastien
+svc-alfresco
+```
+
 
 
 
