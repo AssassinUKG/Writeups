@@ -1,6 +1,6 @@
 # Forest HTB
 
-![image](https://user-images.githubusercontent.com/5285547/124298526-3eaa0e00-db54-11eb-80de-c89bf1c611f0.png)
+![image](https://user-images.githubusercontent.com/5285547/124309753-1d9ce980-db63-11eb-91d7-26363021d41c.png)
 
 ## Nmap
 
