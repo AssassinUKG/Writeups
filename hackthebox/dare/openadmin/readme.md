@@ -22,7 +22,7 @@ Using gobuster i enumerated port 80 as only the default apache page loaded.
 /sierra               (Status: 301) [Size: 313] [--> http://10.10.10.171/sierra/] 
 ```
 
-## Artwork
+### Artwork
 
 http://10.10.10.171/artwork/index.html
 
@@ -42,17 +42,21 @@ http://10.10.10.171/artwork/index.html
 /single.html          (Status: 200) [Size: 17627]  
 ```
 
-## Music
+### Music
 
 http://10.10.10.171/music/index.html
 
+- Gobuster
+```
 
-## Sierra
+```
+
+
+### Sierra
 
 http://10.10.10.171/sierra/index.html
 
 - Gobuster
-
 ```
 /contact.html         (Status: 200) [Size: 15853]
 /blog.html            (Status: 200) [Size: 20477]
