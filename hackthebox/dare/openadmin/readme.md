@@ -42,16 +42,6 @@ http://10.10.10.171/artwork/index.html
 /single.html          (Status: 200) [Size: 17627]  
 ```
 
-### Music
-
-http://10.10.10.171/music/index.html
-
-- Gobuster
-```
-
-```
-
-
 ### Sierra
 
 http://10.10.10.171/sierra/index.html
@@ -71,6 +61,34 @@ http://10.10.10.171/sierra/index.html
 /fonts                (Status: 301) [Size: 319] [--> http://10.10.10.171/sierra/fonts/]
 /vendors              (Status: 301) [Size: 321] [--> http://10.10.10.171/sierra/vendors/]
 ```
+
+Not a lot on the above two sites.
+
+### Music
+
+http://10.10.10.171/music/index.html
+
+- Gobuster
+```
+/img                  (Status: 301) [Size: 316] [--> http://10.10.10.171/music/img/]
+/contact.html         (Status: 200) [Size: 6223]                                    
+/blog.html            (Status: 200) [Size: 6728]                                    
+/main.html            (Status: 200) [Size: 931]                                     
+/category.html        (Status: 200) [Size: 23863]                                   
+/index.html           (Status: 200) [Size: 12554]                                   
+/css                  (Status: 301) [Size: 316] [--> http://10.10.10.171/music/css/]
+/js                   (Status: 301) [Size: 315] [--> http://10.10.10.171/music/js/] 
+/artist.html          (Status: 200) [Size: 20133]                                   
+/playlist.html        (Status: 200) [Size: 8885] 
+```
+
+I found a login button but it redirects to ../ona
+
+![image](https://user-images.githubusercontent.com/5285547/124369606-4c02ed80-dc65-11eb-9237-46b771469cd4.png)
+
+
+
+
 
 
 
