@@ -188,3 +188,9 @@ Looking at the index.php page we can see a password hash, time to crack that!
             }
          ?>
 ```
+
+Using an online site, I got the password for the login
+
+![image](https://user-images.githubusercontent.com/5285547/124388806-61ffc500-dcdc-11eb-97d4-898cb65ccad9.png)
+
+
