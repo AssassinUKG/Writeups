@@ -130,10 +130,37 @@ Looking aroud the system I finally find the database config file loacated
         'db_debug' => false,
 ```
 
-## Jimmy
+## Jimmy (User 1)
 
 Trying the password for the database on the system users. Let's us in as Jimmy  
 
-creds:
-```Jimmy:n1nj4W4rri0R!```
+![image](https://user-images.githubusercontent.com/5285547/124386200-227fab80-dcd1-11eb-9a06-80a8599a6d09.png)
 
+The password also works for SSH! 
+
+```
+ssh jimmy@10.10.10.171
+```
+
+Checking out the local ports shows us an internal website being hosted on port 52846
+
+```
+jimmy@openadmin:~$ netstat -ltup 
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 localhost:domain        0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN      -                   
+tcp        0      0 localhost:mysql         0.0.0.0:*               LISTEN      -                   
+tcp        0      0 localhost:52846         0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 [::]:http               [::]:*                  LISTEN      -                   
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN      -                   
+udp        0      0 localhost:domain        0.0.0.0:*                           - 
+```
+
+Let's port portward over SSH to see whats on the page. 
+
+```
+ssh jimmy@10.10.10.171 -L 80:127.0.0.1:52846
+```
