@@ -87,7 +87,14 @@ I found a login button but it redirects to ../ona
 ![image](https://user-images.githubusercontent.com/5285547/124369606-4c02ed80-dc65-11eb-9237-46b771469cd4.png)
 
 
+## www-data
 
+Going to http://10.10.10.171/ona/ gives us the openNetAdmin interface with   
+verson 18.1.1
+
+Finding an exploit online I crafted my own from this example: 
+
+Mine: 
 
 
 
