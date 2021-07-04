@@ -194,3 +194,21 @@ Using an online site, I got the password for the login
 ![image](https://user-images.githubusercontent.com/5285547/124388806-61ffc500-dcdc-11eb-97d4-898cb65ccad9.png)
 
 
+After loggin in we get presented with a id_rsa key, hopefully for the other user. 
+
+![image](https://user-images.githubusercontent.com/5285547/124388861-9e332580-dcdc-11eb-8947-ad209bd45ff0.png)
+
+## Joanna
+
+Using ssh2john.py, then john the ripper, I crack the id_rsa password
+
+```
+ssh2john.py id_rsa > id_rsa.hash
+sudo ./john -w=/usr/share/SecLists/Passwords/rockyou.txt ~/id_rsa.hash
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124389745-75ad2a80-dce0-11eb-8d0b-4952c216765d.png)
+
+
+
+
