@@ -32,5 +32,16 @@ PORT   STATE SERVICE VERSION
 
 ![image](https://user-images.githubusercontent.com/5285547/124394807-e6f8d780-dcf8-11eb-9399-2ca31be26055.png)
 
+Checking the source code of the page we can see the CMS being used here. 
+
+Redacted source code http://10.10.10.138/writeup/
+```
+<meta name="Generator" content="CMS Made Simple - Copyright (C) 2004-2019. All rights reserved." />
+```
+
+I quickly found this exploit online: https://www.exploit-db.com/exploits/46635
+
+Downloading and running the exploit gave me some creds. 
+
 
 
