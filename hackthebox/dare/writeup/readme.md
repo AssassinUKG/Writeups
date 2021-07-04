@@ -61,6 +61,18 @@ ssh jkr@10.10.10.138
 raykayjay9
 ```
 
+And grab the user.txt flag
 
+## Root
+
+I transfer linpeas.sh to the box and start it off, after a little while I can see a few paths that we have write access too. 
+
+![image](https://user-images.githubusercontent.com/5285547/124398967-6e057a00-dd10-11eb-97fd-5a9c72e761cf.png)
+
+Not having found mucn, let's also check the running process's with pspy64 to see whats running as root
+
+```
+
+```
 
 
