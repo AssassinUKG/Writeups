@@ -164,3 +164,27 @@ Let's port portward over SSH to see whats on the page.
 ```
 ssh jimmy@10.10.10.171 -L 80:127.0.0.1:52846
 ```
+
+We are presented with a login screen. 
+
+![image](https://user-images.githubusercontent.com/5285547/124386625-34fae480-dcd3-11eb-8da4-34d0ac0e93b4.png)
+
+We should try to find more infomation in the files being hosted. 
+```/var/www/internal```
+
+Looking at the index.php page we can see a password hash, time to crack that! 
+
+```
+  <?php
+            $msg = '';
+
+            if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
+              if ($_POST['username'] == 'jimmy' && hash('sha512',$_POST['password']) == '00e302ccdcf1c60b8ad50ea50cf72b939705f49f40f0dc658801b4680b7d758eebdc2e9f9ba8ba3ef8a8bb9a796d34ba2e856838ee9bdde852b8ec3b3a0523b1') {
+                  $_SESSION['username'] = 'jimmy';
+                  header("Location: /main.php");
+              } else {
+                  $msg = 'Wrong username or password.';
+              }
+            }
+         ?>
+```
