@@ -1,5 +1,6 @@
 # Writeup HackTheBox
 
+![image](https://user-images.githubusercontent.com/5285547/124397537-3e527400-dd08-11eb-9e21-914eb4ef2ea0.png)
 
 ## Nmap 
 
@@ -41,7 +42,26 @@ Redacted source code http://10.10.10.138/writeup/
 
 I quickly found this exploit online: https://www.exploit-db.com/exploits/46635
 
-Downloading and running the exploit gave me some creds. 
+Downloading, editing and running the exploit gave me some creds. 
+
+Python3 version (Edited by me): https://github.com/AssassinUKG/Writeups/blob/main/hackthebox/dare/writeup/cmsExploit/cms.py
+
+```
+cms.py -u http://10.10.10.138/writeup/ --crack -w /usr/share/SecLists/Passwords/rockyou.txt
+```
+![image](https://user-images.githubusercontent.com/5285547/124397445-cb48fd80-dd07-11eb-8f80-4ddbb8ced04e.png)
+
+
+
+## User
+
+Using the found credentials we can now ssh onto the box
+
+   ```
+ssh jkr@10.10.10.138
+
+```
+
 
 
 
