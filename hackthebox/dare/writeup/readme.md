@@ -49,17 +49,16 @@ Python3 version (Edited by me): https://github.com/AssassinUKG/Writeups/blob/mai
 ```
 cms.py -u http://10.10.10.138/writeup/ --crack -w /usr/share/SecLists/Passwords/rockyou.txt
 ```
-![image](https://user-images.githubusercontent.com/5285547/124397445-cb48fd80-dd07-11eb-8f80-4ddbb8ced04e.png)
-
+![image](https://user-images.githubusercontent.com/5285547/124398557-33024700-dd0e-11eb-8b70-9aac12e92f52.png)
 
 
 ## User
 
 Using the found credentials we can now ssh onto the box
 
-   ```
+```
 ssh jkr@10.10.10.138
-
+raykayjay9
 ```
 
 
