@@ -117,3 +117,23 @@ reset
 xterm
 ```
 
+Looking aroud the system I finally find the database config file loacated
+```
+/var/www/html/ona/local/config/database_settings.inc.php
+```
+```
+'db_type' => 'mysqli',
+        'db_host' => 'localhost',
+        'db_login' => 'ona_sys',
+        'db_passwd' => 'n1nj4W4rri0R!',
+        'db_database' => 'ona_default',
+        'db_debug' => false,
+```
+
+## Jimmy
+
+Trying the password for the database on the system users. Let's us in as Jimmy  
+
+creds:
+```Jimmy:n1nj4W4rri0R!```
+
