@@ -73,3 +73,40 @@ Using linpeas.sh to enumerate I find david's hash, craking time 2!
 
 ![image](https://user-images.githubusercontent.com/5285547/124392492-c8d9aa00-dced-11eb-90ce-bc6619bcf4c8.png)
 
+Enumerating the conf files gave away some juicy info realtead to where server paths are defined
+
+```
+cat nhttpd.conf 
+# MAIN [MANDATORY]
+
+servername		traverxec.htb
+serverlisten		*
+serveradmin		david@traverxec.htb
+serverroot		/var/nostromo
+servermimes		conf/mimes
+docroot			/var/nostromo/htdocs
+docindex		index.html
+
+# LOGS [OPTIONAL]
+
+logpid			logs/nhttpd.pid
+
+# SETUID [RECOMMENDED]
+
+user			www-data
+
+# BASIC AUTHENTICATION [OPTIONAL]
+
+htaccess		.htaccess
+htpasswd		/var/nostromo/conf/.htpasswd
+
+# ALIASES [OPTIONAL]
+
+/icons			/var/nostromo/icons
+
+# HOMEDIRS [OPTIONAL]
+
+homedirs		/home
+homedirs_public		public_www
+```
+
