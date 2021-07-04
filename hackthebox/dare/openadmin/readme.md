@@ -89,13 +89,18 @@ I found a login button but it redirects to ../ona
 
 ## www-data
 
-Going to http://10.10.10.171/ona/ gives us the openNetAdmin interface with   
-verson 18.1.1
+Going to http://10.10.10.171/ona/   
+gives us the openNetAdmin interface with ```verson 18.1.1```
 
 Finding an exploit online I crafted my own from this example: https://packetstormsecurity.com/files/162516/opennetadmin85141811-exec.txt
 
-Mine: https://github.com/AssassinUKG/Writeups/tree/main/hackthebox/dare/openadmin/opennetadmin
+My Exploit: https://github.com/AssassinUKG/Writeups/tree/main/hackthebox/dare/openadmin/opennetadmin
 
+```
+bash openNetAdmin.sh http://10.10.10.171/ona/ id
+```
+
+Usng my shell I was able to get a reverseshell from the box. 
 
 
 
