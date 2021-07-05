@@ -34,8 +34,6 @@ After having added the new hosts to the host file, I can now see the real page..
 
 ![image](https://user-images.githubusercontent.com/5285547/124517211-55ae6180-dddb-11eb-8d35-0cb559d7a423.png)
 
-thm{6320228dd9e315f283b75887240dc6a1}
-
 Let's make an account and have a look around the system.  
 After making the new account login. When you get there you will notice a few repos in ```Explore``` tab. 
 
@@ -83,7 +81,6 @@ We can grab the flag in the home folder. (/home/git)
 Its abse64 encoded, so decode it. If you forget ...
 
 ```
-#thm{fd7ab9ffd409064f257cd70cf3d6aa16}
 echo dGhte2ZYzZDZhYTE2fQ=|base64 -d 
 ```
 
