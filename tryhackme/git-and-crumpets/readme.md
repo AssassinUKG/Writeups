@@ -54,7 +54,38 @@ Result
 My 'Password' should be easy enough to guess
 E7V:W*555}
 ```
-Next we need to find his email, luckily its on the main profile. 
+Next we need to find his email, luckily its on the main profile for the user. 
+
+![image](https://user-images.githubusercontent.com/5285547/124517524-13395480-dddc-11eb-8dc6-e45bb81effd2.png)
+
+## User
+
+Lets login as the new user, then check if he has nay higher privileges. 
+
+![image](https://user-images.githubusercontent.com/5285547/124517654-66aba280-dddc-11eb-8537-2747bfff88f3.png)
+
+Yes, Githooks are available. This will allow use to execute code on a successful change to the repo.
+
+More info here: https://podalirius.net/en/articles/exploiting-cve-2020-14144-gitea-authenticated-remote-code-execution/
+
+Edit the page above with a bash shell to your machine. 
+
+![image](https://user-images.githubusercontent.com/5285547/124517772-bbe7b400-dddc-11eb-95fc-148134506ffe.png)
+
+Then update the hook script to save it.
+Now edit the readme.md file with any change to get our hook to fire and get a shell. 
+
+![image](https://user-images.githubusercontent.com/5285547/124518309-fef65700-dddd-11eb-9e90-3fcd32af987f.png)
+
+We can grab the flag in the home folder. (/home/git)  
+Its abse64 encoded, so decode it. If you forget ...
+
+```
+#thm{fd7ab9ffd409064f257cd70cf3d6aa16}
+echo dGhte2ZYzZDZhYTE2fQ=|base64 -d 
+```
+
+
 
 
 
