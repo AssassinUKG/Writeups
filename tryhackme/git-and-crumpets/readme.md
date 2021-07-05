@@ -2,8 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/5285547/124516978-c903a380-ddda-11eb-9889-003881db1c7b.png)
 
-- Room link:  
-  https://tryhackme.com/room/gitandcrumpets
+- Room link: https://tryhackme.com/room/gitandcrumpets
 
 ## Nmap 
 
