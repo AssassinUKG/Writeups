@@ -86,6 +86,38 @@ Host script results:
 /server-status        (Status: 403) [Size: 278]
 ```
 
+## Enum4linux
 
+Redacted some infos
+```
+Sharename       Type      Comment
+---------       ----      -------
+print$          Disk      Printer Drivers
+websvr          Disk      
+ IPC$            IPC       IPC Service (TechSupport server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
 
+S-1-22-1-1000 Unix User\scamsite (Local User)
+S-1-5-21-2071169391-1069193170-3284189824-513 TECHSUPPORT\None (Domain Group)
+```
+
+## Smbclient
+
+```
+smbclient -L 192.168.1.106                                                                                1 ⨯
+Enter WORKGROUP\ac1d's password: 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        print$          Disk      Printer Drivers
+        websvr          Disk      
+        IPC$            IPC       IPC Service (TechSupport server (Samba, Ubuntu))
+SMB1 disabled -- no workgroup available
+```
+
+Let's check out that share.
+
+```smbclient \\\\192.168.1.106\\websvr```
+
+![image](https://user-images.githubusercontent.com/5285547/124909104-f9695e80-dfe1-11eb-890e-b42198883a53.png)
 
