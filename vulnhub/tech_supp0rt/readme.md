@@ -2,7 +2,8 @@
 Link: https://www.vulnhub.com/entry/tech_supp0rt-1,708/  
 Box: Easy
 
-## Nmap 
+## Enumeration
+### Nmap 
 
 ```
 PORT    STATE SERVICE
@@ -49,7 +50,7 @@ Host script results:
 |_  start_date: N/A
 ```
 
-## Nikto 
+### Nikto 
 
 ```
 - Nikto v2.1.6
@@ -76,7 +77,7 @@ Host script results:
 ---------------------------------------------------------------------------
 ```
 
-## Gobuster
+### Gobuster
 
 ```
 /index.html           (Status: 200) [Size: 11321]
@@ -86,7 +87,7 @@ Host script results:
 /server-status        (Status: 403) [Size: 278]
 ```
 
-## Enum4linux
+### Enum4linux
 
 Redacted some infos
 ```
@@ -101,7 +102,7 @@ S-1-22-1-1000 Unix User\scamsite (Local User)
 S-1-5-21-2071169391-1069193170-3284189824-513 TECHSUPPORT\None (Domain Group)
 ```
 
-## Smbclient
+### Smbclient
 
 ```
 smbclient -L 192.168.1.106                                                                                1 ⨯
@@ -144,7 +145,7 @@ The hint magic formula hinted to me we need to try a site like cyberchef to deco
 
 ![image](https://user-images.githubusercontent.com/5285547/124909661-a512ae80-dfe2-11eb-86a2-2f47226c38ea.png)
 
-## wpscan
+### Wpscan
 
 Now we have creds lets do some quick enum on the website (wordpress)
 
