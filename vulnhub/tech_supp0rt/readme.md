@@ -134,3 +134,26 @@ Subrion creds
 |->admin:7sKvntXdPEJaxazce9PXi24zaFrLiKWCk [cooked with magical formula]
 Wordpress creds
 |->```
+
+
+The hint magic formula hinted to me we need to try a site like cyberchef to decode the string we have.
+
+![image](https://user-images.githubusercontent.com/5285547/124909661-a512ae80-dfe2-11eb-86a2-2f47226c38ea.png)
+
+## wpscan
+
+Now we have creds lets do some quick enum on the website (wordpress)
+
+```
+wpscan --url http://192.168.1.106/wordpress -e
+
+Results:
+[i] User(s) Identified:
+
+[+] support
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://192.168.1.106/wordpress/index.php/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+```
+
+## User
