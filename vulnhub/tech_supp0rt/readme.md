@@ -121,3 +121,16 @@ Let's check out that share.
 
 ![image](https://user-images.githubusercontent.com/5285547/124909104-f9695e80-dfe1-11eb-890e-b42198883a53.png)
 
+enter.txt contents
+```GOALS
+=====
+1)Make fake popup and host it online on Digital Ocean server
+2)Fix subrion site, /subrion doesn't work, edit from panel
+3)Edit wordpress website
+
+IMP
+===
+Subrion creds
+|->admin:7sKvntXdPEJaxazce9PXi24zaFrLiKWCk [cooked with magical formula]
+Wordpress creds
+|->```
