@@ -87,6 +87,17 @@ Host script results:
 /server-status        (Status: 403) [Size: 278]
 ```
 
+/test
+
+![image](https://user-images.githubusercontent.com/5285547/124911794-13f10700-dfe5-11eb-9157-13216ec30cdc.png)
+
+
+/wordpress
+
+![image](https://user-images.githubusercontent.com/5285547/124911852-24a17d00-dfe5-11eb-863c-be98046b362e.png)
+
+
+
 ### Enum4linux
 
 Redacted some infos
@@ -162,3 +173,6 @@ Results:
 ```
 
 ## User
+
+So now we have a user and password lets use them to login to the admin page. 
+
