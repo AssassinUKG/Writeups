@@ -117,12 +117,15 @@ SMB1 disabled -- no workgroup available
 
 Let's check out that share.
 
-```smbclient \\\\192.168.1.106\\websvr```
+```
+smbclient \\\\192.168.1.106\\websvr
+```
 
 ![image](https://user-images.githubusercontent.com/5285547/124909104-f9695e80-dfe1-11eb-890e-b42198883a53.png)
 
 enter.txt contents
-```GOALS
+```
+GOALS
 =====
 1)Make fake popup and host it online on Digital Ocean server
 2)Fix subrion site, /subrion doesn't work, edit from panel
@@ -133,7 +136,8 @@ IMP
 Subrion creds
 |->admin:7sKvntXdPEJaxazce9PXi24zaFrLiKWCk [cooked with magical formula]
 Wordpress creds
-|->```
+|->
+```
 
 
 The hint magic formula hinted to me we need to try a site like cyberchef to decode the string we have.
