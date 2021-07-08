@@ -89,14 +89,34 @@ Host script results:
 
 /test
 
+Seems to be a test scam page setup on the server..
+
 ![image](https://user-images.githubusercontent.com/5285547/124911794-13f10700-dfe5-11eb-9157-13216ec30cdc.png)
 
 
 /wordpress
 
+Nice, here we can use a tool called wpscan to enum the site.
+
 ![image](https://user-images.githubusercontent.com/5285547/124911852-24a17d00-dfe5-11eb-863c-be98046b362e.png)
 
+### Wpscan
 
+Now we have creds lets do some quick enum on the website (wordpress)
+
+```
+wpscan --url http://192.168.1.106/wordpress -e
+
+Results:
+[i] User(s) Identified:
+
+[+] support
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://192.168.1.106/wordpress/index.php/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+```
+
+Found a user called: support
 
 ### Enum4linux
 
@@ -151,28 +171,38 @@ Wordpress creds
 |->
 ```
 
-
 The hint magic formula hinted to me we need to try a site like cyberchef to decode the string we have.
 
 ![image](https://user-images.githubusercontent.com/5285547/124909661-a512ae80-dfe2-11eb-86a2-2f47226c38ea.png)
 
-### Wpscan
 
-Now we have creds lets do some quick enum on the website (wordpress)
+/subrion
+
+Let's check out the new directory on the server with gobuster
 
 ```
-wpscan --url http://192.168.1.106/wordpress -e
+gobuster dir -u http://192.168.1.106/subrion/  -w  /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt    -t 30 -x .txt,.html,.php,.bk,.gz,.png,.sh --wildcard -b 301,302,404
 
-Results:
-[i] User(s) Identified:
-
-[+] support
- | Found By: Wp Json Api (Aggressive Detection)
- |  - http://192.168.1.106/wordpress/index.php/index.php/wp-json/wp/v2/users/?per_page=100&page=1
- | Confirmed By: Login Error Messages (Aggressive Detection)
+/updates              (Status: 403) [Size: 278]
+/license.txt          (Status: 200) [Size: 35147]
+/changelog.txt        (Status: 200) [Size: 49250]
+/robots.txt           (Status: 200) [Size: 142]  
 ```
 
-## User
+/robots.txt
 
-So now we have a user and password lets use them to login to the admin page. 
+```
+Disallow: /backup/
+Disallow: /cron/?
+Disallow: /front/
+Disallow: /install/
+Disallow: /panel/
+Disallow: /tmp/
+Disallow: /updates/
+```
+
+
+
+
+
 
