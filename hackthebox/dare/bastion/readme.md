@@ -145,9 +145,69 @@ smbmap -u l4mpje -p aad3b435b51404eeaad3b435b51404ee:26112010952d963c8dc4217daec
         IPC$                                                    READ ONLY       Remote IPC
 ```
 
+user.txt
 
+```
+ Directory of C:\Users\L4mpje\Desktop                                                                                           
 
+22-02-2019  16:27    <DIR>          .                                                                                           
+22-02-2019  16:27    <DIR>          ..                                                                                          
+23-02-2019  10:07                32 user.txt                                                                                    
+               1 File(s)             32 bytes                                                                                   
+               2 Dir(s)  11.291.443.200 bytes free 
+```
 
+## Root
+
+Looking around the file system, we notice an unusual app in the programs folder. 
+
+![image](https://user-images.githubusercontent.com/5285547/124932200-c5e6fe00-dffa-11eb-848a-29f8ba3c5857.png)
+
+Checking this out online, it seems to be a credential backup software. (link: https://mremoteng.org/)
+
+On the websites forums it hinted to a path for the saved creds
+
+![image](https://user-images.githubusercontent.com/5285547/124932516-0e062080-dffb-11eb-9617-b5d872166d1e.png)
+
+![image](https://user-images.githubusercontent.com/5285547/124932678-2ece7600-dffb-11eb-98b1-5eedbbfbd561.png)
+
+```
+type .\confCons.xml
+```
+
+We see two entries, 
+
+Admin
+```
+<Node Name="DC" Type="Connection" Descr="" Icon="mRemoteNG" Panel="General" Id="500e7d58-662a-44d4-aff0-3a4f547a3fee" Userna                                                                                                             
+me="Administrator" Domain="" Password="aEWNFV5uGcjUHF0uS17QTdT9kVqtKCPeoC0Nw5dmaPFjNQ2kt/zO5xDqE4HdVmHAowVRdC7emf7lWWA10dQKiw=="                                                                                                             
+ Hostname="127.0.0.1" Protocol="RDP" PuttySession="Default Settings" Port="3389"
+```
+
+L4mpje
+```
+<Node Name="L4mpje-PC" Type="Connection" Descr="" Icon="mRemoteNG" Panel="General" Id="8d3579b2-e68e-48c1-8f0f-9ee1347c9128"                                                                                                             
+ Username="L4mpje" Domain="" Password="yhgmiu5bbuamU3qMUKc/uYDdmbMrJZ/JvR1kYe4Bhiu8bXybLxVnO0U9fKRylI7NcB9QuRsZVvla8esB" Hostnam                                                                                                             
+e="192.168.1.75" Protocol="RDP" 
+```
+
+Using this github source we can crack the passwords:  
+https://github.com/kmahyyg/mremoteng-decrypt
+
+![image](https://user-images.githubusercontent.com/5285547/124933371-bddb8e00-dffb-11eb-86e6-f60e3c4d900a.png)
+
+![image](https://user-images.githubusercontent.com/5285547/124933439-cdf36d80-dffb-11eb-8750-a8ddd37d38ea.png)
+
+Let's login as Administrator and get the last flag! 
+
+```
+ssh administrator@10.10.10.134
+thXLHM96BeKL0ER2
+```
+
+![image](https://user-images.githubusercontent.com/5285547/124933650-f4b1a400-dffb-11eb-805c-0948868f314a.png)
+
+Thanks, Another one down! 
 
 
 
