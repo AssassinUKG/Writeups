@@ -18,7 +18,14 @@ PORT     STATE SERVICE
 ## Websites
 ### Port 8080
 
+After a quick gobuster I found a new endpoint /dev, can use OPTIONS to bypass the 403,405
+```
+http://10.10.236.49:8080/dev/
+```
 
 ### Port 8082
 
+```
+
+```
 
