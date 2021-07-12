@@ -117,8 +117,6 @@ This shows port 4545 open on local host. Lets try to connect to it and see what'
 
 ```
 nc -lnvp 4545
-
-
 ```
 
 Using option 4 we see VIM being used. Checking GTFObins shows us we can elevate to Marston with 
