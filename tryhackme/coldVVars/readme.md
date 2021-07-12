@@ -38,7 +38,10 @@ http://10.10.236.49:8082
 ```
 
 Scanning the URL with gobuster shows a login page (/login)  
-[Bypass List: Sql Injection Bypass](/tryhackme/coldVVars/sql_Injection_Bypass.txt)
+[Bypass List: Sql Injection List](/tryhackme/coldVVars/sql_Injection_Bypass.txt)
+
+Using burp's intruder we can capture the login and use the payloads from the list above. 
+
 
 
 
