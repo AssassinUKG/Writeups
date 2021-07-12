@@ -38,7 +38,7 @@ http://10.10.236.49:8082
 ```
 
 Scanning the URL with gobuster shows a login page (/login)  
-[Bypass List: ](/tryhackme/coldVVars/sql_Injection_Bypass.txt)
+[Bypass List: Sql Injection Bypass](/tryhackme/coldVVars/sql_Injection_Bypass.txt)
 
 
 
