@@ -48,7 +48,8 @@ Secure File Upload and Testing Functionality
 
 ### Port 8082
 
+Home page
 ```
-
+http://10.10.236.49:8082
 ```
 
