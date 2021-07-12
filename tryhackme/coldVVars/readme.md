@@ -1,6 +1,5 @@
 # Cold VVars
-
-![image](https://user-images.githubusercontent.com/5285547/125265936-38a6f080-e2fd-11eb-8651-018cdbf4b2de.png)
+![image](https://user-images.githubusercontent.com/5285547/125272663-03ea6780-e304-11eb-9595-4169d0b8fdc3.png)
 Room link: https://tryhackme.com/room/coldvvars
 
 Target IP: 10.10.236.49
