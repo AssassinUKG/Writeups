@@ -12,6 +12,7 @@ PORT   STATE SERVICE
 
 
 ## CMS Made Simple
+![image](https://user-images.githubusercontent.com/5285547/125982400-47f6763c-774a-4277-b48f-ca0770546ab8.png)
 
 ```
 searchsploit "cms made simple"
@@ -19,7 +20,7 @@ searchsploit "cms made simple"
 ![image](https://user-images.githubusercontent.com/5285547/125983683-849c0a35-68be-4a6d-a5d2-66a5aadd3b38.png)
 
 
-![image](https://user-images.githubusercontent.com/5285547/125982400-47f6763c-774a-4277-b48f-ca0770546ab8.png)
+
 
 
 ```
