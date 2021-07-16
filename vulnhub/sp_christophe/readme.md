@@ -17,11 +17,11 @@ PORT   STATE SERVICE
 ```
 searchsploit "cms made simple"
 ```
+
 ![image](https://user-images.githubusercontent.com/5285547/125983683-849c0a35-68be-4a6d-a5d2-66a5aadd3b38.png)
 
 
-
-
+Copy the exploit and run it with python and the variables it needs. 
 
 ```
 [+] Salt for password found: 932129a6bd8545bd
