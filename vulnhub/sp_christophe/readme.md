@@ -25,6 +25,38 @@ PORT   STATE SERVICE VERSION
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
+## Dirs
+
+```
+http://christophe.local
+```
+
+```
+ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt  -u http://christophe.local/tmp/FUZZ -ic -e html,php,sh,aspx,bak,zip,png -mc 200,301,302
+ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt  -u http://christophe.local/tmp/FUZZ -ic -e html,php,sh,aspx,bak,zip,png
+
+http://christophe.local/doc/htaccess.txt
+
+http://192.168.1.95/modules/
+http://192.168.1.95/lib/jquery/
+http://192.168.1.95/lib/lang/
+```
+
+## Robots.txt
+```
+http://christophe.local/doc/robots.txt
+
+User-agent: *
+
+Disallow: /assets/
+Disallow: /doc/
+Disallow: /lib/
+Disallow: /modules/
+Disallow: /tmp/
+
+Allow: /tmp/cache/
+```
+
 ## CMS Made Simple
 ![image](https://user-images.githubusercontent.com/5285547/125982400-47f6763c-774a-4277-b48f-ca0770546ab8.png)
 
