@@ -23,6 +23,15 @@ PORT    STATE SERVICE     VERSION
 873/tcp open  rsync       (protocol version 31)
 ```
 
-```
+## Rsync Port 873
 
 ```
+nc -vn 10.10.177.2 873
+(UNKNOWN) [10.10.177.2] 873 (rsync) open
+@RSYNCD: 31.0        <--- You receive this banner with the version from the server
+@RSYNCD: 31.0        <--- Then you send the same info
+#list                <--- Then you ask the sever to list
+Conf            All Confs <--- The server starts enumerating
+@RSYNCD: EXIT         <--- Sever closes the connection
+```
+
