@@ -72,5 +72,24 @@ drwxrwxrwx          4,096 2021/04/10 21:03:08 .
 Copy Files
 
 ```
+rsync -av  "rsync://10.10.55.140/Conf" . 
+5 ⨯ 1 ⚙
+receiving incremental file list
+./
+access.conf
+bluezone.ini
+debconf.conf
+ldap.conf
+lvm.conf
+mysql.ini
+php.ini
+ports.conf
+resolv.conf
+screen-cleanup.conf
+smb.conf
+webapp.ini
+
+sent 255 bytes  received 194,360 bytes  389,230.00 bytes/sec
+total size is 193,430  speedup is 0.99
 
 ```
