@@ -69,11 +69,11 @@ drwxrwxrwx          4,096 2021/04/10 21:03:08 .
 -rw-rw-r--             72 2021/04/10 21:03:06 webapp.ini
 ```
 
-Copy Files
+Copy files
 
 ```
 rsync -av  "rsync://10.10.55.140/Conf" . 
-5 ⨯ 1 ⚙
+
 receiving incremental file list
 ./
 access.conf
@@ -96,4 +96,14 @@ total size is 193,430  speedup is 0.99
 
 In webapp.ini we can see a user and password for "tom".
 
+Post files
+
+```
+rsync -av testfile.txt rsync://tom@10.10.55.140/Conf
+
+sending incremental file list
+
+sent 63 bytes  received 12 bytes  150.00 bytes/sec
+total size is 7  speedup is 0.09
+```
 
