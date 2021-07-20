@@ -93,3 +93,7 @@ sent 255 bytes  received 194,360 bytes  389,230.00 bytes/sec
 total size is 193,430  speedup is 0.99
 
 ```
+
+In webapp.ini we can see a user and password for "tom".
+
+
