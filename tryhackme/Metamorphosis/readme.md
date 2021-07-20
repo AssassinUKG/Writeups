@@ -174,12 +174,14 @@ So I started to sniff the traffie to see what was going on
 tcpdump -i eth0 -A > tcpdump.out
 ```
 
-Then transfered it to my box after a while to go thought the results. 
+Then transfered it to my box after a while, I made a coffee then came back to  
+go through the results. 
 
 ```
 python3 -m http.server 8899
-wget http://IP/8899/tcpdump.out .
+wget http://IP:8899/tcpdump.out
 ```
+
 
 
 
