@@ -23,7 +23,9 @@ PORT    STATE SERVICE     VERSION
 873/tcp open  rsync       (protocol version 31)
 ```
 
-## Rsync Port 873
+## Rsync Enum, Port 873
+
+rsync is a utility for efficiently transferring and synchronizing files between a computer and an external hard drive and across networked computers by comparing the modification timesand sizes of files.[3] It is commonly found on Unix-like operating systems. The rsync algorithm is a type of delta encoding, and is used for minimizing network usage. Zlib may be used for additional data compression,[3] and SSH or stunnel can be used for security.
 
 ```
 nc -vn 10.10.177.2 873
@@ -35,3 +37,40 @@ Conf            All Confs <--- The server starts enumerating
 @RSYNCD: EXIT         <--- Sever closes the connection
 ```
 
+or
+
+```
+nmap -sV --script "rsync-list-modules" -p 873 10.10.177.2 
+
+PORT    STATE SERVICE VERSION
+873/tcp open  rsync   (protocol version 31)
+| rsync-list-modules: 
+|_  Conf                All Confs
+```
+
+List share's
+
+```
+rsync -av --list-only rsync://10.10.55.140/Conf 
+
+receiving incremental file list
+drwxrwxrwx          4,096 2021/04/10 21:03:08 .
+-rw-r--r--          4,620 2021/04/09 21:01:22 access.conf
+-rw-r--r--          1,341 2021/04/09 20:56:12 bluezone.ini
+-rw-r--r--          2,969 2021/04/09 21:02:24 debconf.conf
+-rw-r--r--            332 2021/04/09 21:01:38 ldap.conf
+-rw-r--r--         94,404 2021/04/09 21:21:57 lvm.conf
+-rw-r--r--          9,005 2021/04/09 20:58:40 mysql.ini
+-rw-r--r--         70,207 2021/04/09 20:56:56 php.ini
+-rw-r--r--            320 2021/04/09 21:03:16 ports.conf
+-rw-r--r--            589 2021/04/09 21:01:07 resolv.conf
+-rw-r--r--             29 2021/04/09 21:02:56 screen-cleanup.conf
+-rw-r--r--          9,542 2021/04/09 21:00:59 smb.conf
+-rw-rw-r--             72 2021/04/10 21:03:06 webapp.ini
+```
+
+Copy Files
+
+```
+
+```
