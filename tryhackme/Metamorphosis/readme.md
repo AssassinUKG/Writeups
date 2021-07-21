@@ -111,7 +111,7 @@ Change the "prod" to "dev" to bypass the 403 error.
 
 ![image](https://user-images.githubusercontent.com/5285547/126405026-04e2a3da-4ff9-4b78-914a-91ed43b0979d.png)
 
-Then reuplaod the files
+Then reupload the files
 
 ```
 rsync -av ./ rsync://tom@10.10.55.140/Conf 
