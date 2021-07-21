@@ -172,7 +172,7 @@ Running linpeas on the box didn't show much, apart from tcpdump was usable.
 
 ![image](https://user-images.githubusercontent.com/5285547/126408059-0e4b8b9e-4342-49b4-8ca7-31bc86b2a069.png)
 
-So I started to sniff the traffie to see what was going on
+So I started to sniff the traffic to see what was going on
 
 ```
 tcpdump -i eth0 -A > tcpdump.out
