@@ -178,7 +178,7 @@ So I started to sniff the traffie to see what was going on
 tcpdump -i eth0 -A > tcpdump.out
 ```
 
-Then transfered it to my box after a while, I made a coffee then came back to  
+Then transfered it to my box after..making a coffee then I went and did a few things, then came back to  
 go through the results. 
 
 ```
@@ -188,12 +188,12 @@ wget http://IP:8899/tcpdump.out
 
 Using sublimetext I went over the results. 
 
-
+*If you need or like sublimetext4 and don't have it
 ```
 sudo apt-get update 
 sudo apt-get install sublime-text -y
 ```
-*Here if you need or like sublime text and don't have it
+
 
 
 
