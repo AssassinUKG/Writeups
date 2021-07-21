@@ -106,6 +106,11 @@ total size is 7  speedup is 0.09
 
 ## User
 
+Enumerating the webapp we find an endpoint with a 403 error at "http://IP/admin"
+
+Source of the page: 
+![image](https://user-images.githubusercontent.com/5285547/126498508-48557d98-3417-4269-a37e-0b1f5acec53b.png)
+
 In webapp.ini we can see a user and password for "tom".  
 Change the "prod" to "dev" to bypass the 403 error.
 
