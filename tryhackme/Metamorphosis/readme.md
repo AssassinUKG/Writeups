@@ -199,6 +199,16 @@ sudo apt-get update
 sudo apt-get install sublime-text -y
 ```
 
+After going over the file, I can see an id_rsa key for a user on the box.  
+Let's test and see who! 
+
+![image](https://user-images.githubusercontent.com/5285547/126501854-3b12a4ad-e0c4-4565-90ea-f2a6d46b2621.png)
+
+Seems it was for the root account! Time to get the last flags and own the box! 
+
+![image](https://user-images.githubusercontent.com/5285547/126502068-edf8e946-cbe0-4261-b1c7-aa9e88219a63.png)
+
+Thanks to https://tryhackme.com/p/cirius for the excellent box and new lessons! 
 
 
 
