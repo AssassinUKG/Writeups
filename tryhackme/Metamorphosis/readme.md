@@ -180,7 +180,7 @@ Running linpeas on the box didn't show much, apart from tcpdump was usable.
 So I started to sniff the traffic to see what was going on
 
 ```
-tcpdump -i eth0 -A portrange 21-873 | tee  tcpdump.txt
+tcpdump -i lo -A -n | tee  tcpdump.txt
 ```
 
 Then transfered it to my box after..making a coffee then I went and did a few things, then came back to  
