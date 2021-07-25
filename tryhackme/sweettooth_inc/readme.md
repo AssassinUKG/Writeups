@@ -55,3 +55,19 @@ gobuster dir -u http://10.10.219.78:8086/  -w  /usr/share/seclists/Discovery/Web
 Looking this up online I came across some documentation for the API:  
 https://docs.influxdata.com/influxdb/v1.3/tools/api/#write
 
+![image](https://user-images.githubusercontent.com/5285547/126915118-8b5be70b-b0a7-4a72-be93-333aa3915a6a.png)
+
+The same things we see. Let's try some of the commands. 
+
+```
+curl http://10.10.219.78:8086/ping -v -X HEAD
+
+*resp
+< HTTP/1.1 204 No Content
+< Content-Type: application/json
+< Request-Id: 0cf9d36b-ed96-11eb-822a-000000000000
+< X-Influxdb-Version: 1.3.0
+
+# Influxdb-Version: 1.3.0
+```
+
