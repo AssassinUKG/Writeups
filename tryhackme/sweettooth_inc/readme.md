@@ -31,7 +31,7 @@ PORT     STATE SERVICE VERSION
 |_http-title: Site doesn't have a title (text/plain; charset=utf-8).
 ```
 
-enum gave up some creds
+Enumeration gave up some credentials  
 http://10.10.219.78:8086/debug/requests
 
 ![image](https://user-images.githubusercontent.com/5285547/126914960-41ce25e3-5324-43da-b78b-e4c14de0d037.png)
