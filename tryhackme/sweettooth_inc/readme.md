@@ -71,3 +71,28 @@ curl http://10.10.219.78:8086/ping -v -X HEAD
 # Influxdb-Version: 1.3.0
 ```
 
+## JWT
+
+```
+GET /query HTTP/1.1
+Host: 10.10.219.78:8086
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaGFyZWRfc2VjcmV0IjoiIn0._FqCTRoFRDIK9srW-ml6Btqp5ItmIfwC7vLyiG8PqzQ
+User-Agent: curl/7.74.0
+Accept: */*
+Connection: close
+```
+
+response
+```
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Request-Id: c226eacd-ed9c-11eb-9104-000000000000
+Www-Authenticate: Basic realm="InfluxDB"
+X-Influxdb-Version: 1.3.0
+Date: Sun, 25 Jul 2021 23:05:09 GMT
+Content-Length: 33
+Connection: close
+
+{"error":"signature is invalid"}
+
+```
