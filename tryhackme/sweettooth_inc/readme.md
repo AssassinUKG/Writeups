@@ -52,3 +52,6 @@ gobuster dir -u http://10.10.219.78:8086/  -w  /usr/share/seclists/Discovery/Web
 /ping                 (Status: 204) [Size: 0] 
 /write                (Status: 405) [Size: 19]
 ```
+Looking this up online I came across some documentation for the API:  
+https://docs.influxdata.com/influxdb/v1.3/tools/api/#write
+
