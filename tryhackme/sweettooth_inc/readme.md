@@ -38,8 +38,7 @@ http://10.10.219.78:8086/debug/requests
 
 creds
 ```
-o5yY6yya:Spring2015
-bzV5WTZ5eWE6U3ByaW5nMjAxNQ== (base64)
+o5yY6yya:127.0.0.1
 ```
 
 ## Directory brute
