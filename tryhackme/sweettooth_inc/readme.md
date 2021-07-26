@@ -148,6 +148,34 @@ curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFt
 ```
 
 ```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SELECT * FROM ssh"                                                  
+{
+    "results": [
+        {
+            "statement_id": 0,
+            "series": [
+                {
+                    "name": "ssh",
+                    "columns": [
+                        "time",
+                        "pw",
+                        "user"
+                    ],
+                    "values": [
+                        [
+                            "2021-05-16T12:00:00Z",
+                            7788764472,
+                            "uzJk6Ry98d8C"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+```
 curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES"            
 {
     "results": [
