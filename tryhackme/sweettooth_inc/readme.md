@@ -95,3 +95,4 @@ Connection: close
 {"error":"signature is invalid"}
 
 ```
+https://www.komodosec.com/post/when-all-else-fails-find-a-0-day
