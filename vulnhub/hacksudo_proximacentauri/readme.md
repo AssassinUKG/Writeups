@@ -19,3 +19,8 @@ Here we see the webpage, I instantly see a variable that looks vunerable in the 
 
 We should check that out for LFI or even RFI.
 
+![image](https://user-images.githubusercontent.com/5285547/127062062-d9584e89-963e-47f0-a1b5-27ef21bbeb32.png)
+
+Seems we may have something! Time to test some payloads. 
+
+
