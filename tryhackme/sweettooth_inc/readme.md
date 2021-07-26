@@ -56,7 +56,7 @@ https://docs.influxdata.com/influxdb/v1.3/tools/api/#write
 
 ![image](https://user-images.githubusercontent.com/5285547/126915118-8b5be70b-b0a7-4a72-be93-333aa3915a6a.png)
 
-The same things we see. Let's try some of the commands. 
+The same things we see. Let's try some of the commands and explore the API
 
 ```
 curl http://10.10.219.78:8086/ping -v -X HEAD
@@ -121,5 +121,51 @@ curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFt
 curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" http://10.10.27.198:8086/query?db=mydb  --data-urlencode 'q=SHOW USERS'      
 
 {"results":[{"statement_id":0,"series":[{"columns":["user","admin"],"values":[["o5yY6yya",true]]}]}]}
+```
 
+```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW MEASUREMENTS"
+{
+    "results": [
+        {
+            "statement_id": 0,
+            "series": [
+                {
+                    "name": "measurements",
+                    "columns": [
+                        "name"
+                    ],
+                    "values": [
+                        [
+                            "ssh"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES"            
+{
+    "results": [
+        {
+            "statement_id": 0,
+            "series": [
+                {
+                    "columns": [
+                        "key"
+                    ],
+                    "values": [
+                        [
+                            "ssh,user=uzJk6Ry98d8C"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
 ```
