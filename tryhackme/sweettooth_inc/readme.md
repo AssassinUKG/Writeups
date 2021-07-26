@@ -111,3 +111,15 @@ curl http://10.10.27.198:8086/query -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLC
 {"error":"missing required parameter \"q\""}
 ```
 
+```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=mydb&pretty=true"  --data-urlencode 'q=SHOW DATABASES'
+
+{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["creds"],["docker"],["tanks"],["mixer"],["_internal"]]}]}]}
+```
+
+```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" http://10.10.27.198:8086/query?db=mydb  --data-urlencode 'q=SHOW USERS'      
+
+{"results":[{"statement_id":0,"series":[{"columns":["user","admin"],"values":[["o5yY6yya",true]]}]}]}
+
+```
