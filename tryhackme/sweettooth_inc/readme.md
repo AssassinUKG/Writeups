@@ -169,3 +169,16 @@ curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFt
     ]
 }
 ```
+
+![image](https://user-images.githubusercontent.com/5285547/127047744-f0f9841a-e861-4d71-9b32-192249e74623.png)
+
+
+```
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES ON _internal"
+
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES ON mixer"
+
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES ON tanks" 
+
+curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im81eVk2eXlhIiwiZXhwIjoxNjI3MzU4NzM1fQ.6jRHxl-iQD-tB41BZSDM8gVGLyVmZWI2sezgXU2Ud5E" "http://10.10.27.198:8086/query?db=creds&pretty=true"  --data-urlencode "q=SHOW SERIES ON docker"
+```
