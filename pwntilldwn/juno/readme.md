@@ -45,3 +45,9 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.
 
 jarsigner -verify -verbose -certs JunoClient.apk 
 ```
+
+
+```
+#Line 91 change value
+  if-eqz v2, :cond_0
+```
