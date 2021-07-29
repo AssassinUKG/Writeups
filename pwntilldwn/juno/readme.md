@@ -32,11 +32,11 @@ Then I noticed a .apk file download. Looks like we need to reverse engineer the 
 Decompile and Recompile
 
 ```
-apktool d app.apk
+apktool -r d app.apk
 
 d2j-dex2jar ~/scratch/android/JunoClient.apk  #jd-gui
 
-apktool b app.apk
+apktool -r b app.apk
 
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name \
 -keyalg RSA -keysize 2048 -validity 10000
