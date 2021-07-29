@@ -285,7 +285,7 @@ We can get a base64 password from the file extracted.
 
 ![image](https://user-images.githubusercontent.com/5285547/127411207-bfd7ed9d-ccd5-41a8-b497-8c5f0ece0b3b.png)
 
-Using that password for anurodh we can swap user accounts. 
+Using that password for anurodh we can swap user accounts.  
 Running linpeas again as anurodh shows we can use docker and its writable! (escape time)
 
 ![image](https://user-images.githubusercontent.com/5285547/127411427-8210c9a0-2caf-4255-a2e6-8baed640c9ff.png)
