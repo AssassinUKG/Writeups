@@ -188,7 +188,11 @@ Then go ahead and get the user.txt flag!
 
 ## Root
 
+Looking at "sudo -l" shows something intresting!
 
+![image](https://user-images.githubusercontent.com/5285547/127515744-fcfcd06d-c6da-4513-b21d-a23349c61d3f.png)
+
+Looks like a docker escape or path/command abuse based on the wildcard "\*" after webapp-dev01
 
 
 
