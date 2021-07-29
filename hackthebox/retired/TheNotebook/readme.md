@@ -103,10 +103,11 @@ Doing so without the signing of the token will invalidate it.
   ```
   change the "kid" value to your hosted file
   change the username to "admin" (without the space now)
+  change the "admin_cap" to 1
   Add the example.key to the "private" field on jwt.io
   ```
 
-  ![image](https://user-images.githubusercontent.com/5285547/127502484-b09ee76c-d2ff-47a6-a7bc-143b54069342.png)
+  ![image](https://user-images.githubusercontent.com/5285547/127506901-2b9fc01a-9856-487a-ad51-1be068ef7152.png)
 
   4. Take the new token and reaplce it for the token on the webpage (cookies) 
 
@@ -114,7 +115,8 @@ Doing so without the signing of the token will invalidate it.
 
   Now refresh the page to become the real admin and check out the new notes. 
 
-  ![image](https://user-images.githubusercontent.com/5285547/127503403-fb0bff35-9e65-4f98-b721-e08fedc3d501.png)
+  ![image](https://user-images.githubusercontent.com/5285547/127507069-16871b30-886d-429f-85c6-f6b095b25412.png)
+
 
 
 
