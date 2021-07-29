@@ -34,6 +34,8 @@ Decompile and Recompile
 ```
 apktool d app.apk
 
+d2j-dex2jar ~/scratch/android/JunoClient.apk  #jd-gui
+
 apktool b app.apk
 
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name \
