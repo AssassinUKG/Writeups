@@ -68,7 +68,9 @@ Now logged in as user "admin " I can access notes and make a new note.
 
 I tested for vulnerabilities like xss, ssrf, crsf but didn't found anything.  
 So I opened up Burp suite to check the login and auth responses. 
-Their I found what looked like a JWT token. 
+There I found what looked like a JWT token. 
+
+## Jwt token (RS256)
 
 ![image](https://user-images.githubusercontent.com/5285547/127500957-9512cd21-9106-467f-a140-3c4c7aa75235.png)
 
@@ -85,34 +87,34 @@ The algorithm RS256 uses the private key to sign the message and uses the public
 Let's generate a new private.key and use that to sign our jwt token with changed details.  
 Doing so without the signing of the token will invalidate it. 
 
-Steps: 
-1. Generate a new private key
-```
-openssl genrsa -out example.key 4096
-```
+- Steps: 
+  1. Generate a new private key
+  ```
+  openssl genrsa -out example.key 4096
+  ```
 
-2. Start a web server in the directory with the example.key file in. 
-```
-python3 -m http.server 80
-```
+  2. Start a web server in the directory with the example.key file in. 
+  ```
+  python3 -m http.server 80
+  ```
 
-3. Change the values in the token. 
+  3. Change the values in the token. 
 
-```
-change the "kid" value to your hosted file
-change the username to "admin" (without the space now)
-Add the example.key to the "private" field on jwt.io
-```
+  ```
+  change the "kid" value to your hosted file
+  change the username to "admin" (without the space now)
+  Add the example.key to the "private" field on jwt.io
+  ```
 
-![image](https://user-images.githubusercontent.com/5285547/127502484-b09ee76c-d2ff-47a6-a7bc-143b54069342.png)
+  ![image](https://user-images.githubusercontent.com/5285547/127502484-b09ee76c-d2ff-47a6-a7bc-143b54069342.png)
 
-4. Take the new token and reaplce it for the token on the webpage (cookies) 
+  4. Take the new token and reaplce it for the token on the webpage (cookies) 
 
-![image](https://user-images.githubusercontent.com/5285547/127503185-0131b6b5-1410-4f06-8e88-2c6f488fff57.png)
+  ![image](https://user-images.githubusercontent.com/5285547/127503185-0131b6b5-1410-4f06-8e88-2c6f488fff57.png)
 
-Now refresh the page to become the real admin and check out the new notes. 
+  Now refresh the page to become the real admin and check out the new notes. 
 
-![image](https://user-images.githubusercontent.com/5285547/127503403-fb0bff35-9e65-4f98-b721-e08fedc3d501.png)
+  ![image](https://user-images.githubusercontent.com/5285547/127503403-fb0bff35-9e65-4f98-b721-e08fedc3d501.png)
 
 
 
