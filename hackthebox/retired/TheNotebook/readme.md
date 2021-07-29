@@ -92,7 +92,8 @@ Doing so without the signing of the token will invalidate it.
   ```
   openssl genrsa -out example.key 4096
   ```
-
+  Credits: https://www.freecodecamp.org/news/openssl-command-cheatsheet-b441be1e8c4a/
+  
   2. Start a web server in the directory with the example.key file in. 
   ```
   python3 -m http.server 80
@@ -197,7 +198,7 @@ Looks like a docker escape or path/command abuse based on the wildcard "\*" afte
 
 
 
-Credits: https://www.freecodecamp.org/news/openssl-command-cheatsheet-b441be1e8c4a/
+
 
 
 
