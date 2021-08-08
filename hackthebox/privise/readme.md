@@ -66,7 +66,7 @@ config.php
 ```
 $host = 'localhost';
 $user = 'root';
-$passwd = 'mySQL_p@ssw0rd!:)';
+$passwd = '<REDACTED>';
 $db = 'previse';
 ```
 
