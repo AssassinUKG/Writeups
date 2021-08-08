@@ -154,7 +154,8 @@ lgreen:P@$$w0rd
 ```
 
 .cap/
-.quicknote
+.quicknote  
+
 ![Pasted image 20210808143023](https://user-images.githubusercontent.com/5285547/128637339-b6bdc515-2a01-4b63-bffb-015f7a7f7989.png)
 
 SamsNetework.cap
