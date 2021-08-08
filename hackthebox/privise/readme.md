@@ -128,7 +128,7 @@ john -format=md5crypt-long --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
 ```
 
 ```sh
-m4lwhere:ilovecody112235!
+m4lwhere:<REDACTED>
 ```
 
 Time to SSH into the box for a better shell. 
