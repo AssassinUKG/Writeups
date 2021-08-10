@@ -8,9 +8,35 @@ Romm link: https://tryhackme.com/room/gamebuzz
 
 Nmap
 
+```
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET OPTIONS HEAD
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Incognito
+```
 
-/etc/hosts
+
+
+```
+sudo nano /etc/hosts  
+
 incognito.com
-
+dev.incogniot.com
+```
 ---
 ## Port 80 
+
+```
+sudo nano /etc/hosts  
+
+incognito.com
+dev.incogniot.com
+```
+
+http://dev.incognito.com/secret/upload/
+
+![image](https://user-images.githubusercontent.com/5285547/128934384-cfaf1972-6575-4645-ae8b-80495fa559d6.png)
+
+
