@@ -17,14 +17,6 @@ PORT   STATE SERVICE VERSION
 |_http-title: Incognito
 ```
 
-
-
-```
-sudo nano /etc/hosts  
-
-incognito.com
-dev.incogniot.com
-```
 ---
 ## Port 80 
 
