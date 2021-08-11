@@ -48,7 +48,7 @@ Next was to get a reverse shell.
 
 ![image](https://user-images.githubusercontent.com/5285547/129084566-7f38c45b-3083-47b7-b3c5-667bcac3b5e2.png)
 
-Finding another webserice on 127.0.0.1:8080, I checked the system for the files. 
+Finding another webservice on 127.0.0.1:8080, I checked the system for the files. 
 
 ```
 www-data@chronos:/opt/chronos-v2/backend$ pwd
