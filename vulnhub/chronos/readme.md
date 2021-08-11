@@ -98,8 +98,12 @@ cat package.json
     "express-fileupload": "^1.1.7-alpha.3"
   }
 }
-
 ```
+
+This article helps top explain the node express fileupload vuln: https://dev.to/boiledsteak/simple-remote-code-execution-on-ejs-web-applications-with-express-fileupload-3325
+
+
+
 
 ---
 ## User
