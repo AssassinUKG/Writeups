@@ -24,13 +24,18 @@ Checking the main website didn't show much, apart from a button that loads a fil
 
 ![image](https://user-images.githubusercontent.com/5285547/128937818-90d5dd7c-561d-4463-8a1c-a79311deb7b5.png)
 
-Also we find a domain name. 
+Also we find a domain name a the bottom of the main page.
 
 ```
 sudo nano /etc/hosts  
 ip incognito.com
 ```
 
+Doing a subdomain brute force we find a new domain. 
+
+```
+ffuf -u http://incognito.com/ -H "Host: FUZZ.incognito.com" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -fw 8853
+```
 ## dev.incognito.com
 
 ```
