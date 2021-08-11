@@ -84,4 +84,60 @@ Going to http://192.168.1.121/wp-admin redirected me to
 http://wp.looz.com/wp-login.php?redirect_to=http%3A%2F%2Fjetty%3A8081%2Fwp-admin%2F&reauth=1
 ```
 
+Adding wp.looz.com to /etc/hosts I can then see the login page. 
+
+After loggin in as john, I seen akismet plugin was editable so added a PHP reverse shell to the plugin and updated the file. 
+Activatiing the pluing after gave me the shell back. 
+
+Time to enumerate the system to see what we can find. 
+
+env
+
+```
+PHP_EXTRA_CONFIGURE_ARGS=--with-apxs2 --disable-cgi
+APACHE_CONFDIR=/etc/apache2
+MYSQL_ENV_GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
+HOSTNAME=a5610f5f2480
+PHP_INI_DIR=/usr/local/etc/php
+MYSQL_ENV_MARIADB_VERSION=1:10.5.10+maria~focal
+SHLVL=0
+PHP_EXTRA_BUILD_DEPS=apache2-dev
+OLDPWD=/var/www
+MYSQL_ENV_MYSQL_DATABASE=wpdb
+PHP_LDFLAGS=-Wl,-O1 -pie
+APACHE_RUN_DIR=/var/run/apache2
+PHP_CFLAGS=-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+PHP_VERSION=7.4.20
+APACHE_PID_FILE=/var/run/apache2/apache2.pid
+GPG_KEYS=42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312
+WORDPRESS_DB_PASSWORD=Ba2k3t
+PHP_ASC_URL=https://www.php.net/distributions/php-7.4.20.tar.xz.asc
+PHP_CPPFLAGS=-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+PHP_URL=https://www.php.net/distributions/php-7.4.20.tar.xz
+TERM=xterm
+WORDPRESS_DB_USER=dbadmin
+MYSQL_PORT_3306_TCP_ADDR=172.17.0.2
+MYSQL_ENV_MYSQL_ROOT_PASSWORD=root-password
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MYSQL_ENV_GOSU_VERSION=1.12
+MYSQL_PORT_3306_TCP_PORT=3306
+APACHE_LOCK_DIR=/var/lock/apache2
+MYSQL_PORT_3306_TCP_PROTO=tcp
+LANG=C
+MYSQL_ENV_MARIADB_MAJOR=10.5
+WORDPRESS_DB_NAME=wpdb
+APACHE_RUN_GROUP=www-data
+APACHE_RUN_USER=www-data
+MYSQL_PORT=tcp://172.17.0.2:3306
+MYSQL_ENV_MYSQL_PASSWORD=Ba2k3t
+APACHE_LOG_DIR=/var/log/apache2
+MYSQL_PORT_3306_TCP=tcp://172.17.0.2:3306
+MYSQL_NAME=/wpcontainer/mysql
+PWD=/var/www/html
+PHPIZE_DEPS=autoconf            dpkg-dev                file            g++             gcc             libc-dev  make             pkg-config              re2c
+MYSQL_ENV_MYSQL_USER=dbadmin
+PHP_SHA256=1fa46ca6790d780bf2cb48961df65f0ca3640c4533f0bca743cd61b71cb66335
+APACHE_ENVVARS=/etc/apache2/envvars
+```
+
 
