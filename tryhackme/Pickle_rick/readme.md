@@ -57,5 +57,19 @@ Trying a few commands...
 
 ![image](https://user-images.githubusercontent.com/5285547/129109715-b5db64c9-d2c7-40bf-8551-1bac6b08b590.png)
 
+---
 
+## Whats the second ingredient Rick needs?
+
+![image](https://user-images.githubusercontent.com/5285547/129109929-c8372396-8b6a-4afc-a0a0-7e845d6c1150.png)
+
+---
+
+## Whats the final ingredient Rick needs?
+
+![image](https://user-images.githubusercontent.com/5285547/129110034-4802d358-613f-464a-b154-2aec25b56e0c.png)
+
+And we finish the box
+
+![image](https://user-images.githubusercontent.com/5285547/129110082-ed7c0528-9595-4296-80c6-acf969e880e1.png)
 
