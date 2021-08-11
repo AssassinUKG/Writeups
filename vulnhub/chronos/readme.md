@@ -48,4 +48,35 @@ Next was to get a reverse shell.
 
 ![image](https://user-images.githubusercontent.com/5285547/129084566-7f38c45b-3083-47b7-b3c5-667bcac3b5e2.png)
 
+Finding another webserice on 127.0.0.1:8080, I checked the system for the files. 
+
+```
+www-data@chronos:/opt/chronos-v2/backend$ pwd
+/opt/chronos-v2/backend
+```
+```
+www-data@chronos:/opt/chronos-v2/backend$ cat server.js 
+const express = require('express');
+const fileupload = require("express-fileupload");
+const http = require('http')
+
+const app = express();
+
+app.use(fileupload({ parseNested: true }));
+
+app.set('view engine', 'ejs');
+app.set('views', "/opt/chronos-v2/frontend/pages");
+
+app.get('/', (req, res) => {
+   res.render('index')
+});
+
+const server = http.Server(app);
+const addr = "127.0.0.1"
+const port = 8080;
+server.listen(port, addr, () => {
+   console.log('Server listening on ' + addr + ' port ' + port);
+});
+```
+
 
