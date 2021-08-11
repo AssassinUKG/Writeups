@@ -155,3 +155,8 @@ Ba2k3t
 
 
 
+/usr/src/wordpress/wp-config-docker.php  
+/var/www/html/wp-config-docker.php
+/home/alatar/wordpress/html /var/www/html rw,relatime - ext4 /dev/mapper/ubuntu--vg-ubuntu--lv rw
+/etc/ImageMagick-6/mime.xml
+/usr/local/bin/docker-entrypoint.sh
