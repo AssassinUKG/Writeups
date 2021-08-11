@@ -47,5 +47,15 @@ Now we can login and get presented with a command shell and other options.
 
 ![image](https://user-images.githubusercontent.com/5285547/129109015-ee510ce4-870c-41b8-8bde-d3e70f436c60.png)
 
+Trying a few commands...
+
+![image](https://user-images.githubusercontent.com/5285547/129109355-8e356077-4a8b-4b49-990e-39a15bcaccd6.png)
+
+---
+
+## What is the first ingredient Rick needs?
+
+![image](https://user-images.githubusercontent.com/5285547/129109715-b5db64c9-d2c7-40bf-8551-1bac6b08b590.png)
+
 
 
