@@ -118,13 +118,24 @@ Knowing this lets edit the file to test some command execution (as root).
 
 ```
 nano /etc/knockd.conf
-
-# acl 
-
-setfacl -m u:dev1:rw /etc/knockd.conf
 ```
 
+![image](https://user-images.githubusercontent.com/5285547/129106344-16e7d82d-d738-412d-bc2d-473f2991022d.png)
 
+After editing the file I restarted the knockd service and tried again to knock the ports. 
+
+```
+sudo /etc/init.d/knockd restart 
+
+knock  10.10.203.141 5020 6120 7340
+ls /tmp
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129106804-de631ac7-c5af-498a-9bd5-9ec7395b4eb2.png)
+
+Then call the file with the now suid bit set for root.
+
+![image](https://user-images.githubusercontent.com/5285547/129106866-21667040-40c7-4da3-8856-911d185dd7f1.png)
 
 
 
