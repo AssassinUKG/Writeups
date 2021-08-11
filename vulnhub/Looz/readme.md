@@ -140,4 +140,18 @@ PHP_SHA256=1fa46ca6790d780bf2cb48961df65f0ca3640c4533f0bca743cd61b71cb66335
 APACHE_ENVVARS=/etc/apache2/envvars
 ```
 
+Found creds in the env, which also points to being in a docker container. 
+
+Mysql
+
+```
+mysql -u root -p 
+Ba2k3t
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129023470-f4468619-6842-469c-aead-75080c6feab6.png)
+
+![image](https://user-images.githubusercontent.com/5285547/129023572-fb616155-d3d8-4bf5-ae59-5dc601f93ac3.png)
+
+
 
