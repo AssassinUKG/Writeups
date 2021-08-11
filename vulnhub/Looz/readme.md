@@ -67,7 +67,7 @@ john:y0uC@n'tbr3akIT
 
 ## Port 8081
 
-I only got redirected back to port 80, so tried to brute force the directroys. 
+I only got redirected back to port 80, so tried to brute force the directories. 
 
 ```
 ffuf -u http://192.168.1.121:8081/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt
