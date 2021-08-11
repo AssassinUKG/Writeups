@@ -35,7 +35,7 @@ ip incognito.com
 
 ```
 sudo nano etc/hosts
-IP dev.incogniot.com
+IP dev.incognito.com
 ```
 
 http://dev.incognito.com/secret/upload/
@@ -59,6 +59,11 @@ pickle.dump(pickleSerilization(), open("rev_shell", "wb"))
 Running the code gives us the rev_shell file. Upload this at "http://dev.incognito.com/secret/upload/" then call it with the main website.
 
 ![image](https://user-images.githubusercontent.com/5285547/128940779-a030648b-e70f-49e1-b35f-53d343d13e96.png)
+
+```
+su dev2
+#no password
+```
 
 Now we can access the /home/dev2/ folder to find the user flag. 
 
@@ -89,16 +94,15 @@ We find a file called "/etc/knockd.conf" that looks intresting. I see some ports
 
 Doing some more enumeration showed some mails for dev1 in /var/mail, with a message to let ourselfs in! 
 
-![image](https://user-images.githubusercontent.com/5285547/128942053-8354618c-dc30-45b7-b653-2ca97ad1e5a0.png)
+![image](https://user-images.githubusercontent.com/5285547/129106087-17c54550-1086-4344-9ff7-01f9253d7e90.png)
 
-Using knock I opend the SSH port then used the id_rsa key to login as dev1. 
+Using knock I opend the SSH port then used the password to login as dev1. 
 
 ```
 knock  10.10.28.93 5020 6120 7340
 
-#Now login, copy the rsa to a new file
-chmod 600 id_rsa
-ssh dv1@IP -i id_rsa
+ssh dev1@incognito.com
+dc647eb65e6711e155375218212b3964
 ```
 
 ![image](https://user-images.githubusercontent.com/5285547/128942276-39b99b82-3826-4ec6-a5a8-341f920dda9b.png)
