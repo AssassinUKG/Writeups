@@ -39,5 +39,13 @@ denied.php              [Status: 302, Size: 0, Words: 1, Lines: 1]
 
 ![image](https://user-images.githubusercontent.com/5285547/129108733-19aa3834-7ac4-4580-8871-850d353aacdf.png)
 
+```
+R1ckRul3s:Wubbalubbadubdub
+```
+
+Now we can login and get presented with a command shell and other options. 
+
+![image](https://user-images.githubusercontent.com/5285547/129109015-ee510ce4-870c-41b8-8bde-d3e70f436c60.png)
+
 
 
