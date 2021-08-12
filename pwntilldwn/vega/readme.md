@@ -147,4 +147,23 @@ nano CAM.shortcut
 
 We get a username and password for mysql. 
 
+---
+
+## Port 10000
+
+Main page
+
+![image](https://user-images.githubusercontent.com/5285547/129267147-36ec410e-f75a-4f68-8cc5-ced56358e7cb.png)
+
+Adding vega to /etc/hosts
+
+```
+10.150.150.222 vega
+```
+
+We get a webmin login portal
+
+![image](https://user-images.githubusercontent.com/5285547/129267407-65f9a864-3de8-4be9-ad4d-c5d17389e1b5.png)
+
+
 
