@@ -1,10 +1,12 @@
 # Vega
 
 
-
+PwnTillDwn!!
 IP: 10.150.150.222  
 OS: Linux  
 Room link: https://online.pwntilldawn.com/Target/Show/3  
+Credits:https://www.wizlynxgroup.com/  https://online.pwntilldawn.com/ 
+
 
 ## Enum
 
