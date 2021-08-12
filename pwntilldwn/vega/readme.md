@@ -1,7 +1,7 @@
 # Vega
 
 
-PwnTillDwn!!
+PwnTillDwn!!  
 IP: 10.150.150.222  
 OS: Linux  
 Room link: https://online.pwntilldawn.com/Target/Show/3  
