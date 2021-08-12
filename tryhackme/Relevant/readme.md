@@ -129,21 +129,32 @@ Trying psexec shows we have working creds for bob but not bill
 ![image](https://user-images.githubusercontent.com/5285547/129179581-59ddec12-1498-4cf0-9b59-53b232b8d73d.png)
 
 
- At this point I got a bit stuck so decided to enum some more, I started on port 80 but didnt find anything.  
- Then moved to port 49663
+At this point I got a bit stuck so decided to enum some more, I started on port 80 but didnt find anything.  
+Then moved to port 49663
  
- ```
-gobuster dir -u http://10.10.179.217:49663/  -w  /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
- 
- 
- ```
+```
+ffuf -u http://10.10.204.235:49663/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -fc 403 -ic 
 
+nt4wrksv                [Status: 301, Size: 159, Words: 9, Lines: 2]
+
+#Remembering the file on the SMB share, I checked for it. 
+http://10.10.204.235:49663/ntw4wrksv/passwords.txt
+```
 
 We have READ/WRITE access to the smb share so I tested a file upload which worked. 
 
 ![image](https://user-images.githubusercontent.com/5285547/129181840-bdaac284-f23e-42d8-abd6-5e383cf76e4e.png)
 
 ![image](https://user-images.githubusercontent.com/5285547/129181810-872aec0e-3db2-4211-ae3d-4a430c14dfe1.png)
+
+Checking a few directorys we can find the webupload folder. 
+
+![image](https://user-images.githubusercontent.com/5285547/129193912-7667cb4c-92d3-4936-894d-a50f19c81eee.png)
+
+I also uploaded a rev.exe (go lang reverse shell to test and play with) 
+
+![image](https://user-images.githubusercontent.com/5285547/129194080-b953b03e-ebfd-4f82-8120-c7a4ef0ddfbf.png)
+
 
 Testing a meterpreter reverse shell (.exe) failed. So I tested a few more payloads until .aspx worked.
 
