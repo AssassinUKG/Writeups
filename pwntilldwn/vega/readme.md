@@ -1,5 +1,6 @@
 # Vega
 
+![image](https://user-images.githubusercontent.com/5285547/129271964-f9b0b496-735a-4163-92f2-a58d55bed803.png)
 
 PwnTillDwn!!  
 IP: 10.150.150.222  
@@ -67,7 +68,7 @@ robots                  [Status: 200, Size: 1, Words: 1, Lines: 2]
 no-route                [Status: 200, Size: 33616, Words: 7762, Lines: 560]
 ```
 
-Intresting files. 
+Intresting files seeing user files in the results. 
 
 .bash_histroy  (First flag, flag40)
 
@@ -174,4 +175,4 @@ sudo su
 
 ![image](https://user-images.githubusercontent.com/5285547/129271663-13878620-38b1-46c5-ae9f-126b0c585628.png)
 
-Awesome box and gppod fun.
+Awesome box and good fun.
