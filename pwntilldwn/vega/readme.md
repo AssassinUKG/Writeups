@@ -25,13 +25,6 @@ PORT      STATE SERVICE
 10000/tcp open  snet-sensor-mgmt
 ```
 
-Checking out the ports I found 2 web portals (logins) on ports 80, 10000 
-
-```
-http://10.150.150.222/
-http://10.150.150.222:10000/
-```
-
 Enumerating the first port (80)
 
 Main page
@@ -49,23 +42,6 @@ error.log               [Status: 200, Size: 39898, Words: 3781, Lines: 219]
 .bash_logout            [Status: 200, Size: 220, Words: 35, Lines: 8]
 training.html           [Status: 200, Size: 36356, Words: 8770, Lines: 607]
 .bash_history           [Status: 200, Size: 2235, Words: 176, Lines: 72]
-
-ffuf -u http://10.150.150.222/pub/cms/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt -fc 403 -ic
-
-contact                 [Status: 200, Size: 28351, Words: 5860, Lines: 476]
-admin                   [Status: 302, Size: 0, Words: 1, Lines: 1]
-catalog                 [Status: 302, Size: 0, Words: 1, Lines: 1]
-checkout                [Status: 302, Size: 0, Words: 1, Lines: 1]
-pub                     [Status: 301, Size: 314, Words: 20, Lines: 10]
-home                    [Status: 200, Size: 80260, Words: 34836, Lines: 1054]
-cms                     [Status: 200, Size: 82800, Words: 35702, Lines: 1100]
-wishlist                [Status: 302, Size: 0, Words: 1, Lines: 1]
-setup                   [Status: 301, Size: 316, Words: 20, Lines: 10]
-0                       [Status: 200, Size: 82786, Words: 35702, Lines: 1100]
-soap                    [Status: 200, Size: 391, Words: 94, Lines: 14]
-robots                  [Status: 200, Size: 1, Words: 1, Lines: 2]
-                        [Status: 200, Size: 82789, Words: 35702, Lines: 1100]
-no-route                [Status: 200, Size: 33616, Words: 7762, Lines: 560]
 ```
 
 Intresting files seeing user files in the results. 
@@ -152,7 +128,7 @@ We get a username (vega) and password for mysql.
 
 ## SSH (User Vega)
 
-Now we try the ssh as vega using the mysql creds
+Now we try the ssh as vega using the mysql creds, we can also brute force the SSH but it takes a while. 
 
 ```
 ssh vega@10.150.150.222
