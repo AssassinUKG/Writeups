@@ -35,7 +35,7 @@ Enumerating the first port (80)
 
 Main page
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/5285547/129267028-5957db22-1feb-4f75-b740-dc36ee56034d.png)
 
 ```
 ffuf -u http://10.150.150.222/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt -fc 403 -ic
