@@ -149,7 +149,7 @@ We get a username (vega) and password for mysql.
 
 ---
 
-## SSH
+## SSH (User Vega)
 
 Now we try the ssh as vega using the mysql creds
 
@@ -157,4 +157,21 @@ Now we try the ssh as vega using the mysql creds
 ssh vega@10.150.150.222
 # Make sure to correct the password spelling :)
 ```
+Login and grab the user flag.
 
+![image](https://user-images.githubusercontent.com/5285547/129271549-e9293549-e490-49eb-8d54-e7c081d89441.png)
+
+
+---
+
+## Root
+
+Root is very simple on this box. 
+
+```
+sudo su
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129271663-13878620-38b1-46c5-ae9f-126b0c585628.png)
+
+Awesome box and gppod fun.
