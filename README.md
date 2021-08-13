@@ -14,6 +14,9 @@ Please ignore any spelling errors, this is a first draft of my Medium or to be M
 
 All box's pwned on 
 - Tryhackme
+  <details>
+  <summary>Rooms</summary>
+  
   - [CMSpit](/tryhackme/CMSpit/readme.md)
   - [ChillHack](/tryhackme/ChillHack/readme.md)
   - [FusionCorp](/tryhackme/FusionCorp/readme.md)
@@ -29,11 +32,25 @@ All box's pwned on
   - [super-spam](/tryhackme/super-spam/readme.md)
   - [sweettooth_inc](/tryhackme/sweettooth_inc/readme.md)
   - [thats_the_ticket](/tryhackme/thats_the_ticket/readme.md)
+  
+  </details>
+  
+
 - Hackthebox
+  <details>
+  <summary>Rooms</summary>
+  
   - [Dare (not completed)](/hackthebox/dare)
   - [Previse](/hackthebox/privise)
   - [The NoteBook](/hackthebox/retired/TheNotebook)
+  
+  </details>
+  
+  
 - Vulnhub
+  <details>
+  <summary>Rooms</summary>
+
   - [Looz - Not Completed](/vulnhub/Looz/readme.md)
   - [Cereal](/vulnhub/cereal/readme.md)
   - [Chronos](/vulnhub/chronos/readme.md)
@@ -42,7 +59,15 @@ All box's pwned on
   - [Sp Christophe](/vulnhub/sp_christophe/raedme.md)
   - [Tech Supp0rt](/vulnhub/tech_supp0rt/readme.md)
   - [Tornado](/vulnhub/tornado/readme.md)
+  
+  </details>
+    
+  
 - PwnTillDwn
+  <details>
+  <summary>Rooms</summary>
+    
   - [Juno - 10.150.150.224](/pwntilldwn/juno/readme.md)
   - [Vega - 10.150.150.222](/pwntilldwn/vega/readme.md)
-
+  
+  </details>
