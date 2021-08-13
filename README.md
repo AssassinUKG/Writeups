@@ -18,6 +18,12 @@ All box's pwned on
   - [thats_the_ticket](/tryhackme/thats_the_ticket/readme.md)
 - Hackthebox
   - [Dare (not completed)](/hackthebox/dare)
+  - [Previse](/hackthebox/privise)
+  - [The NoteBook](/hackthebox/retired/TheNotebook)
 - Vulnhub
+  - [Looz - Not Completed](/vulnhub/Looz/readme.md)
+  - [Cereal](/vulnhub/cereal/readme.md)
+  - [Chronos](/vulnhub/chronos/readme.md)
+  - [Coffee Addict](/vulnhub/coffee%20addict/readme.md)
 - PwnTillDwn
 
