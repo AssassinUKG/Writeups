@@ -39,5 +39,102 @@ Main page
 
 ![image](https://user-images.githubusercontent.com/5285547/129353839-6e377d1b-43c3-487b-95a4-60f78c934ea4.png)
 
+## SSRF
 
+Using the exif-util hint we find another endpoind that is vunerable to SSRF techniques. 
+
+![image](https://user-images.githubusercontent.com/5285547/129355760-44444459-1ed5-4a09-8025-b6327e4e298c.png)
+
+Sending this to burp I tested a few more ports to see what was available internally. 
+
+Intruder setup
+
+![image](https://user-images.githubusercontent.com/5285547/129356016-5a1f90a0-99e3-4f2b-ad25-24a59d1a073a.png)
+
+Results
+
+![image](https://user-images.githubusercontent.com/5285547/129356049-b9984911-5acb-4bb3-ac52-7b9d8aa85e28.png)
+
+I found port 8080 to be open internally. 
+
+Looking at robots.txt again I noticed another hint.
+
+```
+# Disallow: /exif-util
+Disallow: /*.bak.txt$
+```
+/exif-util.bak.txt
+
+<details>
+  <summary>exif-util.back.txt (Click to open)</summary>
+  
+  ```html
+  <template>
+  <section>
+    <div class="container">
+      <h1 class="title">Exif Utils</h1>
+      <section>
+        <form @submit.prevent="submitUrl" name="submitUrl">
+          <b-field grouped label="Enter a URL to an image">
+            <b-input
+              placeholder="http://..."
+              expanded
+              v-model="url"
+            ></b-input>
+            <b-button native-type="submit" type="is-dark">
+              Submit
+            </b-button>
+          </b-field>
+        </form>
+      </section>
+      <section v-if="hasResponse">
+        <pre>
+          {{ response }}
+        </pre>
+      </section>
+    </div>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'Exif Util',
+  auth: false,
+  data() {
+    return {
+      hasResponse: false,
+      response: '',
+      url: '',
+    }
+  },
+  methods: {
+    async submitUrl() {
+      this.hasResponse = false
+      console.log('Submitted URL')
+      try {
+        const response = await this.$axios.$get('http://api-dev-backup:8080/exif', {
+          params: {
+            url: this.url,
+          },
+        })
+        this.hasResponse = true
+        this.response = response
+      } catch (err) {
+        console.log(err)
+        this.$buefy.notification.open({
+          duration: 4000,
+          message: 'Something bad happened, please verify that the URL is valid',
+          type: 'is-danger',
+          position: 'is-top',
+          hasIcon: true,
+        })
+      }
+    },
+  },
+}
+</script>
+
+  ```
+  
+  </details>
 
