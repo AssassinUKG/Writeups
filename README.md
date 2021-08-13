@@ -1,4 +1,17 @@
 # Writeups
+
+## Disclimer
+
+Please ignore any spelling errors, this is a first draft of my Medium or to be Medium articles. 
+
+## Medium main posts. 
+
+![image](https://user-images.githubusercontent.com/5285547/129348049-198254ae-963b-4476-a6fd-3280d011e145.png)
+
+[https://ac1d.medium.com/](https://ac1d.medium.com/)
+
+---
+
 All box's pwned on 
 - Tryhackme
   - [CMSpit](/tryhackme/CMSpit/readme.md)
@@ -25,5 +38,9 @@ All box's pwned on
   - [Cereal](/vulnhub/cereal/readme.md)
   - [Chronos](/vulnhub/chronos/readme.md)
   - [Coffee Addict](/vulnhub/coffee%20addict/readme.md)
+  - [Momentum](/vulnhub/momentum/readme.md)
+  - [Sp Christophe](/vulnhub/sp_christophe/raedme.md)
+  - [Tech Supp0rt](/vulnhub/tech_supp0rt/readme.md)
+  - [Tornado](/vulnhub/tornado/readme.md)
 - PwnTillDwn
 
