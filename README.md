@@ -1,6 +1,6 @@
 # Writeups
 
-## Disclimer
+## Disclaimer
 
 Please ignore any spelling errors, this is a first draft of my Medium or to be Medium articles. 
 
