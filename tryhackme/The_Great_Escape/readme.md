@@ -138,3 +138,16 @@ export default {
   
   </details>
 
+This file shows a new endpoint to play with. This must be the call to the internal web app. 
+Let's call it to see the response. 
+
+```
+http://api-dev-backup:8080/exif
+```
+
+Calling the server url, then calling the internal port 8080 with a new URL paramater gave a different response to banned words. 
+
+![image](https://user-images.githubusercontent.com/5285547/129357665-816ce4b1-a7d1-4643-b421-e7b0f8e34579.png)
+
+
+
