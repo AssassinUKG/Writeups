@@ -17,6 +17,7 @@ All box's pwned on
   - [sweettooth_inc](/tryhackme/sweettooth_inc/readme.md)
   - [thats_the_ticket](/tryhackme/thats_the_ticket/readme.md)
 - Hackthebox
+  - [Dare (not completed)](/hackthebox/dare)
 - Vulnhub
 - PwnTillDwn
 
