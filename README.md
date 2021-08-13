@@ -43,4 +43,6 @@ All box's pwned on
   - [Tech Supp0rt](/vulnhub/tech_supp0rt/readme.md)
   - [Tornado](/vulnhub/tornado/readme.md)
 - PwnTillDwn
+  - [Juno - 10.150.150.224](/pwntilldwn/juno/readme.md)
+  - [Vega - 10.150.150.222](/pwntilldwn/vega/readme.md)
 
