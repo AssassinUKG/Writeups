@@ -58,6 +58,7 @@ All box's pwned on
   - [Momentum](/vulnhub/momentum/readme.md)
   - [Sp Christophe](/vulnhub/sp_christophe/raedme.md)
   - [Tech Supp0rt](/vulnhub/tech_supp0rt/readme.md)
+  - [Thoth Tech: 1](/vulnhub/thoth_tech_1/readme.md)
   - [Tornado](/vulnhub/tornado/readme.md)
   
   </details>
