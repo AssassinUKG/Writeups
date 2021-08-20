@@ -154,7 +154,7 @@ Ba2k3t
 ![image](https://user-images.githubusercontent.com/5285547/129023572-fb616155-d3d8-4bf5-ae59-5dc601f93ac3.png)
 
 
-## Password Crack. 
+## User (Brute Force) 
 
 Having the hash for all the users, I managed to crack one called gandalf
 
