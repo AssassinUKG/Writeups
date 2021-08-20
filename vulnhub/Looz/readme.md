@@ -84,7 +84,7 @@ Going to http://192.168.1.121/wp-admin redirected me to
 http://wp.looz.com/wp-login.php?redirect_to=http%3A%2F%2Fjetty%3A8081%2Fwp-admin%2F&reauth=1
 ```
 
-Adding wp.looz.com to /etc/hosts I can then see the login page. 
+- Adding wp.looz.com to /etc/hosts I can then see the login page. 
 
 After loggin in as john, I seen akismet plugin was editable so added a PHP reverse shell to the plugin and updated the file. 
 Activatiing the pluing after gave me the shell back. 
