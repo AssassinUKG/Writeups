@@ -112,8 +112,6 @@ So I copy nano to my home folder as kral4
 cp /bin/nano /home/kral4/nano
 ```
 
-Then make a request to the index.html page. 
-
 ![image](https://user-images.githubusercontent.com/5285547/130352801-28694d94-47f7-49e3-ab18-e304a757cf9c.png)
 
 ## SUID
