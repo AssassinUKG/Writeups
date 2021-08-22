@@ -116,3 +116,34 @@ Then make a request to the index.html page.
 
 ![image](https://user-images.githubusercontent.com/5285547/130352801-28694d94-47f7-49e3-ab18-e304a757cf9c.png)
 
+## SUID
+
+Scanning the local system we find a SUID binary that may help us here to edit the index.html page. 
+
+```
+find / -perm -u=s 2>/dev/null
+```
+
+At the end of the list we find "/bin/dd"
+
+![image](https://user-images.githubusercontent.com/5285547/130369284-7735f420-3cdb-4f4c-82d8-ad5047d711b0.png)
+
+Using this we can edit the index.html page. 
+
+```
+echo "testing" | dd of=/var/www/html/index.html
+```
+
+After editing the file we see the SUID bit has been applied to the nano Binary. 
+
+![image](https://user-images.githubusercontent.com/5285547/130369358-6c117e8b-f385-4c45-8c7f-0dfcee3266f1.png)
+
+Checking GTFObins again we can use the SUID from nano to get the last flags
+
+![image](https://user-images.githubusercontent.com/5285547/130369372-ff561416-7eb9-43ab-af23-b5de60b0accc.png)
+
+
+```
+./nano /root/root.txt
+./nano /var/www/html/web_flag.txt
+```
