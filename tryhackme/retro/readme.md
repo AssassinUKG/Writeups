@@ -48,7 +48,7 @@ PORT     STATE SERVICE       VERSION
 |_SHA-1: 1c04 1ffc e75d 5f9f f772 12eb 5fcc c808 1b53 a3ed
 |_ssl-date: 2021-08-27T11:32:23+00:00; +1s from scanner time.
 ```
-
+---
 
 ffuf
 
@@ -59,7 +59,7 @@ retro                   [Status: 301, Size: 149, Words: 9, Lines: 2]
 ```
 
 Scanning the directories shows /retro endpoint
-
+---
 
 Port 80
 
