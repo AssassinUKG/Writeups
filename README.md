@@ -32,7 +32,8 @@ All box's pwned on
   - [super-spam](/tryhackme/super-spam/readme.md)
   - [sweettooth_inc](/tryhackme/sweettooth_inc/readme.md)
   - [thats_the_ticket](/tryhackme/thats_the_ticket/readme.md)
-  - [Retro](tryhackme/retro/readme.md)
+  - [Retro](/tryhackme/retro/readme.md)
+  - [Wordpress CVE-2021-29447](/tryhackme/Wordpress_CVE202129447/readme.md)
   
   </details>
   
