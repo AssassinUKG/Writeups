@@ -110,5 +110,12 @@ Call after editing.
 http://10.10.22.148/retro/wp-content/themes/90s-retro/404.php
 ```
 
+whoami?
+
+![image](https://user-images.githubusercontent.com/5285547/131135864-c7d8b488-9f84-4237-85a1-a83c8b194b01.png)
+
+--- 
+
+## User
 
 
