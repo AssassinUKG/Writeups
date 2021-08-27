@@ -50,7 +50,7 @@ PORT     STATE SERVICE       VERSION
 ```
 ---
 
-ffuf
+* ffuf
 
 ```
 ffuf -u http://10.10.22.148/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt -mc all -fc 404
@@ -62,7 +62,7 @@ Scanning the directories shows /retro endpoint
 
 ---
 
-Port 80
+* Port 80
 
 http://10.10.22.148/retro
 
