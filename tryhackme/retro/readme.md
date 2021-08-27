@@ -118,4 +118,63 @@ whoami?
 
 ## User
 
+Looking around the system I first check the wp-config.php file for any passwords. 
 
+```
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', 'wordpress567');
+
+/** MySQL database username */
+define('DB_USER', 'wordpressuser567');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'YSPgW[%C.mQE');
+
+/** MySQL hostname */
+define('DB_HOST', 'localhost');
+```
+
+Not finding much else I remmebered we have another open port 3389. 
+
+Info on port 3389:
+
+Time to test the creds we have for wade. 
+
+```
+xfreerdp /u:[domain\]<username> /p:<password> /v:<IP>
+```
+
+We're in! 
+
+![image](https://user-images.githubusercontent.com/5285547/131137667-ad9fef1c-4974-44e2-82bc-9ac48fb2d0d2.png)
+
+
+## Root
+
+After getting the user flag, I noticed the recycle bin had something in, I dragged this to the desktop and seen a file called. 
+```hhupd.exe```
+
+Gooling the file lead to this article: https://www.zerodayinitiative.com/blog/2019/11/19/thanksgiving-treat-easy-as-pie-windows-7-secure-desktop-escalation-of-privilege
+
+We can check out the certificate and due to some misconfigurations on the way the UI handles opening a link, we effectivly run as system. 
+
+Run the app and click the show more information link. 
+
+![image](https://user-images.githubusercontent.com/5285547/131138533-435cc689-7421-4399-bf6c-0b082b6eafc9.png)
+
+Then click on Issued by: VeriSign hyperlink to then open IE browser. Now choose save as and open a new UI (as system),
+
+![image](https://user-images.githubusercontent.com/5285547/131138585-4550c94c-f265-4d3d-996c-3aa7a0bad387.png)
+
+This failed for me, so I had to look for another way around
+
+![image](https://user-images.githubusercontent.com/5285547/131140375-94acf104-cbd6-47e7-ae9d-309ee9bce9a1.png)
+
+After more enumeration I found the system is vunerable to the exploit: https://github.com/jas502n/CVE-2019-1388
+
+Copying the exploit to the box and running it gives us admin instantly. 
+
+![image](https://user-images.githubusercontent.com/5285547/131141091-7462ac52-71e4-4576-8d5c-f07b30fc468e.png)
+
+That's the end of the box. Thanks for reading! 
