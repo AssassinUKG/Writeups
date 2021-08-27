@@ -10,7 +10,7 @@ Room IP: 10.10.22.148
 ## Enumeration
 
 
-Nmap 
+* Nmap 
 
 ```
 PORT     STATE SERVICE
@@ -18,7 +18,7 @@ PORT     STATE SERVICE
 3389/tcp open  ms-wbt-server
 ```
 
--sCV
+* -sCV
 
 ```
 PORT     STATE SERVICE       VERSION
@@ -59,6 +59,7 @@ retro                   [Status: 301, Size: 149, Words: 9, Lines: 2]
 ```
 
 Scanning the directories shows /retro endpoint
+
 ---
 
 Port 80
