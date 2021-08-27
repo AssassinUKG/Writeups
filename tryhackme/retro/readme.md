@@ -93,4 +93,22 @@ Let's try to brute his login for wordpress using wpscan
 wpscan --url http://10.10.22.148/retro/ -U wade -P /usr/share/wordlists/rockyou.txt
 ```
 
+While leaving the wpscan running, I checked out the web app further, where i noticed a strange comment. 
+
+![image](https://user-images.githubusercontent.com/5285547/131134191-2fcbcebe-f271-4dd7-bbf4-7959c58dff63.png)
+
+---
+
+* Reverse shell
+
+After logging into the admin portal, I first checked to see if I could edit a theme template, which I could. 
+Editing the 404.php page with a php reverse shell (windows version: https://raw.githubusercontent.com/ivan-sincek/php-reverse-shell/master/src/php_reverse_shell.php) we can get a shell. 
+
+Call after editing. 
+
+```
+http://10.10.22.148/retro/wp-content/themes/90s-retro/404.php
+```
+
+
 
