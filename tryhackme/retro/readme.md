@@ -5,7 +5,7 @@
 Room link: https://tryhackme.com/room/retro
 
 Room IP: 10.10.22.148  
-*for me your's will be different
+* for me your's will be different
 
 ## Enumeration
 
