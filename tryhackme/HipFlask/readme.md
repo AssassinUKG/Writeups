@@ -56,6 +56,8 @@ The client is the "Hip Flasks Ltd" company.
 
 Note: this company is fictional and should not bear any resemblance to any real-world organisations now or in the future. Anything not on the TryHackMe network is absolutely out of scope.
 
+- Question
+
 Answer the questions below
 
 Is the network portion internal or external?
@@ -156,11 +158,142 @@ We will move on from here; however, as a matter of good practice you should run 
 
 ### Enumeration Vulnerability Scanning
 
+With the initial enumeration done, let's have a look at some vulnerability scanning.
 
+We could keep using Nmap for this (making use of the NSE -- Nmap Scripting Engine); or we could do the more common thing and switch to an industry-standard vulnerability scanner: Nessus.
+
+Vulnerability scanners are used to scan a target (or usually a wide range of targets across a client network), checking for vulnerabilities against a central database. They will usually provide a list of discovered vulnerabilities, ranked from critical down to low or informational, with options to filter the results and export them into a report. There are a variety of vulnerability scanners available, including the opensource OpenVAS framework, however, Nessus is one of the most popular vulnerability scanners currently available when it comes to industry usage. Both OpenVas and Nessus have TryHackMe rooms dedicated to them already, so we will keep this section relatively short.
+
+---
+
+Unfortunately, due to licensing it is not possible to provide a machine with Nessus pre-installed. If you want to follow along with this section then you will need to download and install Nessus Essentials (the free version) for yourself. This is a relatively straight-forward process (which is covered in detail in the Nessus room), however, it can take quite a while! Nessus Essentials limits you significantly compared to the very expensive professional versions; however, it will do for our purposes here. This task is not essential to complete the room, so feel free to just read the information here if you would prefer not to follow along yourself.
+
+The short version of the installation process is:
+
+Create a new Ubuntu VM (Desktop or Server, or another distro entirely). 40Gb hard disk space, 4Gb of RAM and 2 VCPUs worked well locally; however, you could probably get away with slightly less processing power for what we are using Nessus for here. A full list of official hardware requirements are detailed here, although again, these assume that you are using Nessus professionally.
+With the VM installed, go to the Nessus downloads page and grab an appropriate installer. For Ubuntu, Debian, or any other Debian derivatives, you are looking for a ```.deb``` file that matches up with your VM version (searching the page for the VM name and version -- e.g. "Ubuntu 20.04" -- can be effective here). Read and accept the license agreement, then download the file to your VM.
+Open a terminal and navigate to where you downloaded the package to. Install it with ```sudo apt install ./PACKAGE_NAME```.
+This should install the Nessus server. You will need to start the server manually; this can be done with: ```sudo systemctl enable --now nessusd```. This will permanently enable the Nessus daemon, allowing it to start with the VM, opening a web interface on ```https://LOCAL_VM_IP:8834```.
+Navigate to the web interface and follow the instructions there, making sure to select Nessus Essentials when asked for the version. You will need a (free) activation code to use the server; this should be emailed directly from the server web interface. If that doesn't work then you can manually obtain an activation code from here.
+Allow the program some time to finish setting up, then create a username and password when prompted, and login!
+---
+
+We already have a target with 5 confirmed open ports, so let's get scanning it!
+
+Before configuring the scan, make sure that your Nessus VM is connected to the TryHackMe network, either with your own VPN config file (disconnected from any other machines) or with a separate config file from another account.
+
+With that done, we can start scanning.
+
+Clicking "New Scan" in the top right corner leads us to a "Scan Templates" interface. From here we select "Advanced Scan"
+
+![image](https://user-images.githubusercontent.com/5285547/132729555-199b5a82-f028-47ad-99b0-d7f3375b2566.png)
+
+Fill in a name and a description of your choosing, then add the IP address of the target (10.10.69.83) to the targets list:
+
+![image](https://user-images.githubusercontent.com/5285547/132729581-4636bc51-24ba-43de-bd01-0b6f259dcb1f.png)
+
+After setting the target, switch tabs to Discovery -> Host Discovery in the Settings menu for the scan and disable the "Ping the remote host" option. As previously established, this machine does not respond to ICMP echo packets, so there's no point in pinging it to see if it's up.
+
+Next we head to Discovery -> Port Scanning in the Settings menu for the scan. Here we can tell Nessus to only scan the ports which we already found to be open:
+
+![image](https://user-images.githubusercontent.com/5285547/132729617-6281adeb-0d31-4ae2-8b7c-841f0b72f2e9.png)
+
+At the bottom of the page we can now choose to save (or directly launch) the scan. Click the dropdown at the right hand side of the "Save" button and launch the scan.
+
+The scan will take a few minutes to complete, and (at the time of writing) return two medium vulnerabilities, one low vulnerability, and 42 information disclosures. Clicking on the scan name from the "My Scans" interface will give us an overview of the findings:
+
+![image](https://user-images.githubusercontent.com/5285547/132729639-c639da34-ed44-42bc-8b32-bf1255d7f846.png)
+
+As it happens, none of the findings are particularly useful to us in terms of exploiting the target further (both medium vulnerabilities being to do with the self-signed SSL cert for the server, and the low vulnerability relating to a weak cipher enabled on SSH); however, they would definitely be worth reporting to the client. Notice that the scores are given based on the CVSSv3 system.
+
+We could run some more targeted scans, but otherwise we have now done all we can with Nessus at this stage. It may come in handy later on, should we find any SSH credentials, however.
+---
+
+Vulnerabilities:
+
+![image](https://user-images.githubusercontent.com/5285547/132729714-1597d7e2-058f-4d36-996f-7136b9d6ae7c.png)
 
 ## Task 8
 
+### Enumeration Web App: Initial Thoughts
+
+Of the three services available, the webserver is the one most likely to have vulnerabilities that Nessus couldn't find. As the client has not asked us to focus specifically on the webapp, but rather on the server as a whole, we will not do a deep-dive analysis on the website(s) being served by the webserver. We can always discuss adding a full web application pentest to the scope with the client later on.
+
+Nginx is easy to misconfigure, and any custom webapps on the server could potentially have vulnerabilities that Nessus is unable to detect. At this point we don't know if Nginx is being used as a reverse proxy, or if it has its PHP engine installed and enabled.
+
+Only one way to find out!
+
+Navigating to the target IP address in Firefox gives us a message:
+
+```
+Host Name: 10.10.69.83, not found.
+This server hosts sites on the hipflasks.thm domain.
+```
+
+This is the same for both the HTTP and HTTPS versions of the page.
+
+Aside from the overly verbose error message (which in itself is unnecessary information exposure and should be rectified), we also learn that the client's domain appears to be ```hipflasks.thm```. This is something we would likely already have known had we footprinted the client before starting the assessment. Additionally, we now know that the server expects a specific server name to be provided -- likely ```hipflasks.thm``` or a subdomain of it.
+
+Testing for common subdomains is complicated considerably by the fact that this is not really a public webserver. The common solution in a CTF would be to just use the ```/etc/hosts``` file on Unix systems, or the  ```C:\Windows\System32\drivers\etc\hosts``` file on Windows, but this will become a collosal pain if there are lots of virtual hosts on the target. Instead, let's make use of the DNS server installed on the target.
+
+Editing the system-wide DNS servers for a split-tunnel VPN connection like the one used for TryHackMe is, frankly, a colossal pain in the rear end. Fortunately there is an easier "hack" version using the FireFox config settings. This will only allow FireFox to use the DNS server, but right now that's all we need.
+
+- Navigate to ```about:config``` in the FireFox search bar and accept the risk notice.
+- Search for ```network.dns.forceResolve```, double click it and set the value to the IP address of the target machine, then click the tick button to save the setting:
+
+![image](https://user-images.githubusercontent.com/5285547/132730021-d7f4c804-5fad-47c3-ac02-129709ca02a4.png)
+
+Note: You will need to replace this with your own Machine IP!
+
 ## Task 9
+
+### Enumeration DNS
+
+We still don't actually know exactly what DNS server is in use here; however, there are very few current vulnerabilities in Linux DNS servers, so the chances are that if there's something to be found, it will be a misconfiguration.
+
+Fortunately for us, misconfigurations in DNS are notoriously easy to make.
+
+As the address system of the internet, it need not be said how important DNS is. As a result of this importance, it is good practice to have at least two DNS servers containing the records for a "zone" (or domain, in normal terms). This means that if one server goes down, there is still at least one other which contains the records for the domain; but this poses a problem: how do you update DNS records for the zone without having to go and update every server manually? The answer is something called a "Zone Transfer". In short: one server is set up as the "master" (or primary) DNS server. This server contains the primary records for the zone. In BIND9, zone configuration files for a primary server look something like this:
+
+![image](https://user-images.githubusercontent.com/5285547/132730346-5c0af254-24b5-45ae-8698-891a451f301f.png)
+
+
+This defines a master zone for the ```domain example.com```, it tells BIND to read the records from a file called ```/etc/bind/db.examples.com``` and accept queries from anywhere. Crucially, it also allows zone transfers to an IP address: ```172.16.0.2```.
+
+In addition to the primary DNS server, one or more "slave" (or secondary) DNS servers are set up. They would have a zone file looking like this:
+
+![image](https://user-images.githubusercontent.com/5285547/132730452-9c9f2363-0af2-425b-b433-e5f8e43ad317.png)
+
+This defines a slave zone, setting the IP address of the primary DNS server in the ```masters {};``` directive.
+
+So, what are zone transfers? As you may have guessed, zone transfers allow secondary DNS servers to replicate the records for a zone from a primary DNS server. At frequent intervals (controlled by the Time To Live value of the zone), the secondary server(s) will query a serial number for the zone from the primary server. If the number is greater than the number that the secondary server(s) have stored for the zone then they will initiate a zone transfer, requesting all of the records that the primary server holds for that zone and making a copy locally.
+In some configurations a "DNS Notify List" may also exist on the primary DNS server. If this is in place then the primary server will notify all of the secondary servers whenever a change is made, instructing them to request a zone transfer.
+
+How can we weaponize this? Well, what happens if any of the servers don't specify which IP addresses are allowed to request a zone transfer? What if a DNS server has an entry in the zone config which looks like this: ```allow-transfer { any; };```?
+
+Rather than specifying a specific IP address (or set of IP addresses), the server allows any remote machine to request all of the records for the zone. Believe it or not, this misconfiguration is even easier to make in the Windows GUI DNS service manager.
+
+This means that if the server is configured incorrectly we may be able to dump every record for the domain -- including the subdomains that we are looking for here!
+
+Zone transfers are initiated by sending the target DNS server an ```axfr``` query. This can be done in a variety of ways, however, on Linux it is easiest to use either the ```dig``` or ```host``` commands:
+
+```dig axfr hipflasks.thm @10.10.69.83```
+or
+```host -t axfr hipflasks.thm 10.10.69.83```
+
+If the server is misconfigured to allow zone transfers from inappropriate places then both of these commands will return the same results, albeit formatted slightly differently. Namely a dump of every record in the zone.
+
+![image](https://user-images.githubusercontent.com/5285547/132730686-956a9891-a3b6-4afa-a95d-d0eb4023a523.png)
+
+- Question
+
+Attempt a zone transfer against the hipflasks.thm domain.
+
+What subdomain hosts the webapp we're looking for?
+
+```
+
+```
 
 ## Task 10
 
