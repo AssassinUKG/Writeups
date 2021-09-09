@@ -412,9 +412,61 @@ Disclose the source code for the ```main.py``` file and note down the secret key
 e64402685ec842717a86898aa4e3c962
 ```
 
+Command: 
+
+```
+curl https://hipper.hipflasks.thm/main.py -k
+```
+
 ## Task 11
 
+### Web App Understanding the Vulnerability
+
+The critical vulnerability that we just discovered will effectively allow us to forge sessions for any user we wish, but before we get into exploiting it, touching on how it happened might be helpful. This also explains that unusual switch in the feroxbuster scan which was mentioned previously.
+
+This task is not necessary to complete the room, so if you're not interested in how the vulnerability occurred then you may skip ahead to the next task
+
+Web apps traditionally follow the same structure as the underlying file-system. For example, with a PHP web application, the root directory of the webserver would contain a file called index.php, and usually a few subdirectories related to different functions. There might then be a subdirectory called about/, which would also contain an index.php. The index files are used to indicate the default content for that directory, meaning that if you tried to access https://example.com/, then the webserver would likely actually be reading a file called /var/www/html/index.php. Accessing https://example.com/about/, would be reading /var/www/html/about/index.php from the filesystem.
+
+This approach makes life very easy for us as hackers -- if a file is under the webroot (/var/www/html by default for Apache on Linux) then we will be able to access it from the webserver.
+
+Modern webapps are often not like this though -- they follow a design structure called "routing". Instead of the routes being defined by the structure of the file system, the routes are coded into the webapp itself. Accessing https://example.com/about/ in a routed web app would be a result of a program running on the webserver (written in something like Python -- like our target application here -- NodeJS or Golang) deciding what page you were trying to access, then either serving a static file, or generating a dynamic result and displaying it to you. This approach practically eliminates the possibility of file upload vulnerabilities leading to remote code execution, and means that we can only access routes that have been explicitly defined. It's also a lot neater than the traditional approach from an organisational perspective.
+
+There is a downside to routing, however. Serving static content such as CSS or front-end Javascript can be very tedious if you have to define a route for each page. Additionally, it's also relatively slow to have your webapp handling the static content for you (although most frameworks do have the option to serve a directory). As such, it's very common to have a webapp sitting behind a reverse proxy such as Nginx or Caddy. The webserver handles the static content, and any requests that don't match the ruleset defined for static content get forwarded to the webapp, which then sends the response back through the proxy to the user.
+
+What this means is that searching for file extensions in a route fuzzing attempt (like the Feroxbuster scan we ran) won't actually do anything with a routed application, unless the reverse proxy has been misconfigured to serve more static content than it's supposed to. Unfortunately, it is very easy to mess up the configuration for a reverse proxy, for example, this common Nginx configuration could potentially leak the full source code for the webapp -- a very dangerous prospect:
+
+![image](https://user-images.githubusercontent.com/5285547/132732928-cf1d180d-5710-4135-bfe5-755eeb79993a.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132732960-922ad702-609d-420f-9a83-219bc41ea888.png)
+
+
 ## Task 12
+
+### Web App Full Source Code Disclosure
+
+We've already found a potentially serious vulnerability in this application, which we will look at exploiting soon.
+
+For the mean time, let's focus on gathering more information about the application; using our discovered file to grab the rest of the code seems like a good start. Flask applications work by having one main file (which we already have). This file then imports everything else that the application needs to run -- for example, blueprints that map out other parts of the app, authentication modules, etc.
+
+This means that we don't need to do any more fuzzing to find the rest of the source code: we can just read what the main.py file is importing and pull on the metaphorical thread until we have all of the files downloaded. Whenever we find a new file, we should download a copy locally using the curl -o FILENAME switch so that we can review the source code in detail later.
+
+Let's start by looking at what the main.py file is importing:
+
+![image](https://user-images.githubusercontent.com/5285547/132734339-49301e06-3c2e-4911-bdb3-b449b9adbf81.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734379-4a90dbdd-7da8-4884-b092-c2a17c7062a8.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734423-69a82636-4c6e-4d1f-bf07-ee6463bb988f.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734479-a0fd5bcc-3ef8-4639-b1bc-eefe928d4e7d.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734514-3f2cc477-1508-4eab-89c1-7e8712bb9fb2.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734541-0ec49c95-5148-47d3-9c5a-7f8b2ebf3282.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132734593-5785346c-e581-4745-b711-eb307cd7edee.png)
+
 
 ## Task 13
 
