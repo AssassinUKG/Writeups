@@ -94,10 +94,69 @@ Fortunately we only have one target, so getting an initial idea of what we're de
 
 ### Enumeration Port Scanning
 
+If you have done any of the boxes on TryHackMe then you should already be comfortable with portscanning.
 
+What you may be less comfortable with is port scanning safely. In CTFs it is all too common to see people running Rustscan, or nmap with the -T5 and/or -A switches active. This is all well and good in a lab environment, but is less likely to go well in the real world. In reality, fast and furious enumeration is much more likely to damage a target unnecessarily (the point can be made that if a server is unable to stand up to a port scanner then it isn't fit for purpose, but do you really want to explain to the client and your boss why the company website has gone down?). The mantra "slow and steady wins the race", comes to mind. Realistically, in today's world anything other than a small, slow, home-brew port scanner will be picked up by most intrusion detection systems very quickly indeed; however, we may as well minimise our own footprint as much as possible.
+
+Quick scans with a small scope can be used to get an initial idea of what's available. Slower scans with a larger scope can then be run in the background whilst you look into the results from the initial scans. The goal should be to always have something running in the background whilst you focus on something else ( a philosophy which shouldn't just apply to initial enumeration).
+
+With that in mind, let's start some scans against the target. If you are not familiar with Nmap already, now would be a good time to complete the Nmap room.
+
+Before we start scanning properly, try pinging the target. You should find that it doesn't respond to ICMP echo packets (i.e. pings timeout against it):
+
+![image](https://user-images.githubusercontent.com/5285547/132728370-cbd3c99f-3c7e-4596-b95e-389709e972e3.png)
+
+We know that the target is active, so this tells us that there is a firewall between us and the target -- a finding well worth bearing in mind as we progress with the assessment.
+
+Time for some Nmap scans.
+
+First and foremost, let's do a quick TCP SYN scan against the top 1000 most common TCP ports on the target. If not already running as root, we will do this with ```sudo``` so that we can use a SYN "Stealth" scan (which is default for the root user):
+```sudo nmap -vv 10.10.69.83 -oN Initial-SYN-Scan```
+
+We use ```-oN``` to write the results of this to a file in normal format. It is good practice to always save the results of our scans -- this means that we can refer to them later, and never need to repeat a scan.
+
+Against this target, we should get four ports returned:
+
+![image](https://user-images.githubusercontent.com/5285547/132728539-7db4ae88-d352-4263-9805-9355f79b6caf.png)
+
+![image](https://user-images.githubusercontent.com/5285547/132728583-4b98d629-6638-4254-bd42-465e035ba82d.png)
+
+---
+
+Next, let's perform a service scan on these four ports, just to confirm that we are correct with the services:
+
+![image](https://user-images.githubusercontent.com/5285547/132728635-15be6025-5325-4f30-877e-6b980e203590.png)
+
+With the service scan we have identified OpenSSH version 8.2p1 for Ubuntu. Checking the Ubuntu package list tells us that this version currently only ships with Ubuntu Focal -- in other words, Ubuntu 20.04 LTS. Whilst this fingerprint could technically be spoofed, it is a good thing to note down regardless as the chances of this are low.
+
+Port 53 has clearly had its fingerprint tampered with -- this is easy to do, and is often done in an attempt to obscure the version of the service. Given we know that this machine is very likely to be Linux, we can guess that the DNS server installed is most likely (statistically speaking) to be BIND (Berkeley Internet Name Domain). If this is the case then (despite the lack of an accurate fingerprint) we can also infer that the server version is at least 8.2, as this is when the option to change the banner was introduced. This is unfortunate, as before this point there were also a few serious vulnerabilities with this software.
+
+Identifying the webserver as Nginx doesn't help us much, but again is useful to note down.
+
+Already we have a pretty good idea of what might be happening with this server. Whilst a lot of what we just covered is guesswork based on most common software deployments, it's still useful to put it down tentatively as a working point, to be changed if contradicted later on.
+
+---
+
+Next let's perform a UDP scan on the target. UDP scans are notoriously slow, inaccurate, and inconsistent, so we won't spend a lot of time here. We do want to confirm that port 53 is open, so let's tell Nmap to scan the top 50 most common UDP ports and tell us which ones it thinks are open.
+
+We get four results, only one of which is definitive:
+
+![image](https://user-images.githubusercontent.com/5285547/132728701-00e27222-00c4-4aba-abba-71b76399fe22.png)
+
+Much like the filtered response from a TCP scan referring to a firewall in play, the open|filtered response in a UDP scan indicates a possible firewall. As the scan indicates, the three ports showing this state provided no response to the scan. This could mean that there is a firewall preventing access to the ports, or it could mean that the ports are open and just don't return a response (as is frequently the case with UDP). In short, UDP scans are not very accurate, but we have confirmed that UDP/53 is open.
+
+To summarise, based on initial information, we know for sure that there are three services running: SSH on TCP port 22, DNS on TCP and UDP ports 53 (with a modified banner), and HTTP(S) on TCP ports 80 and 443.
+
+This is enough to be getting on with for now.
+
+We will move on from here; however, as a matter of good practice you should run a full port scan on a slower mode (e.g. -T2) against the TCP ports, and maybe a slightly wider UDP scan in the background. Be warned: these will not return anything new for this box.
 
 
 ## Task 7
+
+### Enumeration Vulnerability Scanning
+
+
 
 ## Task 8
 
