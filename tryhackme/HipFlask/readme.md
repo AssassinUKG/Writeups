@@ -292,10 +292,125 @@ Attempt a zone transfer against the hipflasks.thm domain.
 What subdomain hosts the webapp we're looking for?
 
 ```
+hipper
+```
 
+Command: 
+
+```
+dig axfr hipflasks.thm @10.10.69.83
 ```
 
 ## Task 10
+
+### Enumeration Web App Fingerprinting and Enumeration
+
+We already modified our FireFox configuration earlier to send all of our traffic to the target, so we should already be able to access that site on ```https://hipper.hipflasks.thm```. That said, the configuration change we made previously (while very good for poking around an unknown webserver), can become annoying very quickly, so now may be a good time to reverse it and just add ```hipper.hipflasks.thm``` to your hosts file.
+
+Note: As this target is not actually connected to the internet, you will need to accept the self-signed certificate by going to Advanced -> Accept in the warning page that pops up.
+
+Having a look around the page and in the source code, there don't appear to be any working links, so if we want to access other pages then we will need to look for them ourselves. Of course, directory listing is disabled, which makes this slightly harder.
+
+The source code does indicate the presence of ```assets/, assets/img/, css/, and js/``` subdirectories, which seem to contain all of the static assets in use on the page:
+
+![image](https://user-images.githubusercontent.com/5285547/132731736-2cf7bc23-d875-491a-a9cf-1f4f2b3ce897.png)
+
+Nothing ground breaking so far, but we can start to build up a map of the application from what he have here:
+
+```
+/
+|__assets/
+|____imgs/
+|____fonts/
+|__css/
+|__js/
+```
+---
+
+With the initial looking around out of the way, let's have a look at the server itself. The Wappalyzer browser extension is a good way to do this, or, alternatively, we could just look at the server headers in either the browser dev tools or Burpsuite. Intercepting a request to https://hipper.hipflasks.thm/ in Burpsuite, we can right-click and choose to Do Intercept -> Response to this request:
+
+![image](https://user-images.githubusercontent.com/5285547/132731874-60300440-5e46-4ad3-ad51-602ee943c05a.png)
+
+We should now receive the response headers from the server:
+
+![image](https://user-images.githubusercontent.com/5285547/132731933-e947421b-20d1-480b-9a5b-ff9dab82488f.png)
+
+A few things stand out here. First of all, the server header: ```waitress```. This would normally be Nginx, as we already know from the TCP fingerprint that this is the webserver in use. This means that we are dealing with a reverse proxy to a waitress server. A quick Google search for "waitress web app" tells us that Waitress is a production-ready Python WSGI server -- in other words, we are most likely dealing with either a Django or a Flask webapp, these being the most popular Python web-development frameworks.
+
+Secondly, there are various security-headers in play here -- however, notably absent are the ```Content-Security-Policy``` and ```X-XSS-Protection headers```, meaning that the site may be vulnerable to XSS, should we find a suitable input field. Equally, the HSTS (Http Strict Transport Security) header which should usually force a HTTPS connection won't actually be doing anything here due to the self-signed certificate.
+
+Before we go any further, let's start a couple of scans to run in the background while we look around manually. Specifically, let's go for Nikto and Feroxbuster (or Gobuster, if you prefer). Running in parallel (assuming you updated your hosts file):
+```nikto --url https://hipper.hipflasks.thm | tee nikto```
+and
+```feroxbuster -t 10 -u https://hipper.hipflasks.thm -k -w /usr/share/seclists/Discovery/Web-Content/common.txt -x py,html,txt -o feroxbuster```
+
+This will start a regular Nikto scan saving into a file called "nikto", as well as a feroxbuster directory fuzzing scan using 10 threads (```-t 10```) to make sure we don't overload anything, ignoring the self-signed SSL cert (```-k```), using the seclists common.txt wordlist (```-w /usr/share/seclists/Discovery/Web-Content/common.txt```), checking for three extensions (```-x py,html,txt```), and saving into an output file called "feroxbuster".
+
+If one of these switches seems odd to you, don't worry -- it should! We'll come on to this in the next task...
+
+With those scans started, let's move on and quickly see what we can find manually in the SSL cert, before the scan results come in.
+---
+
+SSL certificates often provide a veritable treasure trove of information about a company. In Firefox the certificate for a site can be accessed by clicking on the lock to the left of the search bar, then clicking on the Show Connection Details arrow, making sure to deactivate your Burpsuite connection first!
+
+Note: You may get an error about Strict Transport Security if you try to access the site having previously accessed it using Burpsuite. This is due to the Burpsuite (signed) certificate allowing the browser to accept the aforementioned HSTS header, meaning that it will no longer accept the self-signed certificate  The solution to this in Firefox is to open your History (Ctrl + H), find the ```hipper.hipflasks.thm``` domain, right click it, then select "Forget about this site". You should be able to reload the page normally.
+
+![image](https://user-images.githubusercontent.com/5285547/132732194-137569ab-a20b-43d4-ae78-b83668f4f10f.png)
+
+Next click on "More Information", then "View Certificate" in the Window which pops up.
+
+A new tab will open containing the certificate information for this domain.
+
+![image](https://user-images.githubusercontent.com/5285547/132732222-36367660-6858-449b-a073-9b2e0b1ae0fa.png)
+
+Unfortunately there isn't a lot here that we either don't already know, or would already have known had we footprinted the company.
+
+Still, checking the SSL certificate is a really good habit to get into.
+---
+
+Let's switch back and take a look at the results of our scans.
+
+Nikto:
+
+The Nikto webapp scanner is fairly rudimentary, but it often does a wonderful job of catching low-hanging fruit:
+
+![image](https://user-images.githubusercontent.com/5285547/132732302-a2036133-76f8-4b86-ba5c-7c0821583e2b.png)
+
+There's a bit to break down here. First of all, the certificate information looks fine -- the cipher is current at the time of writing and we already knew the rest. We already spotted the lack of X-XSS-Protection header whilst we were waiting for the scan to complete, and identified that there was an Nginx reverse proxy in play.
+
+The session cookie being created without the Secure flag is interesting though -- this means that the cookie could potentially be sent over unencrypted HTTP connections. This is something we can (and should) report to the client.
+
+Finally, the BREACH vulnerability picked up by Nikto appears to be a false positive.
+
+Feroxbuster:
+
+This is the interesting one.
+
+```
+308        4l       24w      274c https://hipper.hipflasks.thm/admin
+200       37l       81w      862c https://hipper.hipflasks.thm/main.py
+```
+
+We have an admin section, and what appears to be source code disclosure.
+
+If we cURL that main.py file then we get a pleasant surprise:
+
+![image](https://user-images.githubusercontent.com/5285547/132732386-7b8ec640-20bd-4d40-9190-d852fcaf8557.png)
+
+First, we have just established that this application is written in Flask (although there was actually a way we could have done this without the source code disclosure -- see if you can figure out how! It may become a little more obvious in later tasks). Secondly, we have the app's secret key. Due to the way that Flask creates its sessions, this is an incredibly serious vulnerability, as you will see in upcoming tasks...
+
+Note: This key is autogenerated every time the box starts, so don't be alarmed that it won't be the same for your instance of the machine.
+
+![image](https://user-images.githubusercontent.com/5285547/132732440-cbf87e33-9ba7-4699-98ef-5e4df7596b7f.png)
+
+- Question
+
+Answer the questions below
+Disclose the source code for the ```main.py``` file and note down the secret key.
+
+```
+e64402685ec842717a86898aa4e3c962
+```
 
 ## Task 11
 
