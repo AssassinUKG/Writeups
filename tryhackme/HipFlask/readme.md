@@ -470,7 +470,86 @@ Let's start by looking at what the main.py file is importing:
 
 ## Task 13
 
+### Web App Implications of the Vulnerability
+
+We now have local copies of all of the Python files making up the application, so let's take a look through them. We are aiming to exploit the token forgery vulnerability we found earlier, so this is a good time to talk about how Flask sessions work.
+
+Because HTTP(S) is inherently stateless, websites store information which needs to persist between requests in cookies -- tiny little pieces of information stored on your computer. Unfortunately, this also poses a problem: if the information is stored on your computer, what's stopping you from just editing it? When it comes to sessions, there are two mainstream solutions.
+Sessions are a special type of cookie -- they identify you to the website and need to be secure. Sessions usually hold more information than just a single value (unlike a standard cookie where there may only be a single value stored for each index). For example, if you are logged into a website then your session may contain your user ID, privilege levels, full name, etc. It's a lot quicker to store these things in the session than it is to constantly query the database for them!
+
+So, how do we keep sessions secure? There are two common schools of thought when it comes to session storage:
+
+- Server Side Session Storage:- store the session information on the server, but give the client a cookie to identify it.
+This is the method which PHP and most other traditional languages use. Effectively, when a session is created for a client (i.e. a visitor to the site), the client is given a cookie with a unique identifier, but none of the session information is actually handed over to the client. Instead the server stores the session information in a file locally, identified by the same unique ID. When the client makes a request, the server reads the ID and selects the correct file from the disk, reading the information from it. This is secure because there is no way for the client to edit the actual session data (so there is no way for them to elevate their privileges, for example).
+There are other forms of server side session storage (e.g. storing the data in a Redis or memcached server rather than on disk), but the principle is always the same.
+
+- Client Side Session Storage:- store all of the session information in the client's cookies, but encrypt or sign it to ensure that it can't be tampered with.
+In a client side session storage situation, all of the session values are stored directly within the cookie -- usually in something like a JSON Web Token (JWT). This is the method that Flask uses. The cookie is sent off with each request as normal and is read by the server, exactly as with any other cookie -- only with an extra layer of security added in. By either signing or encrypting the cookie with a private secret known only to the server, the cookie in theory cannot be modified. Flask signs its cookies, which means we can actually decode them without requiring the key (for a demonstration, try putting your session cookie from the target website into a base64 decoder such as the one here) -- we just can't edit them... unless we have the key.
+
+There are advantages and disadvantages to both methods. Server side session storage is practically more secure and requires less data being sent to-and-from the server. Client side session storage makes it easier to scale the application up across numerous servers, but is limited by the 4Kb storage space allowed per cookie. Importantly, it is also completely insecure if the private key is disclosed. Whether the framework signs the cookie (leaving it in plaintext, but verifying it to ensure that tampering is impossible), or outright encrypts the cookie, it's game over if that private key gets leaked.
+
+Anyone in possession of the webapp's private key is able to create (i.e. forge) new cookies which will be trusted by the application. If we understand how the authentication system works then we can easily forge ourselves a cookie with any values we want -- including making ourselves an administrator, or any number of other fun applications.
+
+In short, an application which relies on client-side sessions and has a compromised private key is royally done for. Checkmate.
+
+Time to go bake some cookies!
+
 ## Task 14
+
+### Web App Source Code Review
+
+Now that we have a copy of the source code for the site, we have effectively turned the webapp segment of this assessment into a white-box test. Were this a web-app pentest then we would comb through the source code looking for vulnerabilities; however, in the interests of keeping this short, we shall limit our review purely to the authentication system for the site as this is what we will need to fool with our forged cookie.
+
+---
+
+Let's start by looking at ```modules/admin.py```. This contains the code defining the admin section -- if we look at this then we will see what authentication measures are in place:
+
+![image](https://user-images.githubusercontent.com/5285547/132735632-8aaefd19-e2cb-433a-a77e-ccd098b1bec9.png)
+
+Right at the top of the file we find what we're looking for. Specifically,  there is one line of code which handles the authentication for the ```/admin``` route:
+
+```
+@authCheck
+Imported in:
+from libs.auth import authCheck, checkAuth
+```
+
+This is what is referred to as a decorator -- a function which wraps around another function to apply pre-processing. This is not a programming room, and decorators are relatively complicated, so we will not cover them directly within the room. That said, there is an explanation with examples given here, which might be a good idea to take a look at if you aren't already familiar with decorators.
+
+If we have a look at ```libs/auth.py``` we can see the code for this:
+
+![image](https://user-images.githubusercontent.com/5285547/132735788-6d91797d-0525-4573-aff4-ca72530c7054.png)
+
+
+Short and sweet, this is the full extent of the authentication handler.
+
+Breaking this down a little further, the authentication is handled by a single if/else statement. If checkAuth() (the lambda function1 above) evaluates to true then the decorated function is called, resulting in the requested page loading. If the expression evaluates to false then a message is flashed2 to the user's session and they are redirected back to the login page. About as simple as it gets.
+
+Looking into the checkAuth lambda function:
+```checkAuth = lambda: session.get("auth") == "True"```
+
+We can see that all it does is check to see if the user has a value called "auth" in their session, which needs to be set to "True".
+
+This can easily be forged, so in theory we can already get access to the admin area.
+
+Let's have a look at the login endpoint back in ```modules/admin.py```:
+
+![image](https://user-images.githubusercontent.com/5285547/132735871-328af233-26e8-479a-9b06-011fb8c7740a.png)
+
+Breaking this down, we see that it's expecting a post request. It then stores the information being sent in a variable called **body**, then checks to ensure that the parameters **username** and **password** have been sent -- if they haven't been then it flashes an Incorrect Parameters message and redirects them back to the login page.
+
+If these parameters are present then it initialises a connection to the users database and checks the username and password (we won't look at the code here for the sake of brevity, but feel free to read it in **libs/db/auth.py**). If the authentication is successful then it sets two session values:
+
+It sets **auth** to "True". We already knew about this one.
+It sets **username** to the username that we posted it. This will be important later.
+It then redirects the user to the management homepage (**/admin**).
+
+We now have everything we need, so let's forge some cookies!
+---
+
+1. Lambda functions are anonymous functions meaning that they don't have to be given a name or assigned anywhere. In this case the lambda function is being assigned to a variable (**checkAuth**) and the lambda syntax is being used for little more than cleanliness.
+
+2. "Flashing" is Flask's way of persisting messages between requests. For example, if you try to log into an application and fail then the request endpoint may redirect you back to the login page with an error message. This error message would be "flashed" -- meaning it's stored in your session temporarily where it can be read by code in the login page and displayed to you.
 
 ## Task 15
 
