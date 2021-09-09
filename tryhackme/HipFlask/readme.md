@@ -170,12 +170,12 @@ Unfortunately, due to licensing it is not possible to provide a machine with Nes
 
 The short version of the installation process is:
 
--Create a new Ubuntu VM (Desktop or Server, or another distro entirely). 40Gb hard disk space, 4Gb of RAM and 2 VCPUs worked well locally; however, you could probably get away with slightly less processing power for what we are using Nessus for here. A full list of official hardware requirements are detailed here, although again, these assume that you are using Nessus professionally.  
--With the VM installed, go to the Nessus downloads page and grab an appropriate installer. For Ubuntu, Debian, or any other Debian derivatives, you are looking for a ```.deb``` file that matches up with your VM version (searching the page for the VM name and version -- e.g. "Ubuntu 20.04" -- can be effective here). Read and accept the license agreement, then download the file to your VM.  
--Open a terminal and navigate to where you downloaded the package to. Install it with ```sudo apt install ./PACKAGE_NAME```.  
--This should install the Nessus server. You will need to start the server manually; this can be done with: ```sudo systemctl enable --now nessusd```. This will permanently enable the Nessus daemon, allowing it to start with the VM, opening a web interface on ```https://LOCAL_VM_IP:8834```.  
--Navigate to the web interface and follow the instructions there, making sure to select Nessus Essentials when asked for the version. You will need a (free) activation code to use the server; this should be emailed directly from the server web interface. If that doesn't work then you can manually obtain an activation code from here.  
--Allow the program some time to finish setting up, then create a username and password when prompted, and login!  
+- Create a new Ubuntu VM (Desktop or Server, or another distro entirely). 40Gb hard disk space, 4Gb of RAM and 2 VCPUs worked well locally; however, you could probably get away with slightly less processing power for what we are using Nessus for here. A full list of official hardware requirements are detailed here, although again, these assume that you are using Nessus professionally.  
+- With the VM installed, go to the Nessus downloads page and grab an appropriate installer. For Ubuntu, Debian, or any other Debian derivatives, you are looking for a ```.deb``` file that matches up with your VM version (searching the page for the VM name and version -- e.g. "Ubuntu 20.04" -- can be effective here). Read and accept the license agreement, then download the file to your VM.  
+- Open a terminal and navigate to where you downloaded the package to. Install it with ```sudo apt install ./PACKAGE_NAME```.  
+- This should install the Nessus server. You will need to start the server manually; this can be done with: ```sudo systemctl enable --now nessusd```. This will permanently enable the Nessus daemon, allowing it to start with the VM, opening a web interface on ```https://LOCAL_VM_IP:8834```.  
+- Navigate to the web interface and follow the instructions there, making sure to select Nessus Essentials when asked for the version. You will need a (free) activation code to use the server; this should be emailed directly from the server web interface. If that doesn't work then you can manually obtain an activation code from here.  
+- Allow the program some time to finish setting up, then create a username and password when prompted, and login!  
 ---
 
 We already have a target with 5 confirmed open ports, so let's get scanning it!
