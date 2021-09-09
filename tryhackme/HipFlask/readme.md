@@ -650,7 +650,7 @@ import requests, threading, time
 
 #Flask Initialisation
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "70a5411082ea8e48cc9e7f7d7c12f2c2"
+app.config["SECRET_KEY"] = "e64402685ec842717a86898aa4e3c962"
 
 @app.route("/")
 def main():
@@ -680,10 +680,87 @@ We should now be able to access ```https://hipper.hipflasks.thm/admin```
 
 ![image](https://user-images.githubusercontent.com/5285547/132737354-910c01d9-5b27-42dc-b85b-9c5b4196ef6a.png)
 
+Mine: 
+
+```
+eyJhdXRoIjoiVHJ1ZSIsInVzZXJuYW1lIjoiUGVudGVzdGVyIn0.YTpKWA.0gIb-ACPZWDG-2q1F7cwFbEpZrU
+```
 
 ## Task 16
 
+### Web App Server-Side Template Injection (SSTI)
+
+We have gained access to the admin console, but we don't appear to have gained anything by doing so. All we have here is a stats counter (which we already had from downloading the DB anyway).
+
+So, why did we bother going through all that rigamarole if the admin console doesn't actually give us any extra power over the webapp?
+
+If you've hacked Flask apps before, you may already know the answer to this having read through the source code for the application. There is a serious vulnerability in the admin.py module -- one that (in this case) can only be accessed after we login.
+
+When you logged into the admin page, did you notice that it echoed the forged username back to you?
+
+![image](https://user-images.githubusercontent.com/5285547/132740774-523f5de8-3a39-453b-901d-7d216bb26447.png)
+
+This indicates that there is some form of template editing going on in the background -- in other words, the webapp is taking a prewritten template and injecting values into it. There are secure ways to do this, and there are... less secure ways of doing it.
+
+Specifically, the code involved (from modules/admin.py) is this:
+
+![image](https://user-images.githubusercontent.com/5285547/132740801-2f80fd59-5d7a-4f87-b3c8-2b120e80b262.png)
+
+Aside from using an inline string for the template (which is both messy and revoltingly bad practice), this also injects the contents of session["username"] directly into the template prior to rendering it. It does the same thing with uniqueViews (the number of unique visitors to the site); however, we can't modify this. What we can do is change our username to something that the Flask templating engine (Jinja2) will evaluate as code. This vulnerability is referred to as an SSTI -- Server Side Template Injection; it can easily result in remote code execution on the target.
+
+---
+
+There is already an entire room covering SSTI in Flask applications, so we will not go into a whole lot of detail about the background of the vulnerability here. The short version is this:
+
+Flask uses the Jinja2 templating engine. A templating engine is used to "render" static templates -- in other words, it works with the webapp to substitute in variables and execute pieces of code directly with the template. For example, take a look at the following HTML:
+
+![image](https://user-images.githubusercontent.com/5285547/132740877-59405e61-1882-47c6-b425-56f91c9997fc.png)
+
+Notice anything unusual? This HTML code has a {{title}} in it. This {{ }} structure (and a few other similar structures) is what tells Jinja2 that it needs to do something with this template -- specifically, in this case it would be filling in a variable called title. This could then be called at the end of a Flask route by Python code looking something like this:
+return render_template("test.html", title="Templates!"), 200
+
+The Templates! would then be substituted in as the title of the page when it loads in a client's browser.
+
+This is all well and good, but what happens if we control the template? What if we could add things directly into the template before it gets rendered? We could inject code blocks inside curly brackets and Jinja2 would execute them when it rendered the template.
+
+Here is an example:
+
+![image](https://user-images.githubusercontent.com/5285547/132740920-34fe3225-a81c-4aae-b797-1a354d39b0d9.png)
+
+Instead of using render_template, this code uses the render_template_string function to render a template stored as an inline Python string. Instead of passing in the title variable to Jinja2 for rendering, a Python f-string is used to format the template before it is rendered. In other words, the developer has substituted in the contents of title before the string is actually passed to the templating engine.
+
+This is fine for the example above (if poor practice), but what happens if title was, say: {{7*6}}?
+
+![image](https://user-images.githubusercontent.com/5285547/132740968-979549c7-6deb-4ca7-9617-320397cb2f4c.png)
+
+Meaning Jinja2 would evaluate 7*6 and display this to the client:
+
+![image](https://user-images.githubusercontent.com/5285547/132741006-e1efc8ba-94e2-41b9-abda-19c92c05cb4c.png)
+
+
+Getting the templating engine to do simple calculations for us is not desperately useful, but it's a really good way of demonstrating that an SSTI vulnerability exists.
+
+This can only occur if the developer is handling the templates exceptionally stupidly (which, for this webapp, they are). Regardless, this is is still one of the most stereotypical vulnerabilities to find in a Flask application -- for a reason. A better option would be to pass the variables needing rendered into Jinja2, rather than editing the template directly.
+---
+
+Okay, let's go confirm the presence of an SSTI vulnerability.
+
+We can use the same Proof of Concept script that we wrote to forge our admin cookie, but this time we set the username to "{{7*6}}":
+
+![image](https://user-images.githubusercontent.com/5285547/132741073-0dc3e09f-abf0-43f6-9daf-6fb3f2c68b8d.png)
+
+Remember to change the secret key if you're copy/pasting!
+
+We need to run this, then overwrite our session cookie with the generated cookie again.
+
+![image](https://user-images.githubusercontent.com/5285547/132741102-ee66d2db-f425-4594-a243-cd386cc9fab6.png)
+
+
 ## Task 17
+
+### Web App SSTI -> RCE
+
+
 
 ## Task 18
 
