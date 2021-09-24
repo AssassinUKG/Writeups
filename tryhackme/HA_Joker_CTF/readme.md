@@ -73,4 +73,17 @@ $ fcrackzip -D -p /usr/share/wordlists/rockyou.txt backup                       
 possible pw found: hannah ()
 ```                              
 
+# Crack admin password from backup joomla.sql file. 
+
+![image](https://user-images.githubusercontent.com/5285547/134673619-e5b03ea5-058f-4322-9ec5-4d618df18930.png)
+
+
+```
+echo "$2y$10$b43UqoH5UpXokj2y9e/8U.LD8T3jEQCuxG2oHzALoJaj9M5unOcbG" > hash
+john --wordlist=/usr/share/wordlists/rockyou.txt hash 
+
+abcd1234         (?)
+```
+
+![image](https://user-images.githubusercontent.com/5285547/134673748-95bd57b8-85f5-41af-b36b-f402003514c5.png)
 
