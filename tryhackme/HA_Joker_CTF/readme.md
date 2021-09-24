@@ -66,6 +66,11 @@ htaccess.txt            [Status: 200, Size: 3005, Words: 438, Lines: 81]
 ```
 
 
+Download the backup file and crack the password
+
+```
 $ fcrackzip -D -p /usr/share/wordlists/rockyou.txt backup                                                    1 ⨯
 possible pw found: hannah ()
-                              
+```                              
+
+
