@@ -87,3 +87,17 @@ abcd1234         (?)
 
 ![image](https://user-images.githubusercontent.com/5285547/134673748-95bd57b8-85f5-41af-b36b-f402003514c5.png)
 
+```
+http://10.10.226.12:8080/administrator/
+
+admin:abcd1234
+```
+
+![image](https://user-images.githubusercontent.com/5285547/134674632-7791fc10-dd90-44b0-8f65-d56b0aed1d71.png)
+
+![image](https://user-images.githubusercontent.com/5285547/134674659-80cbb047-fada-4820-9ff4-b1edbd4e5291.png)
+
+## RCE
+
+
+
