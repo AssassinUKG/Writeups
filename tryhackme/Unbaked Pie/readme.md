@@ -242,3 +242,9 @@ Cracking with hashcat
 ```
 hashcat -a 0 -m 10000 hash /usr/share/wordlists/rockyou.txt -O  
 ```
+
+Only one was cracked (testing)
+
+```
+pbkdf2_sha256$216000$0qA6zNH62sfo$8ozYcSpOaUpbjPJz82yZRD26ZHgaZT8nKWX+CU0OfRg=:lala12345
+```
