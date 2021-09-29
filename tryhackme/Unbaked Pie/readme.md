@@ -192,7 +192,7 @@ ssh
 ssh
 exit
 ```
-
+We can see ramsey logging into ssh on ip: 172.17.0.1
 
 In /home/site we find an intresting file called db.sqlite3. Lets get it on our box and see what secrets it holds! 
 
