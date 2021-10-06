@@ -1,8 +1,8 @@
 # Beelzebub
 
-Link: https://www.vulnhub.com/entry/beelzebub-1,742/
-Level: Easy
-Credits:  Shaurya Sharma
+Link: https://www.vulnhub.com/entry/beelzebub-1,742/  
+Level: Easy  
+Credits:  Shaurya Sharma  
 
 ## Description
 
