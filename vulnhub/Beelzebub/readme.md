@@ -58,7 +58,43 @@ wp-includes             [Status: 301, Size: 353, Words: 20, Lines: 10]
 wp-admin                [Status: 301, Size: 350, Words: 20, Lines: 10]
 ```
 
+```
+wpscan --url http://192.168.1.175/d18e1e22becbd915b45e0e655429d487/ --ignore-main-redirect --force -e 
+
+[i] User(s) Identified:
+
+[+] krampus
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+[+] valak
+ | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+ | Confirmed By: Login Error Messages (Aggressive Detection)
+
+```
+
+```
+http://192.168.1.175/d18e1e22becbd915b45e0e655429d487/wp-login.php
+```
+
+![image](https://user-images.githubusercontent.com/5285547/136202391-5ec0a7b2-82f1-46fa-9ea8-8b2853d7363b.png)
+
+We get a new portal. 
+
+http://192.168.1.175/d18e1e22becbd915b45e0e655429d487/wp-content/uploads/Talk%20To%20VALAK/
+
+![image](https://user-images.githubusercontent.com/5285547/136202440-0eb2e755-257d-4676-838a-ec3156db9db2.png)
+
+![image](https://user-images.githubusercontent.com/5285547/136202627-b78616e2-a251-458b-adaa-233ed358eb70.png)
+
+
+
 ## User
+
+```
+ssh krampus@IP
+M4k3Ad3a1
+```
 
 ## Root
 
