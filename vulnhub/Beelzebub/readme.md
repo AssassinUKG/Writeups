@@ -8,9 +8,9 @@ Credits:  Shaurya Sharma
 
 Difficulty: Easy
 
-You have to enumerate as much as you can and don't forget about the Base64.
-For hints add me on
-Twitter- ShauryaSharma05
+You have to enumerate as much as you can and don't forget about the Base64.  
+For hints add me on  
+Twitter- ShauryaSharma05  
 
 ---
 
