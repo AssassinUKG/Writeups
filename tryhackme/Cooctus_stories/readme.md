@@ -157,4 +157,21 @@ cherrycoke
 
 ## User 3
 
+Looking in /media we see another file owned by Tux. 
+
+```bash
+szymex@cchq:/media/tuxling_2$ ls
+fragment.asc  note  private.key
+---
+cat note
+Noot noot! You found me. 
+I'm Rico and this is my challenge for you.
+
+General Tux handed me a fragment of his secret key for safekeeping.
+I've encrypted it with Penguin Grade Protection (PGP).
+
+You can have the key fragment if you can decrypt it.
+
+Good luck and keep on nooting!
+```
 
