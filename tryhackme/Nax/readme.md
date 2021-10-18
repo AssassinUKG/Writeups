@@ -99,3 +99,7 @@ Downloading the image we see and going here to decrypt: https://www.bertnase.de/
 nagiosadmin
 n3p3UQ&9BjLp4$7uhWdY
 ```
+
+Exploit: msfconsole exploit/linux/http/nagios_xi_plugins_check_plugin_authenticated_rce
+
+
