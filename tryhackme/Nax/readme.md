@@ -102,4 +102,6 @@ n3p3UQ&9BjLp4$7uhWdY
 
 Exploit: msfconsole exploit/linux/http/nagios_xi_plugins_check_plugin_authenticated_rce
 
+![image](https://user-images.githubusercontent.com/5285547/137710707-5d1a5d6f-0952-4b53-a9a6-020b0e3c1297.png)
+
 
